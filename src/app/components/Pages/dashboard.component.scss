@@ -1,0 +1,14 @@
+.div-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    column-gap: 2rem;
+    row-gap: 2rem;
+}
+
+.div-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    column-gap: 2rem;
+    row-gap: 2rem;
+}
+
