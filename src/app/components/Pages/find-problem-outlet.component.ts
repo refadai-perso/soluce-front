@@ -8,12 +8,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ContentPlaceholderComponent } from '../Components/content-placeholder.component';
+import { ProblemCardComponent } from '../Components/Problem/problem-card.component';
 
 @Component({
   selector: 'app-find-problem-outlet',
   standalone: true,
   templateUrl: './find-problem-outlet.component.html',
-  imports: [ContentPlaceholderComponent, CommonModule]
+  imports: [ContentPlaceholderComponent, ProblemCardComponent, CommonModule]
 })
 export class FindProblemOutletComponent {
 

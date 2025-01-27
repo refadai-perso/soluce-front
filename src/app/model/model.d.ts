@@ -28,3 +28,15 @@ export interface Order {
   */
   statusColor?: string;
 }
+
+/**
+* A general problem of any kind to be solved
+*/
+export interface Problem {
+  id?: number;
+  name?: string;
+  description?: string;
+  status?: string;
+  creationDate?: Date;
+  creator?: string;
+}
