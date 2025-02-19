@@ -12,10 +12,11 @@ import { NgbAlertModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routes';
 import {
   HttpClient,
-  HttpClientModule,
   provideHttpClient,
 } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ProblemService } from './services/problem.service';
+import { DBProblemService } from './services/backend.problem.service';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,9 +25,8 @@ export const appConfig: ApplicationConfig = {
       NgbAlertModule,
       NgbDropdownModule,
       BrowserModule
-      //HttpClientModule
     ),
     provideRouter(routes),
-    //HttpClient,
+    { provide: ProblemService, useClass: DBProblemService },
   ],
 };

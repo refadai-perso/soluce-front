@@ -13,60 +13,13 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class ProblemService {
-  private httpClient = inject(HttpClient);
   /**
    * fetch problems which groups of user has authorization to work on
    */
-  public fetchProblemsOfUserGroupsMockup(): Observable<Problem[]> {
+  public fetchProblemsOfUserGroups(): Observable<Problem[]> {
     return of(
       problem_list_mock.sort((a, b) => {
         return a.id! - b.id!;
-      })
-    );
-  }
-
-  public fetchProblemsOfUserGroups(): Observable<Problem[]> {
-    return this.fetchProblems(
-      'http://localhost:3000/problem',
-      'error favorite places'
-    );
-  }
-
-  private fetchProblems(
-    url: string,
-    errorMessage: string
-  ): Observable<Problem[]> {
-    return this.httpClient.get<Problem[]>(url).pipe(
-      catchError((error) => {
-        console.log(error);
-        return throwError(() => new Error(errorMessage));
-      })
-    );
-  }
-
-  private fetchProblemsGood(url: string, errorMessage: string) {
-    /*
-    const result: Observable<{ problems: Problem[] }> = this.httpClient.get<{
-      problems: Problem[];
-    }>(url);
-
-    const retrievedProblems: Observable<Problem[]> = result.pipe(
-      tap((res) => console.log('HTTP response:', res)),
-      map((pbData) => pbData.problems),
-      catchError((error) => {
-        console.log(error);
-        return throwError(() => new Error(errorMessage));
-      })
-    );
-
-    return retrievedProblems;*/
-
-    return this.httpClient.get<{ problems: Problem[] }>(url).pipe(
-      tap((res) => console.log('HTTP response:', res)),
-      map((pbData) => pbData.problems),
-      catchError((error) => {
-        console.log(error);
-        return throwError(() => new Error(errorMessage));
       })
     );
   }
