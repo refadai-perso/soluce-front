@@ -25,3 +25,14 @@ export const problem_list_mock: Problem[] = [
     creator: 'olivier'
   }
 ];
+
+export const new_problem: Problem[] = [
+  {
+    id: 15,
+    name: 'new_problem',
+    description: 'a new problem',
+    status: 'open',
+    creationDate: new Date('2025-03-20'),
+    creator: 'me'
+  }
+];

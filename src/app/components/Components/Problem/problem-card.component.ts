@@ -21,11 +21,13 @@ import { Observable } from 'rxjs';
 export class ProblemCardComponent implements OnInit {
   public currentUserProblems$!: Observable<Problem[] | undefined>;
 
+  public newProblem?: Problem;
+
   constructor(
     private problemService: ProblemService
   ) {}
 
   public ngOnInit(): void {
-    this.currentUserProblems$ = this.problemService.fetchProblemsOfUserGroups();
+    this.currentUserProblems$ = this.problemService.fetchProblemsOfUserGroup();
   }
 }
