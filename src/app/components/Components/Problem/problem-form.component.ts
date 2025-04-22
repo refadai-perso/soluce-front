@@ -6,15 +6,63 @@
 */
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-problem-form',
   standalone: true,
   templateUrl: './problem-form.component.html',
-  imports: [CommonModule]
+  imports: [CommonModule, ReactiveFormsModule],
 })
-export class ProblemFormComponent {
-
+export class ProblemFormComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   constructor() {}
+  innerForm = new FormGroup({
+      nameCtrl: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(6)],
+      }),
+      descriptionCtrl: new FormControl('', {
+        validators: [Validators.required],
+      }),
+      statusCtrl: new FormControl('', {
+        validators: [Validators.required],
+      }),
+  });
+  ngOnInit(): void {
+    const subscription: Subscription = this.innerForm.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe({
+        next: (value) => {
+          window.localStorage.setItem(
+            'saved-login-form',
+            JSON.stringify({ name: value.nameCtrl })
+          );
+        },
+      });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
+
+  onSubmit() {
+    if (this.innerForm.invalid) console.log(this.innerForm);
+    const enteredName = this.innerForm.value.nameCtrl;
+    const enteredDescription = this.innerForm.value.descriptionCtrl;
+    const enteredStatus = this.innerForm.value.statusCtrl;
+    if (enteredName) {
+      window.localStorage.setItem(
+        enteredName,
+        JSON.stringify({
+          name: enteredName,
+          description: enteredDescription,
+          status: enteredStatus,
+        })
+      );
+    }
+    console.log(enteredName, enteredDescription, enteredStatus);
+  }
+
+  onReset() {
+    this.innerForm.value.reset();
+  }
 }
