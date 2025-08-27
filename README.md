@@ -57,3 +57,21 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+Components are as followed:
+- ./app.component.ts: the container of the main page
+- Problem/problem-card: displays a list of problem as they are listed in the backend datastore
+- Problem/problem-form: allow to add a single Problem in the datastore 
+- Pages/dashboard.component.ts: the root dashboard. Will allow access to all other pages
+- Pages/admin.component.ts: the admin page component
+- Pages/find-problem-outlet.component.ts: the component that lists the Problem contained in the database
+- Pages/problem-add.component.ts: the page that allow user to add a new Problem in the database
+
+Models are as followed:
+- in model/model.d.ts, interface Problem replicate the DTO contained in the backend to store a Problem
+
+Services are as followed:
+- services/problem.service.ts is the mock service that implements for example fetchProblemsOfUserGroups
+- services/problem.service.mock-data.ts: is the constant list of objects retruned by the service above mentionned
+- service/backend.service.ts: is the real service that will invoke the backend API to get or store object from/to the database
+

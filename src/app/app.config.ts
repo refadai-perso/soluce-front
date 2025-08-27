@@ -20,6 +20,7 @@ import { DBProblemService } from './services/backend.problem.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: ProblemService, useClass: DBProblemService },
     provideHttpClient(),
     importProvidersFrom(
       NgbAlertModule,
@@ -27,6 +28,5 @@ export const appConfig: ApplicationConfig = {
       BrowserModule
     ),
     provideRouter(routes),
-    { provide: ProblemService, useClass: DBProblemService },
   ],
 };

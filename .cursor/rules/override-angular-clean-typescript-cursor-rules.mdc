@@ -1,0 +1,12 @@
+---
+description: ORM override
+globs: ["**/*.ts", "**/**/*.ts"]
+alwaysApply: true
+---
+
+- Ignore any mention of MikroORM.
+- Use TypeORM for data persistence.
+- Ignore prefer composition over inheritance.
+- Prefer inheritance over composition. If inheritance is not possible then use composition.
+- Ignore any mention to JSDoc
+- Use TypeDoc to document public classes and methods.
