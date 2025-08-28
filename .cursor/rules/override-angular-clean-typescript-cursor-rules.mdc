@@ -10,3 +10,18 @@ alwaysApply: true
 - Prefer inheritance over composition. If inheritance is not possible then use composition.
 - Ignore any mention to JSDoc
 - Use TypeDoc to document public classes and methods.
+- Use Bootstrap widgets as much as possible
+* **Don't use Type Inference:** Don't allow TypeScript to infer types even when they are obvious from the context.
+    * **Good:**
+        ```typescript
+        let name: string = 'Angular';
+        ```
+    * **Bad:**
+        ```typescript
+        let name = 'Angular';
+        ```
+
+# Angular Best Practices
+
+* **Angular Internationalization:**
+- For every label in the GUI, use Angular Internationalization. Label should be first in English in html component. A "sourceLocale": "en-EN" will be teh application base language. An application variants, fr-FR, will be generated with french translation. 

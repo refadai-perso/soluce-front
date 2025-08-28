@@ -5,53 +5,84 @@
     Check out this JitBlox project, Soluce, at https://www.jitblox.com/project/5JHnGKTPaU/soluce
 -->
 
-<div class="input-group">
-    <form [formGroup]="innerForm">
-        <div class="input-group">
-            <span class="input-group-text">
-                Name
-            </span>
-            <input 
-                class="form-control"
-                type="text"
-                id="first-name"
-                name="first-name"
-                formControlName="first-nameCtrl"
-            />
-        </div>
-        <div>
-            <span class="input-group-text">
-                Description
-            </span>
-            <textarea class="form-control" name="description" formControlName="descriptionCtrl"></textarea>
-        </div>
-        <div class="input-group">
-            <span class="input-group-text">
-                Status
-            </span>
-            <select class="form-select" name="status" formControlName="statusCtrl">
-                <option value="1">
-                    Option 1
-                </option>
-                <option value="2">
-                    Option 2
-                </option>
-                <option value="3">
-                    Option 3
-                </option>
-            </select>
-        </div>
-        <input readonly type="date" class="form-control">
-        <div class="input-group">
-            <span class="input-group-text">
-                Creator
-            </span>
-            <input class="form-control">
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary" onsubmit="addNewProblem">
-                Validate
-            </button>
-        </div>
-    </form>
-</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container py-3">
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <label for="pf-creator" class="form-label" i18n>Creator</label>
+      <input id="pf-creator" type="text" class="form-control" formControlName="creatorCtrl" placeholder="Who created this?" i18n-placeholder readonly />
+      @if (form.controls.creatorCtrl.touched && form.controls.creatorCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>Creator is required (min 2 characters).</div>
+      }
+    </div>
+
+    <div class="col-12">
+      <label for="pf-name" class="form-label" i18n>Name</label>
+      <input id="pf-name" type="text" class="form-control" formControlName="nameCtrl" placeholder="Problem title" i18n-placeholder />
+      @if (form.controls.nameCtrl.touched && form.controls.nameCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>Name is required (min 3 characters).</div>
+      }
+    </div>
+
+    <div class="col-12">
+      <label for="pf-description" class="form-label" i18n>Description</label>
+      <textarea id="pf-description" class="form-control" rows="4" formControlName="descriptionCtrl" placeholder="Describe the problem..." i18n-placeholder></textarea>
+      @if (form.controls.descriptionCtrl.touched && form.controls.descriptionCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>Description is required (min 5 characters).</div>
+      }
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label for="pf-status" class="form-label" i18n>Status</label>
+      <select id="pf-status" class="form-select" formControlName="statusCtrl">
+        <option [ngValue]="null" disabled i18n>Select status...</option>
+        @for (s of statusOptions; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+      @if (form.controls.statusCtrl.touched && form.controls.statusCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>Status is required.</div>
+      }
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label for="pf-open" class="form-label" i18n>Open/Closed</label>
+      <select id="pf-open" class="form-select" formControlName="openCtrl">
+        @for (o of openOptions; track o) {
+          <option [value]="o">{{ o }}</option>
+        }
+      </select>
+      <div class="form-text" i18n>Stored as string: "open" or "closed".</div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <label for="pf-date" class="form-label" i18n>Creation date</label>
+      <input id="pf-date" type="date" class="form-control" formControlName="creationDateCtrl" readonly />
+      @if (form.controls.creationDateCtrl.touched && form.controls.creationDateCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>Creation date is required.</div>
+      }
+    </div>
+  </div>
+
+  @if (showActions && !wizardMode) {
+    <div class="d-flex gap-2 justify-content-end mt-4">
+      <button type="button" class="btn btn-outline-secondary" (click)="onReset()" i18n>Reset</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="onCancel()" i18n>Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">{{ submitLabel }}</button>
+    </div>
+  }
+
+  @if (wizardMode) {
+    <div class="d-flex justify-content-between mt-4">
+      <div class="small text-muted" i18n>Step: Problem details</div>
+      <div class="small">
+        <span [class.text-success]="form.valid" [class.text-danger]="form.invalid">
+          @if (form.valid) {
+            <span i18n>Ready to continue</span>
+          } @else {
+            <span i18n>Please complete required fields</span>
+          }
+        </span>
+      </div>
+    </div>
+  }
+</form>
