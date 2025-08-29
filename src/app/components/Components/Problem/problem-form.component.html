@@ -5,7 +5,7 @@
     Check out this JitBlox project, Soluce, at https://www.jitblox.com/project/5JHnGKTPaU/soluce
 -->
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container py-3">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container py-3" role="form" novalidate>
   <div class="row g-3">
     <div class="col-12 col-md-6">
       <label for="pf-creator" class="form-label" i18n>Creator</label>
@@ -17,7 +17,7 @@
 
     <div class="col-12">
       <label for="pf-name" class="form-label" i18n>Name</label>
-      <input id="pf-name" type="text" class="form-control" formControlName="nameCtrl" placeholder="Problem title" i18n-placeholder />
+      <input id="pf-name" type="text" class="form-control" formControlName="nameCtrl" placeholder="Problem title" i18n-placeholder [class.is-invalid]="form.controls.nameCtrl.touched && form.controls.nameCtrl.invalid" aria-required="true" [attr.aria-invalid]="form.controls.nameCtrl.invalid ? 'true' : 'false'" [attr.aria-describedby]="form.controls.nameCtrl.invalid ? 'nameError' : null" />
       @if (form.controls.nameCtrl.touched && form.controls.nameCtrl.invalid) {
         <div class="text-danger small mt-1" i18n>Name is required (min 3 characters).</div>
       }
@@ -25,7 +25,7 @@
 
     <div class="col-12">
       <label for="pf-description" class="form-label" i18n>Description</label>
-      <textarea id="pf-description" class="form-control" rows="4" formControlName="descriptionCtrl" placeholder="Describe the problem..." i18n-placeholder></textarea>
+      <textarea id="pf-description" class="form-control" rows="4" formControlName="descriptionCtrl" placeholder="Describe the problem..." i18n-placeholder [class.is-invalid]="form.controls.descriptionCtrl.touched && form.controls.descriptionCtrl.invalid" aria-required="true" [attr.aria-invalid]="form.controls.descriptionCtrl.invalid ? 'true' : 'false'" [attr.aria-describedby]="form.controls.descriptionCtrl.invalid ? 'descError' : null"></textarea>
       @if (form.controls.descriptionCtrl.touched && form.controls.descriptionCtrl.invalid) {
         <div class="text-danger small mt-1" i18n>Description is required (min 5 characters).</div>
       }
@@ -33,7 +33,7 @@
 
     <div class="col-12 col-md-4">
       <label for="pf-status" class="form-label" i18n>Status</label>
-      <select id="pf-status" class="form-select" formControlName="statusCtrl">
+      <select id="pf-status" class="form-select" formControlName="statusCtrl" [class.is-invalid]="form.controls.statusCtrl.touched && form.controls.statusCtrl.invalid" aria-required="true" [attr.aria-invalid]="form.controls.statusCtrl.invalid ? 'true' : 'false'" [attr.aria-describedby]="form.controls.statusCtrl.invalid ? 'statusError' : null">
         <option [ngValue]="null" disabled i18n>Select status...</option>
         @for (s of statusOptions; track s) {
           <option [value]="s">{{ s }}</option>
@@ -46,7 +46,7 @@
 
     <div class="col-12 col-md-4">
       <label for="pf-open" class="form-label" i18n>Open/Closed</label>
-      <select id="pf-open" class="form-select" formControlName="openCtrl">
+      <select id="pf-open" class="form-select" formControlName="openCtrl" [attr.aria-invalid]="form.controls.openCtrl.invalid ? 'true' : 'false'">
         @for (o of openOptions; track o) {
           <option [value]="o">{{ o }}</option>
         }
@@ -56,7 +56,7 @@
 
     <div class="col-12 col-md-4">
       <label for="pf-date" class="form-label" i18n>Creation date</label>
-      <input id="pf-date" type="date" class="form-control" formControlName="creationDateCtrl" readonly />
+      <input id="pf-date" type="date" class="form-control" formControlName="creationDateCtrl" readonly aria-readonly="true" aria-required="true" [attr.aria-invalid]="form.controls.creationDateCtrl.invalid ? 'true' : 'false'" />
       @if (form.controls.creationDateCtrl.touched && form.controls.creationDateCtrl.invalid) {
         <div class="text-danger small mt-1" i18n>Creation date is required.</div>
       }

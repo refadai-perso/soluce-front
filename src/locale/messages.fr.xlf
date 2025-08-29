@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" target-language="fr-FR" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="ngb.alert.close" datatype="html">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="ngb.carousel.slide-number" datatype="html">
+        <source> Slide <x id="INTERPOLATION"/> of <x id="INTERPOLATION_1"/> </source>
+        <target> Diapositive <x id="INTERPOLATION"/> sur <x id="INTERPOLATION_1"/> </target>
+      </trans-unit>
+      <trans-unit id="ngb.carousel.previous" datatype="html">
+        <source>Previous</source>
+        <target>Précédent</target>
+      </trans-unit>
+      <trans-unit id="ngb.carousel.next" datatype="html">
+        <source>Next</source>
+        <target>Suivant</target>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.select-month" datatype="html">
+        <source>Select month</source>
+        <target>Sélectionner le mois</target>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.select-year" datatype="html">
+        <source>Select year</source>
+        <target>Sélectionner l'année</target>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.previous-month" datatype="html">
+        <source>Previous month</source>
+        <target>Mois précédent</target>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.next-month" datatype="html">
+        <source>Next month</source>
+        <target>Mois suivant</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.first" datatype="html">
+        <source>««</source>
+        <target>««</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.previous" datatype="html">
+        <source>«</source>
+        <target>«</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.next" datatype="html">
+        <source>»</source>
+        <target>»</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.last" datatype="html">
+        <source>»»</source>
+        <target>»»</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.first-aria" datatype="html">
+        <source>First</source>
+        <target>Première</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.previous-aria" datatype="html">
+        <source>Previous</source>
+        <target>Précédent</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.next-aria" datatype="html">
+        <source>Next</source>
+        <target>Suivant</target>
+      </trans-unit>
+      <trans-unit id="ngb.pagination.last-aria" datatype="html">
+        <source>Last</source>
+        <target>Dernière</target>
+      </trans-unit>
+      <trans-unit id="ngb.progressbar.value" datatype="html">
+        <source><x id="INTERPOLATION"/></source>
+        <target><x id="INTERPOLATION"/></target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.HH" datatype="html">
+        <source>HH</source>
+        <target>HH</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.hours" datatype="html">
+        <source>Hours</source>
+        <target>Heures</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.MM" datatype="html">
+        <source>MM</source>
+        <target>MM</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.minutes" datatype="html">
+        <source>Minutes</source>
+        <target>Minutes</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
+        <source>Increment hours</source>
+        <target>Augmenter les heures</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
+        <source>Decrement hours</source>
+        <target>Diminuer les heures</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
+        <source>Increment minutes</source>
+        <target>Augmenter les minutes</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
+        <source>Decrement minutes</source>
+        <target>Diminuer les minutes</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.SS" datatype="html">
+        <source>SS</source>
+        <target>SS</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.seconds" datatype="html">
+        <source>Seconds</source>
+        <target>Secondes</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
+        <source>Increment seconds</source>
+        <target>Augmenter les secondes</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
+        <source>Decrement seconds</source>
+        <target>Diminuer les secondes</target>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.PM" datatype="html">
+        <source><x id="INTERPOLATION"/></source>
+        <target><x id="INTERPOLATION"/></target>
+      </trans-unit>
+      <trans-unit id="ngb.toast.close-aria" datatype="html">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+
+      <!-- App strings -->
+      <trans-unit id="1043390381565182083" datatype="html">
+        <source>Creator</source>
+        <target>Créateur</target>
+      </trans-unit>
+      <trans-unit id="5553832974243622974" datatype="html">
+        <source>Who created this?</source>
+        <target>Qui a créé ceci&nbsp;?</target>
+      </trans-unit>
+      <trans-unit id="5598606626100404856" datatype="html">
+        <source>Creator is required (min 2 characters).</source>
+        <target>Le créateur est requis (2 caractères minimum).</target>
+      </trans-unit>
+      <trans-unit id="8953033926734869941" datatype="html">
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="6097416834604942209" datatype="html">
+        <source>Problem title</source>
+        <target>Titre du problème</target>
+      </trans-unit>
+      <trans-unit id="5812451089597074674" datatype="html">
+        <source>Name is required (min 3 characters).</source>
+        <target>Le nom est requis (3 caractères minimum).</target>
+      </trans-unit>
+      <trans-unit id="4902817035128594900" datatype="html">
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="8812941583786160918" datatype="html">
+        <source>Describe the problem...</source>
+        <target>Décrivez le problème...</target>
+      </trans-unit>
+      <trans-unit id="2904613979089949205" datatype="html">
+        <source>Description is required (min 5 characters).</source>
+        <target>La description est requise (5 caractères minimum).</target>
+      </trans-unit>
+      <trans-unit id="5611592591303869712" datatype="html">
+        <source>Status</source>
+        <target>Statut</target>
+      </trans-unit>
+      <trans-unit id="6572544236305125099" datatype="html">
+        <source>Select status...</source>
+        <target>Sélectionnez un statut...</target>
+      </trans-unit>
+      <trans-unit id="800544247410236997" datatype="html">
+        <source>Status is required.</source>
+        <target>Le statut est requis.</target>
+      </trans-unit>
+      <trans-unit id="62351835645133628" datatype="html">
+        <source>Open/Closed</source>
+        <target>Ouvert/Fermé</target>
+      </trans-unit>
+      <trans-unit id="6208868227957670754" datatype="html">
+        <source>Stored as string: &quot;open&quot; or &quot;closed&quot;.</source>
+        <target>Enregistré en texte : « open » ou « closed ».</target>
+      </trans-unit>
+      <trans-unit id="2275532246801944011" datatype="html">
+        <source>Creation date</source>
+        <target>Date de création</target>
+      </trans-unit>
+      <trans-unit id="2242471483630878579" datatype="html">
+        <source>Creation date is required.</source>
+        <target>La date de création est requise.</target>
+      </trans-unit>
+      <trans-unit id="7808756054397155068" datatype="html">
+        <source>Reset</source>
+        <target>Réinitialiser</target>
+      </trans-unit>
+      <trans-unit id="2159130950882492111" datatype="html">
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="6057653563658832200" datatype="html">
+        <source>Step: Problem details</source>
+        <target>Étape : Détails du problème</target>
+      </trans-unit>
+      <trans-unit id="9043694977866017073" datatype="html">
+        <source>Ready to continue</source>
+        <target>Prêt à continuer</target>
+      </trans-unit>
+      <trans-unit id="8561907654487654232" datatype="html">
+        <source>Please complete required fields</source>
+        <target>Veuillez remplir les champs obligatoires</target>
+      </trans-unit>
+      <trans-unit id="save" datatype="html">
+        <source>Save</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+
+

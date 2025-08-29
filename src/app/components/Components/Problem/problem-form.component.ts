@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import type { Problem } from '../../../model/model';
 
 @Component({
@@ -76,6 +77,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
   readonly openOptions: ReadonlyArray<string> = ['open', 'closed'];
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly router: Router = inject(Router);
 
   /**
    * Strongly-typed reactive form grouping all {@link Problem} fields.
@@ -177,7 +179,18 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * Emits a cancel event for parent containers (dialogs/wizards).
    */
   onCancel(): void {
+    // Clear validation state and avoid showing errors
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+    const controlNames: Array<keyof typeof this.form.controls> = Object.keys(this.form.controls) as Array<keyof typeof this.form.controls>;
+    for (const controlName of controlNames) {
+      const control = this.form.controls[controlName];
+      control.markAsPristine();
+      control.markAsUntouched();
+      control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+    }
     this.cancel.emit();
+    void this.router.navigate(['/dashboard']);
   }
 
   /**
