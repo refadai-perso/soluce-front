@@ -1,5 +1,5 @@
 ---
-alwaysApply: false
+alwaysApply: true
 ---
 You are a senior TypeScript programmer with experience in the NestJS framework and a preference for clean programming and design patterns.
 
@@ -65,7 +65,7 @@ Generate code, corrections, and refactorings that comply with the basic principl
 ### Classes
 
 - Follow SOLID principles.
-- Prefer composition over inheritance.
+
 - Declare interfaces to define contracts.
 - Write small classes with a single purpose.
   - Less than 200 instructions.

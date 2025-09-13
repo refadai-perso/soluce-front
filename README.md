@@ -75,3 +75,8 @@ Services are as followed:
 - services/problem.service.mock-data.ts: is the constant list of objects retruned by the service above mentionned
 - service/backend.service.ts: is the real service that will invoke the backend API to get or store object from/to the database
 
+## Documentation context for Cursor
+angular: https://angular.dev/overview
+bootstrap: https://getbootstrap.com/docs/5.3/
+
+Add internationalization locale in the route path. For example, the URL http://<server>:4200/en-EN/problem-add should display the problem-form in English while the URL http://<server>:4200/fr-FR/problem-add should display it in French
