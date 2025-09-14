@@ -8,11 +8,12 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, Provider } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
+import { SupportedLocaleCode } from './app/interfaces/locale-config.interface';
 
 // Configure locale detection and i18n
-const locale: string = getLocaleFromUrl() || 'en-EN';
+const locale: SupportedLocaleCode = getLocaleFromUrl() || 'en-EN';
 
 bootstrapApplication(AppComponent, {
   ...appConfig,
@@ -23,7 +24,7 @@ bootstrapApplication(AppComponent, {
     {
       provide: 'INITIAL_LOCALE',
       useValue: locale
-    }
+    } as Provider
   ]
 })
   .catch(err => console.error(err));
@@ -32,7 +33,7 @@ bootstrapApplication(AppComponent, {
  * Extract locale from current URL.
  * @returns The locale from URL or null if not found.
  */
-function getLocaleFromUrl(): string | null {
+function getLocaleFromUrl(): SupportedLocaleCode | null {
   if (typeof window === 'undefined') {
     return null;
   }
@@ -43,10 +44,10 @@ function getLocaleFromUrl(): string | null {
   }
 
   const firstSegment: string = pathSegments[0];
-  const supportedLocales: string[] = ['en-EN', 'fr-FR'];
+  const supportedLocales: ReadonlyArray<SupportedLocaleCode> = ['en-EN', 'fr-FR'] as const;
   
-  if (supportedLocales.includes(firstSegment)) {
-    return firstSegment;
+  if (supportedLocales.includes(firstSegment as SupportedLocaleCode)) {
+    return firstSegment as SupportedLocaleCode;
   }
 
   return null;
