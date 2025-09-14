@@ -8,6 +8,46 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
+import { importProvidersFrom } from '@angular/core';
+import { provideClientHydration } from '@angular/platform-browser';
 
-bootstrapApplication(AppComponent, appConfig)
+// Configure locale detection and i18n
+const locale: string = getLocaleFromUrl() || 'en-EN';
+
+bootstrapApplication(AppComponent, {
+  ...appConfig,
+  providers: [
+    ...appConfig.providers,
+    provideClientHydration(),
+    // Set initial locale based on URL
+    {
+      provide: 'INITIAL_LOCALE',
+      useValue: locale
+    }
+  ]
+})
   .catch(err => console.error(err));
+
+/**
+ * Extract locale from current URL.
+ * @returns The locale from URL or null if not found.
+ */
+function getLocaleFromUrl(): string | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const pathSegments: string[] = window.location.pathname.split('/').filter(segment => segment.length > 0);
+  if (pathSegments.length === 0) {
+    return null;
+  }
+
+  const firstSegment: string = pathSegments[0];
+  const supportedLocales: string[] = ['en-EN', 'fr-FR'];
+  
+  if (supportedLocales.includes(firstSegment)) {
+    return firstSegment;
+  }
+
+  return null;
+}

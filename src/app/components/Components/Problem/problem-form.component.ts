@@ -23,6 +23,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { debounceTime, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import type { Problem } from '../../../model/model';
+import { LocaleService } from '../../../services/locale.service';
 
 @Component({
   selector: 'app-problem-form',
@@ -78,6 +79,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
+  private readonly localeService: LocaleService = inject(LocaleService);
 
   /**
    * Strongly-typed reactive form grouping all {@link Problem} fields.
@@ -190,7 +192,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     }
     this.cancel.emit();
-    void this.router.navigate(['/dashboard']);
+    void this.localeService.navigateWithLocale(['dashboard']);
   }
 
   /**

@@ -4,8 +4,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:en": "ng serve --configuration=en-EN",
+    "start:fr": "ng serve --configuration=fr-FR",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "build:en": "ng build --configuration=production,en-EN",
+    "build:fr": "ng build --configuration=production,fr-FR",
+    "build:all": "ng build --configuration=production,en-EN && ng build --configuration=production,fr-FR",
+    "watch": "ng build --watch --configuration development",
+    "extract-i18n": "ng extract-i18n"
   },
   "private": true,
   "dependencies": {

@@ -9,13 +9,14 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { LocaleSwitcherComponent } from './locale-switcher.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [RouterLink, NgbDropdownModule, CommonModule]
+  imports: [RouterLink, NgbDropdownModule, CommonModule, LocaleSwitcherComponent]
 })
 export class HeaderComponent {
 

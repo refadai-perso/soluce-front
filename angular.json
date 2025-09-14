@@ -40,7 +40,7 @@
       "i18n": {
         "sourceLocale": "en-EN",
         "locales": {
-          "fr": "src/locale/messages.fr.xlf"
+          "fr-FR": "src/locale/messages.fr.xlf"
         }
       },
       "architect": {
@@ -90,9 +90,14 @@
               "extractLicenses": false,
               "sourceMap": true
             },
-            "fr": {
+            "fr-FR": {
               "localize": [
-                "fr"
+                "fr-FR"
+              ]
+            },
+            "en-EN": {
+              "localize": [
+                "en-EN"
               ]
             }
           },
@@ -107,8 +112,11 @@
             "development": {
               "buildTarget": "my-app:build:development"
             },
-            "fr": {
-              "buildTarget": "my-app:build:development,fr"
+            "fr-FR": {
+              "buildTarget": "my-app:build:development,fr-FR"
+            },
+            "en-EN": {
+              "buildTarget": "my-app:build:development,en-EN"
             }
           },
           "defaultConfiguration": "development"
@@ -118,8 +126,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

@@ -12,35 +12,54 @@ import { CustomerSearchComponent } from './components/Pages/customer-search.comp
 import { DashboardComponent } from './components/Pages/dashboard.component';
 import { FindProblemOutletComponent } from './components/Pages/find-problem-outlet.component';
 import { ProblemAddComponent } from './components/Pages/problem-add.component';
+import { LocaleGuard } from './guards/locale.guard';
 
 export const routes: Routes = [
-  {
-    path: 'dashboard',
-    component: DashboardComponent
-  },
-  {
-    path: 'orders',
-    component: FindProblemOutletComponent
-  },
-  {
-    path: 'problem-add',
-    component: ProblemAddComponent
-  },
-  {
-    path: 'customer-search',
-    component: CustomerSearchComponent
-  },
-  {
-    path: 'admin',
-    component: AdminComponent
-  },
-  {
-    path: 'app',
-    component: AppComponent
-  },
+  // Root redirect to default locale
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/en-EN/dashboard',
     pathMatch: 'full'
+  },
+  // Locale-based routes
+  {
+    path: ':locale',
+    canActivate: [LocaleGuard],
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+      {
+        path: 'orders',
+        component: FindProblemOutletComponent
+      },
+      {
+        path: 'problem-add',
+        component: ProblemAddComponent
+      },
+      {
+        path: 'customer-search',
+        component: CustomerSearchComponent
+      },
+      {
+        path: 'admin',
+        component: AdminComponent
+      },
+      {
+        path: 'app',
+        component: AppComponent
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  // Fallback for invalid routes - redirect to default locale
+  {
+    path: '**',
+    redirectTo: '/en-EN/dashboard'
   }
 ];
