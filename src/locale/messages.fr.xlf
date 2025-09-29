@@ -216,6 +216,10 @@
         <source>Save</source>
         <target>Enregistrer</target>
       </trans-unit>
+      <trans-unit id="8271357500216966879" datatype="html">
+        <source>Visibility</source>
+        <target>Visibilité</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
