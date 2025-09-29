@@ -8,7 +8,7 @@
 <div class="div-1 flex-column d-flex h-100 bg-body-tertiary text-body-secondary small">
     <ul class="list-unstyled mb-0 fw-semibold text-uppercase">
         <li>
-            <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" routerLink="/dashboard" [routerLinkActive]="['link-sidebar-active']">
+            <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'dashboard']" [routerLinkActive]="['link-sidebar-active']">
                 <i class="bi-speedometer2 me-2 fs-5"></i>
                 Dashboard
             </a>
@@ -21,13 +21,13 @@
         </h6>
         <ul class="list-unstyled text-uppercase fw-semibold">
             <li>
-                <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" routerLink="/orders" [routerLinkActive]="['link-sidebar-active']">
+                <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'orders']" [routerLinkActive]="['link-sidebar-active']">
                     <i class="bi-search me-2 fs-5"></i>
                     FIND PROBLEM
                 </a>
             </li>
             <li>
-                <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" routerLink="/problem-add" [routerLinkActive]="['link-sidebar-active']">
+                <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'problem-add']" [routerLinkActive]="['link-sidebar-active']">
                     <i class="bi-puzzle me-2 fs-5"></i>
                     NEW PROBLEM
                 </a>
@@ -40,13 +40,13 @@
         </h6>
         <ul class="list-unstyled text-uppercase fw-semibold">
             <li>
-                <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" routerLink="/customer-search" [routerLinkActive]="['link-sidebar-active']">
+                <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'customer-search']" [routerLinkActive]="['link-sidebar-active']">
                     <i class="bi-search me-2 fs-5"></i>
                     Find customers
                 </a>
             </li>
             <li>
-                <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" routerLink="/problem-add" [routerLinkActive]="['link-sidebar-active']">
+                <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'problem-add']" [routerLinkActive]="['link-sidebar-active']">
                     <i class="bi-person-plus me-2 fs-5"></i>
                     New customer
                 </a>
@@ -55,7 +55,7 @@
     </div>
     <hr class="mb-0">
     <div class="fw-semibold text-uppercase">
-        <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" routerLink="/admin" [routerLinkActive]="['link-sidebar-active']">
+        <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'admin']" [routerLinkActive]="['link-sidebar-active']">
             <i class="bi-gear me-2 fs-5"></i>
             Admin
         </a>

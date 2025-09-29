@@ -6,8 +6,9 @@
 */
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -17,6 +18,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [RouterLink, RouterLinkActive, CommonModule]
 })
 export class SideBarComponent {
+  private readonly localeService: LocaleService = inject(LocaleService);
 
   constructor() {}
+
+  /**
+   * Expose current locale signal for template usage.
+   */
+  public currentLocale(): string {
+    return this.localeService.currentLocale();
+  }
 }
