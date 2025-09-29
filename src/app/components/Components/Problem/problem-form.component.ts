@@ -75,7 +75,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
   /**
    * Allowed values for the `open` string field.
    */
-  readonly openOptions: ReadonlyArray<string> = ['open', 'closed'];
+  readonly visibilityOptions: ReadonlyArray<string> = ['Public', 'Private'];
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
@@ -89,7 +89,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     nameCtrl: FormControl<string | null>;
     descriptionCtrl: FormControl<string | null>;
     statusCtrl: FormControl<string | null>;
-    openCtrl: FormControl<string | null>;
+    visibilityCtrl: FormControl<string | null>;
     creationDateCtrl: FormControl<string | null>;
     creatorCtrl: FormControl<string | null>;
   }> = new FormGroup<{
@@ -97,7 +97,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     nameCtrl: FormControl<string | null>;
     descriptionCtrl: FormControl<string | null>;
     statusCtrl: FormControl<string | null>;
-    openCtrl: FormControl<string | null>;
+    visibilityCtrl: FormControl<string | null>;
     creationDateCtrl: FormControl<string | null>;
     creatorCtrl: FormControl<string | null>;
   }>({
@@ -105,7 +105,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     nameCtrl: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(3)] }),
     descriptionCtrl: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(5)] }),
     statusCtrl: new FormControl<string | null>(null, { validators: [Validators.required] }),
-    openCtrl: new FormControl<string | null>('open', { validators: [Validators.required] }),
+    visibilityCtrl: new FormControl<string | null>('Private', { validators: [Validators.required] }),
     creationDateCtrl: new FormControl<string | null>(null, { validators: [Validators.required] }),
     creatorCtrl: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(2)] }),
   });
@@ -133,7 +133,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
         nameCtrl: string | null;
         descriptionCtrl: string | null;
         statusCtrl: string | null;
-        openCtrl: string | null;
+        visibilityCtrl: string | null;
         creationDateCtrl: string | null;
         creatorCtrl: string | null;
       }>): void => {
@@ -211,7 +211,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       nameCtrl: typeof value.name === 'string' ? value.name : null,
       descriptionCtrl: typeof value.description === 'string' ? value.description : null,
       statusCtrl: typeof value.status === 'string' ? value.status : null,
-      openCtrl: typeof value.open === 'string' ? value.open : 'open',
+      visibilityCtrl: typeof value.open === 'string' ? value.open : 'Private',
       creationDateCtrl: dateString,
       creatorCtrl: typeof value.creator === 'string' ? value.creator : null,
     }, { emitEvent: false });
@@ -226,7 +226,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     const rawName: string | null = this.form.controls.nameCtrl.value;
     const rawDescription: string | null = this.form.controls.descriptionCtrl.value;
     const rawStatus: string | null = this.form.controls.statusCtrl.value;
-    const rawOpen: string | null = this.form.controls.openCtrl.value;
+    const rawOpen: string | null = this.form.controls.visibilityCtrl.value;
     const rawCreationDate: string | null = this.form.controls.creationDateCtrl.value;
     const rawCreator: string | null = this.form.controls.creatorCtrl.value;
 

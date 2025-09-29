@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, LOCALE_ID, inject } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { LocaleService } from '../services/locale.service';
 
@@ -12,6 +12,7 @@ import { LocaleService } from '../services/locale.service';
 export class LocaleGuard implements CanActivate {
   private readonly localeService: LocaleService = inject(LocaleService);
   private readonly router: Router = inject(Router);
+  private readonly localeId: string = inject(LOCALE_ID);
 
   /**
    * Check if the route can be activated based on locale validation.
@@ -46,7 +47,7 @@ export class LocaleGuard implements CanActivate {
    * Redirect to default locale dashboard.
    */
   private redirectToDefaultLocale(): void {
-    const defaultLocale: string = this.localeService.defaultLocale;
+    const defaultLocale: string = this.mapLocaleIdToCode(this.localeId);
     void this.router.navigate([`/${defaultLocale}/dashboard`], { replaceUrl: true });
   }
 
@@ -60,6 +61,13 @@ export class LocaleGuard implements CanActivate {
     const redirectUrl: string[] = [defaultLocale, ...pathWithoutLocale];
     
     void this.router.navigate(redirectUrl, { replaceUrl: true });
+  }
+
+  private mapLocaleIdToCode(localeId: string): string {
+    if ((localeId || '').toLowerCase().startsWith('fr')) {
+      return 'fr-FR';
+    }
+    return 'en-EN';
   }
 }
 

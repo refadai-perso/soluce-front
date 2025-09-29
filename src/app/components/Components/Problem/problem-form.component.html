@@ -45,13 +45,13 @@
     </div>
 
     <div class="col-12 col-md-4">
-      <label for="pf-open" class="form-label" i18n>Open/Closed</label>
-      <select id="pf-open" class="form-select" formControlName="openCtrl" [attr.aria-invalid]="form.controls.openCtrl.invalid ? 'true' : 'false'">
-        @for (o of openOptions; track o) {
+      <label for="pf-open" class="form-label" i18n>Visibility</label>
+      <select id="pf-open" class="form-select" formControlName="visibilityCtrl" [attr.aria-invalid]="form.controls.visibilityCtrl.invalid ? 'true' : 'false'">
+        @for (o of visibilityOptions; track o) {
           <option [value]="o">{{ o }}</option>
         }
       </select>
-      <div class="form-text" i18n>Stored as string: "open" or "closed".</div>
+      
     </div>
 
     <div class="col-12 col-md-4">

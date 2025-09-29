@@ -5,7 +5,7 @@
  * Check out this JitBlox project, Soluce, at https://www.jitblox.com/project/5JHnGKTPaU/soluce
  */
 
-import { ApplicationConfig, importProvidersFrom, LOCALE_ID } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { NgbAlertModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -31,13 +31,5 @@ export const appConfig: ApplicationConfig = {
       BrowserModule
     ),
     provideRouter(routes),
-    // Provide LOCALE_ID dynamically based on current locale
-    {
-      provide: LOCALE_ID,
-      useFactory: (localeService: LocaleService) => {
-        return localeService.currentLanguage();
-      },
-      deps: [LocaleService]
-    }
   ],
 };

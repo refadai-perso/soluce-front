@@ -15,11 +15,11 @@ import { ProblemAddComponent } from './components/Pages/problem-add.component';
 import { LocaleGuard } from './guards/locale.guard';
 
 export const routes: Routes = [
-  // Root redirect to default locale
+  // Root redirects to current build locale using LocaleGuard
   {
     path: '',
-    redirectTo: '/en-EN/dashboard',
-    pathMatch: 'full'
+    canActivate: [LocaleGuard],
+    children: []
   },
   // Locale-based routes
   {
@@ -57,9 +57,10 @@ export const routes: Routes = [
       }
     ]
   },
-  // Fallback for invalid routes - redirect to default locale
+  // Fallback for invalid routes - redirect via guard
   {
     path: '**',
-    redirectTo: '/en-EN/dashboard'
+    canActivate: [LocaleGuard],
+    children: []
   }
 ];

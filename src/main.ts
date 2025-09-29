@@ -19,12 +19,7 @@ bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [
     ...appConfig.providers,
-    provideClientHydration(),
-    // Set initial locale based on URL
-    {
-      provide: 'INITIAL_LOCALE',
-      useValue: locale
-    } as Provider
+    provideClientHydration()
   ]
 })
   .catch(err => console.error(err));
