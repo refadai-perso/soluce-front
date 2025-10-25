@@ -24,6 +24,7 @@ import { debounceTime, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import type { Problem } from '../../../model/model';
 import { LocaleService } from '../../../services/locale.service';
+import { ProblemService } from '../../../services/problem.service';
 
 @Component({
   selector: 'app-problem-form',
@@ -80,6 +81,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
   private readonly localeService: LocaleService = inject(LocaleService);
+  private readonly problemService: ProblemService = inject(ProblemService);
 
   /**
    * Strongly-typed reactive form grouping all {@link Problem} fields.
@@ -159,8 +161,26 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       this.form.markAllAsTouched();
       return;
     }
-    const problem: Problem = this.toProblem();
-    this.submitProblem.emit(problem);
+    const rawName: string | null = this.form.controls.nameCtrl.value;
+    const rawDescription: string | null = this.form.controls.descriptionCtrl.value;
+    const rawVisibility: string | null = this.form.controls.visibilityCtrl.value;
+    const body: { name: string; description?: string; open: boolean } = {
+      name: rawName === null ? '' : rawName,
+      description: rawDescription === null ? undefined : rawDescription,
+      open: (rawVisibility ?? 'Private') === 'Public',
+    };
+    console.log('Form submission body:', body);
+    const sub: Subscription = this.problemService.createProblem(body).subscribe({
+      next: (created: Problem): void => {
+        this.submitProblem.emit(created);
+        void this.localeService.navigateWithLocale(['dashboard']);
+      },
+      error: (_err: unknown): void => {
+        // Keep simple UX for now; could surface an alert/Toast
+        console.log('Create problem failed');
+      },
+    });
+    this.destroyRef.onDestroy((): void => sub.unsubscribe());
   }
 
   /**

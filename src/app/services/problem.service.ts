@@ -23,4 +23,27 @@ export class ProblemService {
       })
     );
   }
+
+  /**
+   * Create a new problem entry.
+   *
+   * Base mock implementation used in development without a backend. It simulates
+   * a server-created entity and maps the boolean visibility flag to the app's
+   * string-based `open` field ('Public' | 'Private').
+   *
+   * @param body The payload expected by the backend service containing the
+   * name, an optional description, and a boolean flag for visibility.
+   * - When `open` is `true`, visibility is interpreted as 'Public'.
+   * - When `open` is `false`, visibility is interpreted as 'Private'.
+   * @returns An observable emitting the created {@link Problem}.
+   */
+  public createProblem(body: { name: string; description?: string; open: boolean }): Observable<Problem> {
+    const mockCreated: Problem = {
+      id: Math.floor(Math.random() * 100000),
+      name: body.name,
+      description: body.description,
+      open: body.open === true ? 'Public' : 'Private',
+    };
+    return of(mockCreated);
+  }
 }
