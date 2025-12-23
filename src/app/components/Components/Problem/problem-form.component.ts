@@ -22,6 +22,9 @@ import { Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+
+import { CreateProblemDto } from '@shared/dto';
+
 import type { Problem } from '../../../model/model';
 import { LocaleService } from '../../../services/locale.service';
 import { ProblemService } from '../../../services/problem.service';
@@ -164,9 +167,9 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     const rawName: string | null = this.form.controls.nameCtrl.value;
     const rawDescription: string | null = this.form.controls.descriptionCtrl.value;
     const rawVisibility: string | null = this.form.controls.visibilityCtrl.value;
-    const body: { name: string; description?: string; open: boolean } = {
+    const body: CreateProblemDto = {
       name: rawName === null ? '' : rawName,
-      description: rawDescription === null ? undefined : rawDescription,
+      description: rawDescription === null ? '' : rawDescription,
       open: (rawVisibility ?? 'Private') === 'Public',
     };
     console.log('Form submission body:', body);
