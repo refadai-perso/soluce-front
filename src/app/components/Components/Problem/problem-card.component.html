@@ -51,8 +51,7 @@
                             {{ currentUserProblemsItem.description }}
                         </td>
                         <td>
-                            <i class="text-undefined me-2 bi-undefined"></i>
-                            {{ currentUserProblemsItem.status }}
+                            {{ currentUserProblemsItem.status || '-' }}
                         </td>
                         <td>
                             {{ currentUserProblemsItem.creationDate | date }}
