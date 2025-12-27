@@ -19,8 +19,8 @@
     "module": "ES2022",
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["../shared/dist/*"],
-      "@shared": ["../shared/dist/index.d.ts"]
+      "@shared/*": ["../Shared/dist/*"],
+      "@shared": ["../Shared/dist/index.d.ts"]
     }
   },
   "angularCompilerOptions": {
