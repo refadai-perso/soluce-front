@@ -1,0 +1,15 @@
+/**
+ * Styling for problem card component
+ */
+
+// Group authorization badges with light background and colored icons
+.badge {
+  &.bg-light {
+    border-color: #dee2e6 !important;
+    
+    i {
+      font-size: 1rem;
+    }
+  }
+}
+

@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
   selector: 'app-problem-card',
   standalone: true,
   templateUrl: './problem-card.component.html',
+  styleUrls: ['./problem-card.component.scss'],
   imports: [RouterLink, CommonModule, NgbPopoverModule, NgbTooltipModule]
 })
 export class ProblemCardComponent implements OnInit {
@@ -49,20 +50,20 @@ export class ProblemCardComponent implements OnInit {
   }
 
   /**
-   * Returns the Bootstrap badge color class based on authorization level.
+   * Returns the Bootstrap text color class based on authorization level.
    * @param authLevel The authorization level (ADMINISTRATOR, CONTRIBUTOR, READER)
-   * @returns A Bootstrap badge color class name
+   * @returns A Bootstrap text color class name
    */
   public getAuthorizationBadgeClass(authLevel: Authorization | undefined): string {
     switch (authLevel) {
       case Authorization.ADMINISTRATOR:
-        return 'bg-danger';
+        return 'text-danger';
       case Authorization.CONTRIBUTOR:
-        return 'bg-warning';
+        return 'text-warning';
       case Authorization.READER:
-        return 'bg-info';
+        return 'text-info';
       default:
-        return 'bg-secondary';
+        return 'text-secondary';
     }
   }
 

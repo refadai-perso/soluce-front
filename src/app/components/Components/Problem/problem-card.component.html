@@ -64,14 +64,13 @@
                                 <div class="d-flex flex-wrap gap-1">
                                     @for (auth of currentUserProblemsItem.groupAuthorizations; track auth.id) {
                                         <span 
-                                            class="badge rounded-pill d-inline-flex align-items-center gap-1"
-                                            [ngClass]="getAuthorizationBadgeClass(auth.authorizationLevel)"
+                                            class="badge rounded-pill d-inline-flex align-items-center gap-1 bg-light border"
                                             [ngbPopover]="popContent"
                                             triggers="mouseenter:mouseleave"
                                             placement="top"
                                             container="body">
-                                            <i class="text-white" [ngClass]="getAuthorizationIcon(auth.authorizationLevel)"></i>
-                                            <span class="text-white">{{ auth.group?.name || 'Unknown' }}</span>
+                                            <i [ngClass]="[getAuthorizationIcon(auth.authorizationLevel), getAuthorizationBadgeClass(auth.authorizationLevel)]"></i>
+                                            <span class="text-dark">{{ auth.group?.name || 'Unknown' }}</span>
                                         </span>
                                         <ng-template #popContent>
                                             <div class="text-start">
