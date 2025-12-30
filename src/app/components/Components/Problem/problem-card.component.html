@@ -57,7 +57,7 @@
                             {{ currentUserProblemsItem.creationDate | date }}
                         </td>
                         <td>
-                            {{ currentUserProblemsItem.creator }}
+                            {{ getAuthorFullName(currentUserProblemsItem.creator) }}
                         </td>
                         <td>
                             Cell

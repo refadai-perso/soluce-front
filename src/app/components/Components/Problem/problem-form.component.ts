@@ -236,7 +236,9 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       statusCtrl: typeof value.status === 'string' ? value.status : null,
       visibilityCtrl: typeof value.open === 'string' ? value.open : 'Private',
       creationDateCtrl: dateString,
-      creatorCtrl: typeof value.creator === 'string' ? value.creator : null,
+      creatorCtrl: value.creator !== undefined && value.creator !== null 
+        ? `${value.creator.firstName ?? ''} ${value.creator.surname ?? ''}`.trim() 
+        : null,
     }, { emitEvent: false });
   }
 
@@ -255,6 +257,10 @@ export class ProblemFormComponent implements OnInit, OnChanges {
 
     const creationDate: Date | undefined = rawCreationDate !== null ? new Date(rawCreationDate as string) : undefined;
 
+    const creatorUser: { firstName?: string; surname?: string } | undefined = rawCreator !== null
+      ? this.parseCreatorName(rawCreator)
+      : undefined;
+
     const problem: Problem = {
       id: typeof rawId === 'number' ? rawId : undefined,
       name: rawName === null ? undefined : rawName,
@@ -262,7 +268,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       status: rawStatus === null ? undefined : rawStatus,
       open: rawOpen === null ? undefined : rawOpen,
       creationDate: creationDate,
-      creator: rawCreator === null ? undefined : rawCreator,
+      creator: creatorUser,
     };
     return problem;
   }
@@ -300,5 +306,26 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     const stored: string | null = window.localStorage.getItem('current-user-name');
     const value: string = stored === null || stored === '' ? 'Current User' : stored;
     return value;
+  }
+
+  /**
+   * Parse a full name string into firstName and surname.
+   * Assumes the format "firstName surname" where the first word is firstName
+   * and everything after is surname.
+   * @param fullName The full name string to parse
+   * @returns An object with firstName and surname properties
+   */
+  private parseCreatorName(fullName: string): { firstName?: string; surname?: string } {
+    const trimmed: string = fullName.trim();
+    if (trimmed === '') {
+      return {};
+    }
+    const parts: string[] = trimmed.split(/\s+/);
+    if (parts.length === 1) {
+      return { firstName: parts[0], surname: '' };
+    }
+    const firstName: string = parts[0];
+    const surname: string = parts.slice(1).join(' ');
+    return { firstName, surname };
   }
 }

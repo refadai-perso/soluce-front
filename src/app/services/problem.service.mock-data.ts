@@ -14,7 +14,7 @@ export const problem_list_mock: Problem[] = [
     description: 'La tartine tombe systématiquement sur la face où il y a la confiture.',
     status: 'Open',
     creationDate: new Date('2025-01-28'),
-    creator: 'renaud'
+    creator: { id: 1, firstName: 'Renaud', surname: 'Dupont' }
   },
   {
     id: 2,
@@ -22,6 +22,6 @@ export const problem_list_mock: Problem[] = [
     description: 'Les gens sont généralement cons, et c\'est toujours keur faute',
     status: 'Open',
     creationDate: new Date('2025-01-18'),
-    creator: 'olivier'
+    creator: { id: 2, firstName: 'Olivier', surname: 'Martin' }
   }
 ];

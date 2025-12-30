@@ -1,0 +1,130 @@
+---
+description: This rule specifies the indexed documentation sources that must be used for Angular and Bootstrap development in this project.
+globs: ["**/*.{ts,html,scss,css}"]
+---
+
+# Documentation Sources
+
+This project uses specific versions of Angular and Bootstrap. When referencing documentation, always use the official documentation sources specified below.
+
+## Angular Documentation
+
+**Version:** Angular 19
+
+**Primary Documentation Source:**
+- **Official Angular Documentation:** https://angular.dev
+- **API Reference:** https://angular.dev/reference
+- **Guide:** https://angular.dev/guide
+
+**Key Documentation Sections:**
+- **Getting Started:** https://angular.dev/start
+- **Components:** https://angular.dev/guide/components
+- **Signals:** https://angular.dev/guide/signals
+- **Standalone Components:** https://angular.dev/guide/components/importing
+- **Control Flow:** https://angular.dev/guide/control-flow
+- **Dependency Injection:** https://angular.dev/guide/di
+- **Routing:** https://angular.dev/guide/router
+- **Forms:** https://angular.dev/guide/forms
+- **HTTP Client:** https://angular.dev/guide/http
+- **Internationalization (i18n):** https://angular.dev/guide/i18n
+
+**Migration Guides:**
+- **Angular 19 Changes:** https://angular.dev/reference/versions
+
+**When to Reference:**
+- Use Angular 19 documentation for all Angular-specific features, APIs, and best practices
+- Reference the official Angular.dev documentation for:
+  - Component architecture and patterns
+  - Signal-based reactive programming
+  - Standalone component patterns
+  - Control flow syntax (`@if`, `@for`, `@switch`)
+  - Dependency injection with `inject()` function
+  - Routing and navigation
+  - Form handling and validation
+  - HTTP client usage
+  - Internationalization setup
+
+## Bootstrap Documentation
+
+**Version:** Bootstrap 5.3.2
+
+**Primary Documentation Source:**
+- **Official Bootstrap Documentation:** https://getbootstrap.com/docs/5.3/
+- **Getting Started:** https://getbootstrap.com/docs/5.3/getting-started/introduction/
+- **Components:** https://getbootstrap.com/docs/5.3/components/
+- **Utilities:** https://getbootstrap.com/docs/5.3/utilities/
+
+**Key Documentation Sections:**
+- **Layout:** https://getbootstrap.com/docs/5.3/layout/
+- **Content:** https://getbootstrap.com/docs/5.3/content/
+- **Forms:** https://getbootstrap.com/docs/5.3/forms/
+- **Components:** https://getbootstrap.com/docs/5.3/components/
+- **Utilities:** https://getbootstrap.com/docs/5.3/utilities/
+- **Customize:** https://getbootstrap.com/docs/5.3/customize/
+
+**When to Reference:**
+- Use Bootstrap 5.3.2 documentation for all Bootstrap-specific features, components, and utilities
+- Reference the official Bootstrap documentation for:
+  - Grid system and layout
+  - Component usage (buttons, modals, alerts, etc.)
+  - Utility classes (spacing, typography, colors, etc.)
+  - Form styling and validation
+  - Responsive design patterns
+  - Customization with Sass variables
+
+## ng-bootstrap Documentation
+
+**Version:** ng-bootstrap 18.0.0
+
+**Primary Documentation Source:**
+- **Official ng-bootstrap Documentation:** https://ng-bootstrap.github.io/
+- **Components:** https://ng-bootstrap.github.io/#/components
+
+**Key Documentation Sections:**
+- **Getting Started:** https://ng-bootstrap.github.io/#/getting-started
+- **Components:** https://ng-bootstrap.github.io/#/components
+- **API Documentation:** https://ng-bootstrap.github.io/#/components
+
+**When to Reference:**
+- Use ng-bootstrap 18.0.0 documentation for Angular-specific Bootstrap component implementations
+- Reference the official ng-bootstrap documentation for:
+  - Angular component wrappers for Bootstrap components
+  - Component APIs and inputs/outputs
+  - Integration patterns with Angular
+  - Event handling and data binding
+
+## Documentation Usage Guidelines
+
+1. **Version-Specific Documentation:**
+   - Always reference documentation for the exact versions used in this project
+   - Angular 19: Use angular.dev (not angular.io)
+   - Bootstrap 5.3.2: Use getbootstrap.com/docs/5.3/
+   - ng-bootstrap 18.0.0: Use ng-bootstrap.github.io
+
+2. **Primary Reference Priority:**
+   - First: Official Angular 19 documentation (angular.dev)
+   - Second: Official Bootstrap 5.3.2 documentation (getbootstrap.com/docs/5.3/)
+   - Third: Official ng-bootstrap 18.0.0 documentation (ng-bootstrap.github.io)
+
+3. **When Searching for Solutions:**
+   - Always check version-specific documentation first
+   - Verify that examples and code snippets are compatible with the project's versions
+   - Prefer official documentation over third-party tutorials or blog posts
+
+4. **API Reference:**
+   - For Angular APIs: Use https://angular.dev/reference
+   - For Bootstrap classes and utilities: Use https://getbootstrap.com/docs/5.3/utilities/
+   - For ng-bootstrap components: Use https://ng-bootstrap.github.io/#/components
+
+5. **Migration and Breaking Changes:**
+   - Check Angular 19 migration guide for breaking changes from previous versions
+   - Verify Bootstrap 5.3.2 compatibility with any Bootstrap features used
+   - Review ng-bootstrap 18.0.0 changelog for component-specific changes
+
+## Documentation Indexing
+
+When using AI assistance or code completion:
+- Index and prioritize the official documentation sources listed above
+- Prefer examples and patterns from the official documentation
+- Cross-reference between Angular, Bootstrap, and ng-bootstrap documentation when implementing integrated solutions
+- Ensure all code suggestions align with the documented APIs and patterns for the specified versions

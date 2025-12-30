@@ -8,7 +8,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Problem } from '../../../model';
+import { Problem, User } from '../../../model';
 import { ProblemService } from '../../../services/problem.service';
 import { Observable } from 'rxjs';
 
@@ -27,5 +27,22 @@ export class ProblemCardComponent implements OnInit {
 
   public ngOnInit(): void {
     this.currentUserProblems$ = this.problemService.fetchProblemsOfUserGroups();
+  }
+
+  /**
+   * Returns the full name of the author by concatenating firstName and surname.
+   * @param creator The User object representing the problem creator
+   * @returns A string with the full name or '-' if no creator is provided
+   */
+  public getAuthorFullName(creator: User | undefined): string {
+    if (!creator) {
+      return '-';
+    }
+    
+    const firstName: string = creator.firstName || '';
+    const surname: string = creator.surname || '';
+    const fullName: string = `${firstName} ${surname}`.trim() || '-';
+    
+    return fullName;
   }
 }

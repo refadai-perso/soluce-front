@@ -5,6 +5,19 @@
  * Check out this JitBlox project, Soluce, at https://www.jitblox.com/project/5JHnGKTPaU/soluce
  */
 
+/**
+ * User information
+ */
+export interface User {
+  id?: number;
+  email?: string;
+  firstName?: string;
+  surname?: string;
+  password?: string;
+  creationDate?: Date;
+  admin?: boolean;
+}
+
 export interface Order {
   /**
    * A unique ID for the order.
@@ -39,5 +52,5 @@ export interface Problem {
   status?: string;
   open?: string;
   creationDate?: Date;
-  creator?: string;
+  creator?: User;
 }
