@@ -60,7 +60,39 @@
                             {{ getAuthorFullName(currentUserProblemsItem.creator) }}
                         </td>
                         <td>
-                            Cell
+                            @if (hasGroupAuthorizations(currentUserProblemsItem)) {
+                                <div class="d-flex flex-wrap gap-1">
+                                    @for (auth of currentUserProblemsItem.groupAuthorizations; track auth.id) {
+                                        <span 
+                                            class="badge rounded-pill d-inline-flex align-items-center gap-1"
+                                            [ngClass]="getAuthorizationBadgeClass(auth.authorizationLevel)"
+                                            [ngbPopover]="popContent"
+                                            triggers="mouseenter:mouseleave"
+                                            placement="top"
+                                            container="body">
+                                            <i class="text-white" [ngClass]="getAuthorizationIcon(auth.authorizationLevel)"></i>
+                                            <span class="text-white">{{ auth.group?.name || 'Unknown' }}</span>
+                                        </span>
+                                        <ng-template #popContent>
+                                            <div class="text-start">
+                                                <strong>{{ auth.group?.name }}</strong>
+                                                <hr class="my-1">
+                                                <div class="small">
+                                                    <div><strong>Authorization:</strong> {{ getAuthorizationLabel(auth.authorizationLevel) }}</div>
+                                                    @if (auth.group?.description) {
+                                                        <div class="mt-1"><strong>Description:</strong> {{ auth.group?.description }}</div>
+                                                    }
+                                                    @if (auth.grantedDate) {
+                                                        <div class="mt-1"><strong>Granted:</strong> {{ auth.grantedDate | date }}</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    }
+                                </div>
+                            } @else {
+                                <span class="text-muted fst-italic">No groups</span>
+                            }
                         </td>
                     </tr>
                 }

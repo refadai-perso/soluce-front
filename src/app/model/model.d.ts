@@ -42,6 +42,27 @@ export interface Order {
   statusColor?: string;
 }
 
+import { Authorization } from '@shared/dto/group/authorization.enum';
+
+/**
+ * Represents a user group in the system
+ */
+export interface Group {
+  id?: number;
+  name?: string;
+  description?: string;
+}
+
+/**
+ * Represents authorization/permission levels for a group on a problem
+ */
+export interface GroupAuthorization {
+  id?: number;
+  group?: Group;
+  authorizationLevel?: Authorization;
+  grantedDate?: Date;
+}
+
 /**
  * A general problem of any kind to be solved
  */
@@ -53,4 +74,5 @@ export interface Problem {
   open?: string;
   creationDate?: Date;
   creator?: User;
+  groupAuthorizations?: GroupAuthorization[];
 }

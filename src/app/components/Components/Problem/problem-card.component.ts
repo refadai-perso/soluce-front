@@ -8,7 +8,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Problem, User } from '../../../model';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { Authorization } from '@shared/dto/group/authorization.enum';
+import { Problem, User, GroupAuthorization } from '../../../model';
 import { ProblemService } from '../../../services/problem.service';
 import { Observable } from 'rxjs';
 
@@ -16,7 +18,7 @@ import { Observable } from 'rxjs';
   selector: 'app-problem-card',
   standalone: true,
   templateUrl: './problem-card.component.html',
-  imports: [RouterLink, CommonModule]
+  imports: [RouterLink, CommonModule, NgbPopoverModule, NgbTooltipModule]
 })
 export class ProblemCardComponent implements OnInit {
   public currentUserProblems$!: Observable<Problem[] | undefined>;
@@ -44,5 +46,71 @@ export class ProblemCardComponent implements OnInit {
     const fullName: string = `${firstName} ${surname}`.trim() || '-';
     
     return fullName;
+  }
+
+  /**
+   * Returns the Bootstrap badge color class based on authorization level.
+   * @param authLevel The authorization level (ADMINISTRATOR, CONTRIBUTOR, READER)
+   * @returns A Bootstrap badge color class name
+   */
+  public getAuthorizationBadgeClass(authLevel: Authorization | undefined): string {
+    switch (authLevel) {
+      case Authorization.ADMINISTRATOR:
+        return 'bg-danger';
+      case Authorization.CONTRIBUTOR:
+        return 'bg-warning';
+      case Authorization.READER:
+        return 'bg-info';
+      default:
+        return 'bg-secondary';
+    }
+  }
+
+  /**
+   * Returns a formatted icon for the authorization level.
+   * @param authLevel The authorization level (ADMINISTRATOR, CONTRIBUTOR, READER)
+   * @returns A Bootstrap icon class name
+   */
+  public getAuthorizationIcon(authLevel: Authorization | undefined): string {
+    switch (authLevel) {
+      case Authorization.ADMINISTRATOR:
+        return 'bi-shield-fill-check';
+      case Authorization.CONTRIBUTOR:
+        return 'bi-pencil-fill';
+      case Authorization.READER:
+        return 'bi-eye-fill';
+      default:
+        return 'bi-question-circle';
+    }
+  }
+
+  /**
+   * Returns a human-readable label for the authorization level.
+   * @param authLevel The authorization level (ADMINISTRATOR, CONTRIBUTOR, READER)
+   * @returns A formatted label string
+   */
+  public getAuthorizationLabel(authLevel: Authorization | undefined): string {
+    if (!authLevel) {
+      return 'Unknown';
+    }
+    return authLevel;
+  }
+
+  /**
+   * Checks if a problem has group authorizations.
+   * @param problem The Problem object
+   * @returns True if the problem has at least one group authorization
+   */
+  public hasGroupAuthorizations(problem: Problem): boolean {
+    return !!problem.groupAuthorizations && problem.groupAuthorizations.length > 0;
+  }
+
+  /**
+   * Returns the count of group authorizations for a problem.
+   * @param problem The Problem object
+   * @returns The number of group authorizations
+   */
+  public getGroupAuthorizationCount(problem: Problem): number {
+    return problem.groupAuthorizations?.length || 0;
   }
 }

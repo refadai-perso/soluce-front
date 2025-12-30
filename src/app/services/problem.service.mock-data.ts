@@ -5,6 +5,7 @@
 * Check out this JitBlox project, Soluce, at https://www.jitblox.com/project/5JHnGKTPaU/soluce
 */
 
+import { Authorization } from '@shared/dto/group/authorization.enum';
 import { Problem } from '../model';
 
 export const problem_list_mock: Problem[] = [
@@ -14,7 +15,27 @@ export const problem_list_mock: Problem[] = [
     description: 'La tartine tombe systématiquement sur la face où il y a la confiture.',
     status: 'Open',
     creationDate: new Date('2025-01-28'),
-    creator: { id: 1, firstName: 'Renaud', surname: 'Dupont' }
+    creator: { id: 1, firstName: 'Renaud', surname: 'Dupont' },
+    groupAuthorizations: [
+      {
+        id: 1,
+        group: { id: 1, name: 'Administrators', description: 'System administrators with full access' },
+        authorizationLevel: Authorization.ADMINISTRATOR,
+        grantedDate: new Date('2025-01-28')
+      },
+      {
+        id: 2,
+        group: { id: 2, name: 'Developers', description: 'Development team members' },
+        authorizationLevel: Authorization.CONTRIBUTOR,
+        grantedDate: new Date('2025-01-28')
+      },
+      {
+        id: 3,
+        group: { id: 3, name: 'Viewers', description: 'Read-only access for stakeholders' },
+        authorizationLevel: Authorization.READER,
+        grantedDate: new Date('2025-01-28')
+      }
+    ]
   },
   {
     id: 2,
@@ -22,6 +43,20 @@ export const problem_list_mock: Problem[] = [
     description: 'Les gens sont généralement cons, et c\'est toujours keur faute',
     status: 'Open',
     creationDate: new Date('2025-01-18'),
-    creator: { id: 2, firstName: 'Olivier', surname: 'Martin' }
+    creator: { id: 2, firstName: 'Olivier', surname: 'Martin' },
+    groupAuthorizations: [
+      {
+        id: 4,
+        group: { id: 1, name: 'Administrators', description: 'System administrators with full access' },
+        authorizationLevel: Authorization.ADMINISTRATOR,
+        grantedDate: new Date('2025-01-18')
+      },
+      {
+        id: 5,
+        group: { id: 4, name: 'Support Team', description: 'Customer support representatives' },
+        authorizationLevel: Authorization.CONTRIBUTOR,
+        grantedDate: new Date('2025-01-19')
+      }
+    ]
   }
 ];
