@@ -16,6 +16,12 @@ import { Problem, User, GroupAuthorization } from '../../../model';
 import { ProblemService } from '../../../services/problem.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { format, isAfter, isBefore, isEqual } from 'date-fns';
+import { sortBy } from 'lodash-es';
+import {
+  ngbDateToDate,
+  dateToNgbDate
+} from '../../../utils/date-sort-utils';
 
 type SortColumn = 'name' | 'description' | 'status' | 'creationDate' | 'author' | '';
 type SortDirection = 'asc' | 'desc' | '';
@@ -194,7 +200,7 @@ export class ProblemCardComponent implements OnInit {
   public onDateSelection(date: NgbDateStruct, dropdown?: NgbDropdown): void {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && this.isAfter(date, this.fromDate)) {
+    } else if (this.fromDate && !this.toDate && isAfter(ngbDateToDate(date), ngbDateToDate(this.fromDate))) {
       this.toDate = date;
       this.applyDateRange();
       // Close dropdown after selecting complete range
@@ -216,7 +222,8 @@ export class ProblemCardComponent implements OnInit {
     if (!this.fromDate || this.toDate || !this.hoveredDate) {
       return false;
     }
-    return this.isAfter(date, this.fromDate) && this.isBefore(date, this.hoveredDate);
+    return isAfter(ngbDateToDate(date), ngbDateToDate(this.fromDate)) &&
+           isBefore(ngbDateToDate(date), ngbDateToDate(this.hoveredDate));
   }
 
   /**
@@ -225,10 +232,11 @@ export class ProblemCardComponent implements OnInit {
    * @returns True if the date is in the range
    */
   public isInside(date: NgbDateStruct): boolean {
-    if (!this.toDate) {
+    if (!this.toDate || !this.fromDate) {
       return false;
     }
-    return this.isAfter(date, this.fromDate) && this.isBefore(date, this.toDate);
+    return isAfter(ngbDateToDate(date), ngbDateToDate(this.fromDate)) &&
+           isBefore(ngbDateToDate(date), ngbDateToDate(this.toDate));
   }
 
   /**
@@ -238,8 +246,8 @@ export class ProblemCardComponent implements OnInit {
    */
   public isRange(date: NgbDateStruct): boolean {
     return (
-      this.isEqual(date, this.fromDate) ||
-      (this.toDate && this.isEqual(date, this.toDate)) ||
+      (this.fromDate && isEqual(ngbDateToDate(date), ngbDateToDate(this.fromDate))) ||
+      (this.toDate && isEqual(ngbDateToDate(date), ngbDateToDate(this.toDate))) ||
       this.isInside(date) ||
       this.isHovered(date)
     );
@@ -251,8 +259,8 @@ export class ProblemCardComponent implements OnInit {
    */
   public applyPreset(preset: DateRangePreset): void {
     const range: { from: Date; to: Date } = preset.getValue();
-    this.fromDate = this.dateToNgbDate(range.from);
-    this.toDate = this.dateToNgbDate(range.to);
+    this.fromDate = dateToNgbDate(range.from);
+    this.toDate = dateToNgbDate(range.to);
     this.applyDateRange();
   }
 
@@ -261,12 +269,12 @@ export class ProblemCardComponent implements OnInit {
    */
   private applyDateRange(): void {
     if (this.fromDate) {
-      const fromDate: Date = this.ngbDateToDate(this.fromDate);
-      this.filterCreationDateFrom = this.formatDateForInput(fromDate);
+      const fromDate: Date = ngbDateToDate(this.fromDate);
+      this.filterCreationDateFrom = format(fromDate, 'yyyy-MM-dd');
     }
     if (this.toDate) {
-      const toDate: Date = this.ngbDateToDate(this.toDate);
-      this.filterCreationDateTo = this.formatDateForInput(toDate);
+      const toDate: Date = ngbDateToDate(this.toDate);
+      this.filterCreationDateTo = format(toDate, 'yyyy-MM-dd');
     }
     this.onFilterChange();
   }
@@ -288,7 +296,7 @@ export class ProblemCardComponent implements OnInit {
    */
   public goToToday(datepicker: NgbDatepicker): void {
     const today: Date = new Date();
-    const todayStruct: NgbDateStruct = this.dateToNgbDate(today);
+    const todayStruct: NgbDateStruct = dateToNgbDate(today);
     datepicker.navigateTo(todayStruct);
   }
 
@@ -309,105 +317,6 @@ export class ProblemCardComponent implements OnInit {
     return $localize`Select date range...`;
   }
 
-  /**
-   * Converts NgbDateStruct to Date.
-   * @param ngbDate The NgbDateStruct to convert
-   * @returns The Date object
-   */
-  private ngbDateToDate(ngbDate: NgbDateStruct): Date {
-    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
-  }
-
-  /**
-   * Converts Date to NgbDateStruct.
-   * @param date The Date to convert
-   * @returns The NgbDateStruct object
-   */
-  private dateToNgbDate(date: Date): NgbDateStruct {
-    return {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate()
-    };
-  }
-
-  /**
-   * Formats NgbDateStruct for display.
-   * @param date The date to format
-   * @returns The formatted date string
-   */
-  public formatNgbDate(date: NgbDateStruct): string {
-    return `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
-  }
-
-  /**
-   * Formats a Date object to YYYY-MM-DD string for input[type="date"].
-   * @param date The date to format
-   * @returns The formatted date string
-   */
-  private formatDateForInput(date: Date): string {
-    const year: number = date.getFullYear();
-    const month: string = String(date.getMonth() + 1).padStart(2, '0');
-    const day: string = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  /**
-   * Checks if date1 is after date2.
-   * @param date1 First date
-   * @param date2 Second date
-   * @returns True if date1 is after date2
-   */
-  private isAfter(date1: NgbDateStruct, date2: NgbDateStruct | null): boolean {
-    if (!date2) {
-      return false;
-    }
-    if (date1.year > date2.year) {
-      return true;
-    }
-    if (date1.year === date2.year && date1.month > date2.month) {
-      return true;
-    }
-    if (date1.year === date2.year && date1.month === date2.month && date1.day > date2.day) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Checks if date1 is before date2.
-   * @param date1 First date
-   * @param date2 Second date
-   * @returns True if date1 is before date2
-   */
-  private isBefore(date1: NgbDateStruct, date2: NgbDateStruct | null): boolean {
-    if (!date2) {
-      return false;
-    }
-    if (date1.year < date2.year) {
-      return true;
-    }
-    if (date1.year === date2.year && date1.month < date2.month) {
-      return true;
-    }
-    if (date1.year === date2.year && date1.month === date2.month && date1.day < date2.day) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Checks if two dates are equal.
-   * @param date1 First date
-   * @param date2 Second date
-   * @returns True if dates are equal
-   */
-  private isEqual(date1: NgbDateStruct, date2: NgbDateStruct | null): boolean {
-    if (!date2) {
-      return false;
-    }
-    return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;
-  }
 
   /**
    * Toggles a status filter selection.
@@ -521,66 +430,35 @@ export class ProblemCardComponent implements OnInit {
       });
     }
 
-    // Apply sorting
+    // Apply sorting using lodash-es
     if (this.sortColumn && this.sortDirection) {
-      filteredProblems.sort((a: Problem, b: Problem) => {
-        const direction: number = this.sortDirection === 'asc' ? 1 : -1;
-        
+      const iteratee = (problem: Problem): any => {
         switch (this.sortColumn) {
           case 'name':
-            return this.compareStrings(a.name, b.name) * direction;
+            return (problem.name || '').toLowerCase();
           case 'description':
-            return this.compareStrings(a.description, b.description) * direction;
+            return (problem.description || '').toLowerCase();
           case 'status':
-            return this.compareStrings(a.status, b.status) * direction;
+            return (problem.status || '').toLowerCase();
           case 'creationDate':
-            return this.compareDates(a.creationDate, b.creationDate) * direction;
+            return problem.creationDate ? new Date(problem.creationDate).getTime() : 0;
           case 'author':
-            return this.compareStrings(
-              this.getAuthorFullName(a.creator), 
-              this.getAuthorFullName(b.creator)
-            ) * direction;
+            return this.getAuthorFullName(problem.creator).toLowerCase();
           default:
-            return 0;
+            return '';
         }
-      });
+      };
+
+      filteredProblems = sortBy(filteredProblems, iteratee);
+
+      if (this.sortDirection === 'desc') {
+        filteredProblems.reverse();
+      }
     }
 
     return filteredProblems;
   }
 
-  /**
-   * Compares two strings for sorting.
-   * @param a First string
-   * @param b Second string
-   * @returns Comparison result
-   */
-  private compareStrings(a: string | undefined, b: string | undefined): number {
-    const strA: string = (a || '').toLowerCase();
-    const strB: string = (b || '').toLowerCase();
-    return strA.localeCompare(strB);
-  }
-
-  /**
-   * Compares two dates for sorting.
-   * @param a First date
-   * @param b Second date
-   * @returns Comparison result
-   */
-  private compareDates(a: Date | undefined, b: Date | undefined): number {
-    if (!a && !b) {
-      return 0;
-    }
-    if (!a) {
-      return 1;
-    }
-    if (!b) {
-      return -1;
-    }
-    const dateA: number = new Date(a).getTime();
-    const dateB: number = new Date(b).getTime();
-    return dateA - dateB;
-  }
 
   /**
    * Returns the sort icon class based on current sort state.
@@ -592,6 +470,15 @@ export class ProblemCardComponent implements OnInit {
       return 'bi-arrow-down-up';
     }
     return this.sortDirection === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down';
+  }
+
+  /**
+   * Formats NgbDateStruct for display using date-fns.
+   * @param date The date to format
+   * @returns The formatted date string
+   */
+  public formatNgbDate(date: NgbDateStruct): string {
+    return format(ngbDateToDate(date), 'yyyy-MM-dd');
   }
 
   /**
@@ -675,5 +562,14 @@ export class ProblemCardComponent implements OnInit {
    */
   public getGroupAuthorizationCount(problem: Problem): number {
     return problem.groupAuthorizations?.length || 0;
+  }
+
+  /**
+   * Returns the localized status text by delegating to the service.
+   * @param status The status value from the backend
+   * @returns The localized status text
+   */
+  public getLocalizedStatus(status: string | undefined): string {
+    return this.problemService.getLocalizedStatus(status);
   }
 }

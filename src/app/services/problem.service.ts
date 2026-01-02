@@ -46,4 +46,32 @@ export class ProblemService {
     };
     return of(mockCreated);
   }
+
+  /**
+   * Returns the localized status text based on the current locale.
+   * This method can be reused across different components that display problem statuses.
+   *
+   * @param status The status value from the backend
+   * @returns The localized status text
+   */
+  public getLocalizedStatus(status: string | undefined): string {
+    if (!status) {
+      return '-';
+    }
+
+    switch (status.toLowerCase()) {
+      case 'new':
+        return $localize`New`;
+      case 'in progress':
+        return $localize`In Progress`;
+      case 'blocked':
+        return $localize`Blocked`;
+      case 'resolved':
+        return $localize`Resolved`;
+      case 'closed':
+        return $localize`Closed`;
+      default:
+        return status;
+    }
+  }
 }

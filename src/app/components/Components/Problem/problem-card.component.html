@@ -230,7 +230,7 @@
                             {{ currentUserProblemsItem.description }}
                         </td>
                         <td>
-                            {{ currentUserProblemsItem.status || '-' }}
+                            {{ getLocalizedStatus(currentUserProblemsItem.status) }}
                         </td>
                         <td>
                             {{ currentUserProblemsItem.creationDate | date }}
