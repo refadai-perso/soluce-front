@@ -15,8 +15,7 @@ The application now supports static translation through URL-based locale routing
 - **Fallback handling**: Invalid routes redirect to default locale dashboard
 
 ## Supported Locales
-
-- `en-EN` - English (default)
+  
 - `fr-FR` - French
 
 ## URL Structure

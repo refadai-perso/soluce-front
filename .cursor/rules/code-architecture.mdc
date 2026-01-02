@@ -36,9 +36,10 @@ This is an Angular 19 application built with JitBlox GUI builder, using Bootstra
   - Backend services: `src/app/services/backend.*.service.ts`
 
 ### 4. Data Models
-- **Interface Definitions**: Define all data models in `src/app/model/`
+- **Shared DTOs**: Use DTOs and Enums from `../shared/dist/dto/` for backend communication (organized by feature: `group/`, `problem/`, `user/`)
+- **Local Models**: Define Angular-specific interfaces in `src/app/model/` for UI-only data structures
 - **Type Safety**: Use TypeScript interfaces for all data structures
-- **Model Naming**: Use PascalCase for interface names
+- **Model Naming**: Use PascalCase for interface names, DTOs, and Enums
 - **Optional Properties**: Use `?` for optional properties when appropriate
 
 ### 5. Routing Architecture
@@ -94,16 +95,21 @@ This is an Angular 19 application built with JitBlox GUI builder, using Bootstra
 ## Directory Structure Guidelines
 
 ```
-src/app/
+SoluceFront/src/app/
 ├── components/
 │   ├── Components/          # Reusable UI components
 │   │   ├── Orders/         # Feature-specific components
 │   │   ├── Problem/        # Feature-specific components
 │   │   └── ...
 │   └── Pages/              # Route components
-├── model/                   # Data interfaces and types
+├── model/                   # Angular-specific data interfaces
 ├── services/                # Business logic and data access
 └── app.routes.ts           # Application routing
+
+../shared/dist/dto/          # Shared DTOs and Enums (used by frontend and backend)
+├── group/                   # Group DTOs and AuthorizationEnum
+├── problem/                 # Problem DTOs and ProblemStatusEnum
+└── user/                    # User DTOs
 ```
 
 ## Naming Conventions
@@ -126,218 +132,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
-// Local imports
-import { Problem } from '../model';
-import { ProblemService } from './problem.service';
-```
-
-## Service Implementation Pattern
-
-```typescript
-// Base service (abstract interface)
-@Injectable({ providedIn: 'root' })
-export abstract class BaseService {
-  abstract fetchData(): Observable<any>;
-}
-
-// Concrete implementation
-@Injectable({ providedIn: 'root' })
-export class ConcreteService extends BaseService {
-  private httpClient = inject(HttpClient);
-  
-  override fetchData(): Observable<any> {
-    // Implementation
-  }
-}
-```
-
-## Component Implementation Pattern
-
-```typescript
-@Component({
-  selector: 'app-component-name',
-  standalone: true,
-  templateUrl: './component-name.component.html',
-  styleUrls: ['./component-name.component.scss'],
-  imports: [CommonModule, /* other modules */]
-})
-export class ComponentNameComponent {
-  // Component logic
-}
-```
-
-## Error Handling Pattern
-
-```typescript
-return this.httpClient.get<DataType>(url).pipe(
-  catchError((error) => {
-    console.log(error);
-    return throwError(() => new Error(userFriendlyMessage));
-  })
-);
-```
-
-## Bootstrap Integration Pattern
-
-```typescript
-// Use Bootstrap classes in templates
-// Use ng-bootstrap components in TypeScript
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-
-// Component imports
-imports: [NgbAlertModule, CommonModule]
-```
-
-## Migration and Evolution Guidelines
-
-- **JitBlox Compatibility**: Maintain compatibility with JitBlox generated code
-- **Incremental Refactoring**: Refactor code incrementally without breaking existing functionality
-- **Backward Compatibility**: Ensure changes don't break existing features
-- **Documentation Updates**: Update documentation when architecture changes
-
-## Testing Strategy
-
-- **Unit Tests**: Test individual components and services
-- **Service Testing**: Mock HTTP calls for service testing
-- **Component Testing**: Test component behavior and user interactions
-- **Integration Testing**: Test component interactions and routing
-
-## Security Considerations
-
-- **Input Validation**: Validate all user inputs
-- **XSS Prevention**: Use Angular's built-in XSS protection
-- **CSRF Protection**: Implement CSRF tokens for forms
-- **API Security**: Secure API endpoints and validate responses
-
-## Performance Monitoring
-
-- **Bundle Analysis**: Regular bundle size analysis
-- **Runtime Performance**: Monitor component rendering performance
-- **Memory Leaks**: Watch for memory leaks in long-running Observables
-- **Lazy Loading**: Implement lazy loading for better initial load times
-# Angular Application Architecture Rules
-
-## Project Overview
-This is an Angular 19 application built with JitBlox GUI builder, using Bootstrap 5.3.2 and ng-bootstrap for UI components. The application follows a modular architecture with clear separation of concerns.
-
-## Core Architecture Principles
-
-### 1. Angular 19 Standards
-- Use Angular 19 features and best practices
-- Implement standalone components with `standalone: true`
-- Use the new control flow syntax when applicable
-- Leverage Angular signals for reactive state management
-- Follow Angular style guide conventions
-
-### 2. Component Architecture
-- **Standalone Components**: All components must be standalone
-- **Component Organization**: 
-  - Pages: `src/app/components/Pages/` - Main route components
-  - Components: `src/app/components/Components/` - Reusable UI components
-  - Feature-specific components in subdirectories (e.g., `Orders/`, `Problem/`)
-- **Component Naming**: Use kebab-case for file names, PascalCase for class names
-- **Component Structure**: Separate HTML, SCSS, and TypeScript files
-
-### 3. Service Layer Architecture
-- **Base Service Pattern**: Use inheritance for service implementations
-  - Abstract base service (`ProblemService`) defines interface
-  - Concrete implementations extend base service (`DBProblemService`)
-- **Service Injection**: Use `inject()` function for dependency injection
-- **Service Organization**: 
-  - Base services: `src/app/services/`
-  - Mock data services: `src/app/services/*.mock-data.ts`
-  - Backend services: `src/app/services/backend.*.service.ts`
-
-### 4. Data Models
-- **Interface Definitions**: Define all data models in `src/app/model/`
-- **Type Safety**: Use TypeScript interfaces for all data structures
-- **Model Naming**: Use PascalCase for interface names
-- **Optional Properties**: Use `?` for optional properties when appropriate
-
-### 5. Routing Architecture
-- **Route Configuration**: Centralized routing in `src/app/app.routes.ts`
-- **Route Organization**: Group related routes logically
-- **Default Route**: Redirect to dashboard as default landing page
-- **Route Naming**: Use kebab-case for route paths
-
-### 6. UI Framework Integration
-- **Bootstrap 5.3.2**: Primary CSS framework
-- **ng-bootstrap**: Angular-specific Bootstrap components
-- **Bootstrap Icons**: Use `bi-` prefixed icon classes
-- **Responsive Design**: Ensure mobile-first responsive design
-- **Theme Consistency**: Use Bootstrap color classes and spacing utilities
-
-### 7. State Management
-- **Reactive Programming**: Use RxJS for asynchronous operations
-- **Observable Pattern**: Implement Observable-based data flows
-- **Error Handling**: Use `catchError` and `throwError` for error management
-- **State Signals**: Use Angular signals for local component state when appropriate
-
-### 8. HTTP Communication
-- **HTTP Client**: Use Angular HttpClient for API calls
-- **Error Handling**: Implement proper error handling with user-friendly messages
-- **Base URLs**: Configure API endpoints in service classes
-- **Response Mapping**: Use RxJS operators for data transformation
-
-### 9. File Organization
-- **Feature-based Structure**: Organize by feature rather than type
-- **Clear Separation**: Separate pages, components, services, and models
-- **Consistent Naming**: Use consistent naming conventions across all files
-- **Import Organization**: Group imports by Angular core, third-party, and local
-
-### 10. Code Quality Standards
-- **TypeScript Strict Mode**: Enable strict TypeScript compilation
-- **Type Safety**: Avoid `any` types, use proper interfaces
-- **Error Handling**: Implement comprehensive error handling
-- **Logging**: Use console.log for development debugging
-- **Documentation**: Use TypeDoc for public API documentation
-
-### 11. Development Workflow
-- **Mock Data**: Use mock services for development and testing
-- **Service Abstraction**: Abstract backend calls through service interfaces
-- **Component Reusability**: Design components for maximum reusability
-- **Testing Ready**: Structure code to facilitate unit testing
-
-### 12. Performance Considerations
-- **Lazy Loading**: Implement lazy loading for route modules when applicable
-- **Change Detection**: Optimize change detection strategies
-- **Memory Management**: Properly unsubscribe from Observables
-- **Bundle Size**: Minimize bundle size through proper imports
-
-## Directory Structure Guidelines
-
-```
-src/app/
-├── components/
-│   ├── Components/          # Reusable UI components
-│   │   ├── Orders/         # Feature-specific components
-│   │   ├── Problem/        # Feature-specific components
-│   │   └── ...
-│   └── Pages/              # Route components
-├── model/                   # Data interfaces and types
-├── services/                # Business logic and data access
-└── app.routes.ts           # Application routing
-```
-
-## Naming Conventions
-
-- **Files**: kebab-case (e.g., `problem-card.component.ts`)
-- **Classes**: PascalCase (e.g., `ProblemCardComponent`)
-- **Interfaces**: PascalCase (e.g., `Problem`)
-- **Methods**: camelCase (e.g., `fetchProblemsOfUserGroups()`)
-- **Properties**: camelCase (e.g., `sampleOrders`)
-- **Constants**: UPPER_SNAKE_CASE (e.g., `API_BASE_URL`)
-
-## Import Organization
-
-```typescript
-// Angular core imports
-import { Component, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-// Third-party imports
-import { Observable } from 'rxjs';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+// Shared DTOs and Enums
+import { ProblemDto, CreateProblemDto, ProblemStatusEnum } from '../../../shared/dist/dto';
 
 // Local imports
 import { Problem } from '../model';
