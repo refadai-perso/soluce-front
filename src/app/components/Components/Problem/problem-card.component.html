@@ -6,8 +6,12 @@
 -->
 
 <div class="card">
-    <div class="card-header d-flex">
-        <i class="text-info ms-auto bi-card-list"></i>
+    <div class="card-header d-flex align-items-center">
+        <span class="me-3">Problems List</span>
+        <button class="btn btn-sm btn-outline-secondary ms-auto" (click)="clearFilters()">
+            <i class="bi-x-circle me-1"></i>Clear Filters
+        </button>
+        <i class="text-info ms-2 bi-card-list"></i>
     </div>
     <div class="card-body">
         <table class="table table-borderless table-sm">
@@ -16,23 +20,198 @@
                     <th>
                         #
                     </th>
-                    <th>
+                    <th class="sortable" (click)="onSort('name')">
                         Name
+                        <i [ngClass]="['bi', getSortIcon('name'), 'ms-1']"></i>
                     </th>
-                    <th>
+                    <th class="sortable" (click)="onSort('description')">
                         Description
+                        <i [ngClass]="['bi', getSortIcon('description'), 'ms-1']"></i>
                     </th>
-                    <th>
+                    <th class="sortable" (click)="onSort('status')">
                         Status
+                        <i [ngClass]="['bi', getSortIcon('status'), 'ms-1']"></i>
                     </th>
-                    <th>
+                    <th class="sortable" (click)="onSort('creationDate')">
                         Creation date
+                        <i [ngClass]="['bi', getSortIcon('creationDate'), 'ms-1']"></i>
                     </th>
-                    <th>
+                    <th class="sortable" (click)="onSort('author')">
                         Author
+                        <i [ngClass]="['bi', getSortIcon('author'), 'ms-1']"></i>
                     </th>
                     <th>
                         Groups
+                    </th>
+                </tr>
+                <tr class="filter-row">
+                    <th></th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterName"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter name..."
+                            i18n-placeholder>
+                    </th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterDescription"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter description..."
+                            i18n-placeholder>
+                    </th>
+                    <th>
+                        <div ngbDropdown class="d-inline-block w-100">
+                            <button 
+                                type="button" 
+                                class="btn btn-sm btn-outline-secondary w-100 d-flex justify-content-between align-items-center" 
+                                ngbDropdownToggle
+                                i18n-title
+                                title="Filter by status">
+                                <span i18n>
+                                    @if (getSelectedStatusCount() === 0) {
+                                        Select status...
+                                    } @else {
+                                        {{ getSelectedStatusCount() }} selected
+                                    }
+                                </span>
+                                <i class="bi bi-chevron-down"></i>
+                            </button>
+                            <div ngbDropdownMenu class="p-2" (click)="$event.stopPropagation()">
+                                @for (status of statusOptions; track status) {
+                                    <div class="form-check">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox"
+                                            [id]="'status-' + status"
+                                            [checked]="isStatusSelected(status)"
+                                            (change)="toggleStatusFilter(status)">
+                                        <label class="form-check-label" [for]="'status-' + status">
+                                            {{ status }}
+                                        </label>
+                                    </div>
+                                }
+                                @if (getSelectedStatusCount() > 0) {
+                                    <hr class="my-2">
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-sm btn-link text-decoration-none w-100" 
+                                        (click)="filterStatusSet.clear(); onFilterChange()"
+                                        i18n>
+                                        Clear selection
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                        <div ngbDropdown #dateDropdown="ngbDropdown" class="d-inline-block w-100">
+                            <button 
+                                type="button" 
+                                class="btn btn-sm btn-outline-secondary w-100 d-flex justify-content-between align-items-center text-truncate" 
+                                ngbDropdownToggle
+                                i18n-title
+                                title="Filter by creation date">
+                                <span class="text-truncate" i18n>{{ getDateRangeText() }}</span>
+                                <i class="bi bi-calendar3 ms-1"></i>
+                            </button>
+                            <div ngbDropdownMenu class="p-0 calendar-dropdown" (click)="$event.stopPropagation()">
+                                <div class="d-flex">
+                                    <!-- Preset buttons sidebar -->
+                                    <div class="preset-sidebar p-2">
+                                        <div class="small text-muted mb-2" i18n>Quick select:</div>
+                                        @for (preset of dateRangePresets; track preset.label) {
+                                            <button 
+                                                type="button"
+                                                class="btn btn-sm btn-outline-primary w-100 mb-2 text-start"
+                                                (click)="applyPreset(preset); dateDropdown.close()">
+                                                <i [ngClass]="['bi', preset.icon, 'me-2']"></i>
+                                                {{ preset.label }}
+                                            </button>
+                                        }
+                                        @if (fromDate || toDate) {
+                                            <hr class="my-2">
+                                            <button 
+                                                type="button"
+                                                class="btn btn-sm btn-outline-secondary w-100"
+                                                (click)="clearDateRange(); dateDropdown.close()">
+                                                <i class="bi bi-x-circle me-2"></i>
+                                                <span i18n>Clear</span>
+                                            </button>
+                                        }
+                                    </div>
+                                    
+                                    <!-- Calendar widget -->
+                                    <div class="calendar-widget p-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="small text-muted" i18n>Select date range:</span>
+                                            <button 
+                                                type="button"
+                                                class="btn btn-sm btn-outline-primary"
+                                                (click)="goToToday(dp)"
+                                                title="Go to today"
+                                                i18n-title>
+                                                <i class="bi bi-calendar-check me-1"></i>
+                                                <span i18n>Today</span>
+                                            </button>
+                                        </div>
+                                        
+                                        <ngb-datepicker
+                                            #dp
+                                            (dateSelect)="onDateSelection($event, dateDropdown)"
+                                            [displayMonths]="1"
+                                            [dayTemplate]="dayTemplate"
+                                            outsideDays="hidden">
+                                        </ngb-datepicker>
+                                        
+                                        <ng-template #dayTemplate let-date let-focused="focused">
+                                            <span
+                                                class="custom-day"
+                                                [class.focused]="focused"
+                                                [class.range]="isRange(date)"
+                                                [class.faded]="isHovered(date) || isInside(date)"
+                                                (mouseenter)="hoveredDate = date"
+                                                (mouseleave)="hoveredDate = null">
+                                                {{ date.day }}
+                                            </span>
+                                        </ng-template>
+                                        
+                                        @if (fromDate && toDate) {
+                                            <div class="text-center mt-2 p-2 bg-light rounded small">
+                                                <strong i18n>Selected range:</strong><br>
+                                                {{ formatNgbDate(fromDate) }} <i class="bi bi-arrow-right mx-1"></i> {{ formatNgbDate(toDate) }}
+                                            </div>
+                                        } @else if (fromDate) {
+                                            <div class="text-center mt-2 p-2 bg-light rounded small">
+                                                <span i18n>Select end date...</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterAuthor"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter author..."
+                            i18n-placeholder>
+                    </th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterGroups"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter groups..."
+                            i18n-placeholder>
                     </th>
                 </tr>
             </thead>

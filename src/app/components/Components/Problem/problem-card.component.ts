@@ -8,28 +8,582 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbDateStruct, NgbDropdown, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { Authorization } from '@shared/dto/group/authorization.enum';
+import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
 import { Problem, User, GroupAuthorization } from '../../../model';
 import { ProblemService } from '../../../services/problem.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+type SortColumn = 'name' | 'description' | 'status' | 'creationDate' | 'author' | '';
+type SortDirection = 'asc' | 'desc' | '';
+
+interface DateRangePreset {
+  label: string;
+  icon: string;
+  getValue: () => { from: Date; to: Date };
+}
 
 @Component({
   selector: 'app-problem-card',
   standalone: true,
   templateUrl: './problem-card.component.html',
   styleUrls: ['./problem-card.component.scss'],
-  imports: [RouterLink, CommonModule, NgbPopoverModule, NgbTooltipModule]
+  imports: [RouterLink, CommonModule, NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, FormsModule]
 })
 export class ProblemCardComponent implements OnInit {
   public currentUserProblems$!: Observable<Problem[] | undefined>;
+  public sortColumn: SortColumn = '';
+  public sortDirection: SortDirection = '';
+  public filterName: string = '';
+  public filterDescription: string = '';
+  public filterStatusSet: Set<string> = new Set<string>();
+  public filterAuthor: string = '';
+  public filterGroups: string = '';
+  public filterCreationDateFrom: string = '';
+  public filterCreationDateTo: string = '';
+  
+  // Date picker properties
+  public hoveredDate: NgbDateStruct | null = null;
+  public fromDate: NgbDateStruct | null = null;
+  public toDate: NgbDateStruct | null = null;
+  
+  /**
+   * Available status options from ProblemStatus enum.
+   */
+  public readonly statusOptions: ReadonlyArray<string> = Object.values(ProblemStatus);
+  
+  /**
+   * Date range preset buttons.
+   */
+  public readonly dateRangePresets: ReadonlyArray<DateRangePreset> = [
+    {
+      label: 'Today',
+      icon: 'bi-calendar-day',
+      getValue: (): { from: Date; to: Date } => {
+        const now: Date = new Date();
+        const today: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const end: Date = new Date(today);
+        end.setHours(23, 59, 59, 999);
+        return { from: today, to: end };
+      }
+    },
+    {
+      label: 'Last 7 days',
+      icon: 'bi-calendar-week',
+      getValue: (): { from: Date; to: Date } => {
+        const now: Date = new Date();
+        const today: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const from: Date = new Date(today);
+        from.setDate(today.getDate() - 6);
+        const to: Date = new Date(today);
+        to.setHours(23, 59, 59, 999);
+        return { from, to };
+      }
+    },
+    {
+      label: 'Last 30 days',
+      icon: 'bi-calendar-range',
+      getValue: (): { from: Date; to: Date } => {
+        const now: Date = new Date();
+        const today: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const from: Date = new Date(today);
+        from.setDate(today.getDate() - 29);
+        const to: Date = new Date(today);
+        to.setHours(23, 59, 59, 999);
+        return { from, to };
+      }
+    },
+    {
+      label: 'This month',
+      icon: 'bi-calendar-month',
+      getValue: (): { from: Date; to: Date } => {
+        const now: Date = new Date();
+        const from: Date = new Date(now.getFullYear(), now.getMonth(), 1);
+        const to: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        to.setHours(23, 59, 59, 999);
+        return { from, to };
+      }
+    },
+    {
+      label: 'Last month',
+      icon: 'bi-calendar3',
+      getValue: (): { from: Date; to: Date } => {
+        const now: Date = new Date();
+        const from: Date = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const to: Date = new Date(now.getFullYear(), now.getMonth(), 0);
+        to.setHours(23, 59, 59, 999);
+        return { from, to };
+      }
+    },
+    {
+      label: 'This year',
+      icon: 'bi-calendar4',
+      getValue: (): { from: Date; to: Date } => {
+        const now: Date = new Date();
+        const from: Date = new Date(now.getFullYear(), 0, 1);
+        const to: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        to.setHours(23, 59, 59, 999);
+        return { from, to };
+      }
+    }
+  ];
 
   constructor(
     private problemService: ProblemService
   ) {}
 
   public ngOnInit(): void {
-    this.currentUserProblems$ = this.problemService.fetchProblemsOfUserGroups();
+    this.currentUserProblems$ = this.problemService.fetchProblemsOfUserGroups().pipe(
+      map((problems: Problem[] | undefined) => this.filterAndSortProblems(problems))
+    );
+  }
+
+  /**
+   * Handles sorting when a column header is clicked.
+   * @param column The column to sort by
+   */
+  public onSort(column: SortColumn): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+    this.refreshData();
+  }
+
+  /**
+   * Handles filter changes.
+   */
+  public onFilterChange(): void {
+    this.refreshData();
+  }
+
+  /**
+   * Clears all filters.
+   */
+  public clearFilters(): void {
+    this.filterName = '';
+    this.filterDescription = '';
+    this.filterStatusSet.clear();
+    this.filterAuthor = '';
+    this.filterGroups = '';
+    this.fromDate = null;
+    this.toDate = null;
+    this.filterCreationDateFrom = '';
+    this.filterCreationDateTo = '';
+    this.refreshData();
+  }
+
+  /**
+   * Handles date selection in the datepicker.
+   * @param date The selected date
+   * @param dropdown The dropdown instance to close when range is complete
+   */
+  public onDateSelection(date: NgbDateStruct, dropdown?: NgbDropdown): void {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && this.isAfter(date, this.fromDate)) {
+      this.toDate = date;
+      this.applyDateRange();
+      // Close dropdown after selecting complete range
+      if (dropdown) {
+        setTimeout(() => dropdown.close(), 300);
+      }
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  /**
+   * Checks if a date is hovered in the range.
+   * @param date The date to check
+   * @returns True if the date is in the hovered range
+   */
+  public isHovered(date: NgbDateStruct): boolean {
+    if (!this.fromDate || this.toDate || !this.hoveredDate) {
+      return false;
+    }
+    return this.isAfter(date, this.fromDate) && this.isBefore(date, this.hoveredDate);
+  }
+
+  /**
+   * Checks if a date is inside the selected range.
+   * @param date The date to check
+   * @returns True if the date is in the range
+   */
+  public isInside(date: NgbDateStruct): boolean {
+    if (!this.toDate) {
+      return false;
+    }
+    return this.isAfter(date, this.fromDate) && this.isBefore(date, this.toDate);
+  }
+
+  /**
+   * Checks if a date is the start or end of the range.
+   * @param date The date to check
+   * @returns True if the date is a range boundary
+   */
+  public isRange(date: NgbDateStruct): boolean {
+    return (
+      this.isEqual(date, this.fromDate) ||
+      (this.toDate && this.isEqual(date, this.toDate)) ||
+      this.isInside(date) ||
+      this.isHovered(date)
+    );
+  }
+
+  /**
+   * Applies a preset date range.
+   * @param preset The preset to apply
+   */
+  public applyPreset(preset: DateRangePreset): void {
+    const range: { from: Date; to: Date } = preset.getValue();
+    this.fromDate = this.dateToNgbDate(range.from);
+    this.toDate = this.dateToNgbDate(range.to);
+    this.applyDateRange();
+  }
+
+  /**
+   * Applies the selected date range to the filter.
+   */
+  private applyDateRange(): void {
+    if (this.fromDate) {
+      const fromDate: Date = this.ngbDateToDate(this.fromDate);
+      this.filterCreationDateFrom = this.formatDateForInput(fromDate);
+    }
+    if (this.toDate) {
+      const toDate: Date = this.ngbDateToDate(this.toDate);
+      this.filterCreationDateTo = this.formatDateForInput(toDate);
+    }
+    this.onFilterChange();
+  }
+
+  /**
+   * Clears the date range filter.
+   */
+  public clearDateRange(): void {
+    this.fromDate = null;
+    this.toDate = null;
+    this.filterCreationDateFrom = '';
+    this.filterCreationDateTo = '';
+    this.onFilterChange();
+  }
+
+  /**
+   * Navigates the datepicker to today's date.
+   * @param datepicker The datepicker instance
+   */
+  public goToToday(datepicker: NgbDatepicker): void {
+    const today: Date = new Date();
+    const todayStruct: NgbDateStruct = this.dateToNgbDate(today);
+    datepicker.navigateTo(todayStruct);
+  }
+
+  /**
+   * Returns the display text for the date filter button.
+   * @returns The display text
+   */
+  public getDateRangeText(): string {
+    if (!this.fromDate && !this.toDate) {
+      return 'Select date range...';
+    }
+    if (this.fromDate && this.toDate) {
+      return `${this.formatNgbDate(this.fromDate)} - ${this.formatNgbDate(this.toDate)}`;
+    }
+    if (this.fromDate) {
+      return `From ${this.formatNgbDate(this.fromDate)}`;
+    }
+    return 'Select date range...';
+  }
+
+  /**
+   * Converts NgbDateStruct to Date.
+   * @param ngbDate The NgbDateStruct to convert
+   * @returns The Date object
+   */
+  private ngbDateToDate(ngbDate: NgbDateStruct): Date {
+    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+  }
+
+  /**
+   * Converts Date to NgbDateStruct.
+   * @param date The Date to convert
+   * @returns The NgbDateStruct object
+   */
+  private dateToNgbDate(date: Date): NgbDateStruct {
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    };
+  }
+
+  /**
+   * Formats NgbDateStruct for display.
+   * @param date The date to format
+   * @returns The formatted date string
+   */
+  public formatNgbDate(date: NgbDateStruct): string {
+    return `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+  }
+
+  /**
+   * Formats a Date object to YYYY-MM-DD string for input[type="date"].
+   * @param date The date to format
+   * @returns The formatted date string
+   */
+  private formatDateForInput(date: Date): string {
+    const year: number = date.getFullYear();
+    const month: string = String(date.getMonth() + 1).padStart(2, '0');
+    const day: string = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * Checks if date1 is after date2.
+   * @param date1 First date
+   * @param date2 Second date
+   * @returns True if date1 is after date2
+   */
+  private isAfter(date1: NgbDateStruct, date2: NgbDateStruct | null): boolean {
+    if (!date2) {
+      return false;
+    }
+    if (date1.year > date2.year) {
+      return true;
+    }
+    if (date1.year === date2.year && date1.month > date2.month) {
+      return true;
+    }
+    if (date1.year === date2.year && date1.month === date2.month && date1.day > date2.day) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Checks if date1 is before date2.
+   * @param date1 First date
+   * @param date2 Second date
+   * @returns True if date1 is before date2
+   */
+  private isBefore(date1: NgbDateStruct, date2: NgbDateStruct | null): boolean {
+    if (!date2) {
+      return false;
+    }
+    if (date1.year < date2.year) {
+      return true;
+    }
+    if (date1.year === date2.year && date1.month < date2.month) {
+      return true;
+    }
+    if (date1.year === date2.year && date1.month === date2.month && date1.day < date2.day) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Checks if two dates are equal.
+   * @param date1 First date
+   * @param date2 Second date
+   * @returns True if dates are equal
+   */
+  private isEqual(date1: NgbDateStruct, date2: NgbDateStruct | null): boolean {
+    if (!date2) {
+      return false;
+    }
+    return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;
+  }
+
+  /**
+   * Toggles a status filter selection.
+   * @param status The status to toggle
+   */
+  public toggleStatusFilter(status: string): void {
+    if (this.filterStatusSet.has(status)) {
+      this.filterStatusSet.delete(status);
+    } else {
+      this.filterStatusSet.add(status);
+    }
+    this.onFilterChange();
+  }
+
+  /**
+   * Checks if a status is currently selected in the filter.
+   * @param status The status to check
+   * @returns True if the status is selected
+   */
+  public isStatusSelected(status: string): boolean {
+    return this.filterStatusSet.has(status);
+  }
+
+  /**
+   * Returns the count of selected statuses for display.
+   * @returns The number of selected statuses
+   */
+  public getSelectedStatusCount(): number {
+    return this.filterStatusSet.size;
+  }
+
+  /**
+   * Refreshes the data by reapplying filters and sorting.
+   */
+  private refreshData(): void {
+    this.currentUserProblems$ = this.problemService.fetchProblemsOfUserGroups().pipe(
+      map((problems: Problem[] | undefined) => this.filterAndSortProblems(problems))
+    );
+  }
+
+  /**
+   * Filters and sorts the problems based on current filter and sort settings.
+   * @param problems The array of problems to filter and sort
+   * @returns The filtered and sorted array of problems
+   */
+  private filterAndSortProblems(problems: Problem[] | undefined): Problem[] | undefined {
+    if (!problems) {
+      return problems;
+    }
+
+    let filteredProblems: Problem[] = [...problems];
+
+    // Apply filters
+    if (this.filterName) {
+      const lowerFilterName: string = this.filterName.toLowerCase();
+      filteredProblems = filteredProblems.filter((problem: Problem) => 
+        problem.name?.toLowerCase().includes(lowerFilterName)
+      );
+    }
+
+    if (this.filterDescription) {
+      const lowerFilterDescription: string = this.filterDescription.toLowerCase();
+      filteredProblems = filteredProblems.filter((problem: Problem) => 
+        problem.description?.toLowerCase().includes(lowerFilterDescription)
+      );
+    }
+
+    if (this.filterStatusSet.size > 0) {
+      filteredProblems = filteredProblems.filter((problem: Problem) => 
+        problem.status ? this.filterStatusSet.has(problem.status) : false
+      );
+    }
+
+    if (this.filterAuthor) {
+      const lowerFilterAuthor: string = this.filterAuthor.toLowerCase();
+      filteredProblems = filteredProblems.filter((problem: Problem) => {
+        const authorName: string = this.getAuthorFullName(problem.creator).toLowerCase();
+        return authorName.includes(lowerFilterAuthor);
+      });
+    }
+
+    if (this.filterGroups) {
+      const lowerFilterGroups: string = this.filterGroups.toLowerCase();
+      filteredProblems = filteredProblems.filter((problem: Problem) => {
+        return problem.groupAuthorizations?.some((auth: GroupAuthorization) => 
+          auth.group?.name?.toLowerCase().includes(lowerFilterGroups)
+        );
+      });
+    }
+
+    if (this.filterCreationDateFrom) {
+      const fromDate: Date = new Date(this.filterCreationDateFrom);
+      filteredProblems = filteredProblems.filter((problem: Problem) => {
+        if (!problem.creationDate) {
+          return false;
+        }
+        const problemDate: Date = new Date(problem.creationDate);
+        return problemDate >= fromDate;
+      });
+    }
+
+    if (this.filterCreationDateTo) {
+      const toDate: Date = new Date(this.filterCreationDateTo);
+      toDate.setHours(23, 59, 59, 999);
+      filteredProblems = filteredProblems.filter((problem: Problem) => {
+        if (!problem.creationDate) {
+          return false;
+        }
+        const problemDate: Date = new Date(problem.creationDate);
+        return problemDate <= toDate;
+      });
+    }
+
+    // Apply sorting
+    if (this.sortColumn && this.sortDirection) {
+      filteredProblems.sort((a: Problem, b: Problem) => {
+        const direction: number = this.sortDirection === 'asc' ? 1 : -1;
+        
+        switch (this.sortColumn) {
+          case 'name':
+            return this.compareStrings(a.name, b.name) * direction;
+          case 'description':
+            return this.compareStrings(a.description, b.description) * direction;
+          case 'status':
+            return this.compareStrings(a.status, b.status) * direction;
+          case 'creationDate':
+            return this.compareDates(a.creationDate, b.creationDate) * direction;
+          case 'author':
+            return this.compareStrings(
+              this.getAuthorFullName(a.creator), 
+              this.getAuthorFullName(b.creator)
+            ) * direction;
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return filteredProblems;
+  }
+
+  /**
+   * Compares two strings for sorting.
+   * @param a First string
+   * @param b Second string
+   * @returns Comparison result
+   */
+  private compareStrings(a: string | undefined, b: string | undefined): number {
+    const strA: string = (a || '').toLowerCase();
+    const strB: string = (b || '').toLowerCase();
+    return strA.localeCompare(strB);
+  }
+
+  /**
+   * Compares two dates for sorting.
+   * @param a First date
+   * @param b Second date
+   * @returns Comparison result
+   */
+  private compareDates(a: Date | undefined, b: Date | undefined): number {
+    if (!a && !b) {
+      return 0;
+    }
+    if (!a) {
+      return 1;
+    }
+    if (!b) {
+      return -1;
+    }
+    const dateA: number = new Date(a).getTime();
+    const dateB: number = new Date(b).getTime();
+    return dateA - dateB;
+  }
+
+  /**
+   * Returns the sort icon class based on current sort state.
+   * @param column The column to check
+   * @returns The Bootstrap icon class
+   */
+  public getSortIcon(column: SortColumn): string {
+    if (this.sortColumn !== column) {
+      return 'bi-arrow-down-up';
+    }
+    return this.sortDirection === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down';
   }
 
   /**
