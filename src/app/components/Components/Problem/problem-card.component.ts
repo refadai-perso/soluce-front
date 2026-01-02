@@ -52,15 +52,23 @@ export class ProblemCardComponent implements OnInit {
   
   /**
    * Available status options from ProblemStatus enum.
+   * Using $localize for runtime translation.
    */
-  public readonly statusOptions: ReadonlyArray<string> = Object.values(ProblemStatus);
+  public readonly statusOptions: ReadonlyArray<string> = [
+    $localize`New`,
+    $localize`In Progress`,
+    $localize`Blocked`,
+    $localize`Resolved`,
+    $localize`Closed`
+  ];
   
   /**
    * Date range preset buttons.
+   * Using $localize for runtime translation of labels.
    */
   public readonly dateRangePresets: ReadonlyArray<DateRangePreset> = [
     {
-      label: 'Today',
+      label: $localize`Today`,
       icon: 'bi-calendar-day',
       getValue: (): { from: Date; to: Date } => {
         const now: Date = new Date();
@@ -71,7 +79,7 @@ export class ProblemCardComponent implements OnInit {
       }
     },
     {
-      label: 'Last 7 days',
+      label: $localize`Last 7 days`,
       icon: 'bi-calendar-week',
       getValue: (): { from: Date; to: Date } => {
         const now: Date = new Date();
@@ -84,7 +92,7 @@ export class ProblemCardComponent implements OnInit {
       }
     },
     {
-      label: 'Last 30 days',
+      label: $localize`Last 30 days`,
       icon: 'bi-calendar-range',
       getValue: (): { from: Date; to: Date } => {
         const now: Date = new Date();
@@ -97,7 +105,7 @@ export class ProblemCardComponent implements OnInit {
       }
     },
     {
-      label: 'This month',
+      label: $localize`This month`,
       icon: 'bi-calendar-month',
       getValue: (): { from: Date; to: Date } => {
         const now: Date = new Date();
@@ -108,7 +116,7 @@ export class ProblemCardComponent implements OnInit {
       }
     },
     {
-      label: 'Last month',
+      label: $localize`Last month`,
       icon: 'bi-calendar3',
       getValue: (): { from: Date; to: Date } => {
         const now: Date = new Date();
@@ -119,7 +127,7 @@ export class ProblemCardComponent implements OnInit {
       }
     },
     {
-      label: 'This year',
+      label: $localize`This year`,
       icon: 'bi-calendar4',
       getValue: (): { from: Date; to: Date } => {
         const now: Date = new Date();
@@ -290,15 +298,15 @@ export class ProblemCardComponent implements OnInit {
    */
   public getDateRangeText(): string {
     if (!this.fromDate && !this.toDate) {
-      return 'Select date range...';
+      return $localize`Select date range...`;
     }
     if (this.fromDate && this.toDate) {
       return `${this.formatNgbDate(this.fromDate)} - ${this.formatNgbDate(this.toDate)}`;
     }
     if (this.fromDate) {
-      return `From ${this.formatNgbDate(this.fromDate)}`;
+      return $localize`From` + ` ${this.formatNgbDate(this.fromDate)}`;
     }
-    return 'Select date range...';
+    return $localize`Select date range...`;
   }
 
   /**
@@ -646,7 +654,7 @@ export class ProblemCardComponent implements OnInit {
    */
   public getAuthorizationLabel(authLevel: Authorization | undefined): string {
     if (!authLevel) {
-      return 'Unknown';
+      return $localize`Unknown`;
     }
     return authLevel;
   }

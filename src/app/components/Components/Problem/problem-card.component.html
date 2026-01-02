@@ -7,9 +7,9 @@
 
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <span class="me-3">Problems List</span>
+        <span class="me-3" i18n>Problems List</span>
         <button class="btn btn-sm btn-outline-secondary ms-auto" (click)="clearFilters()">
-            <i class="bi-x-circle me-1"></i>Clear Filters
+            <i class="bi-x-circle me-1"></i><span i18n>Clear Filters</span>
         </button>
         <i class="text-info ms-2 bi-card-list"></i>
     </div>
@@ -17,30 +17,30 @@
         <table class="table table-borderless table-sm">
             <thead>
                 <tr>
-                    <th>
+                    <th i18n>
                         #
                     </th>
-                    <th class="sortable" (click)="onSort('name')">
+                    <th class="sortable" (click)="onSort('name')" i18n>
                         Name
                         <i [ngClass]="['bi', getSortIcon('name'), 'ms-1']"></i>
                     </th>
-                    <th class="sortable" (click)="onSort('description')">
+                    <th class="sortable" (click)="onSort('description')" i18n>
                         Description
                         <i [ngClass]="['bi', getSortIcon('description'), 'ms-1']"></i>
                     </th>
-                    <th class="sortable" (click)="onSort('status')">
+                    <th class="sortable" (click)="onSort('status')" i18n>
                         Status
                         <i [ngClass]="['bi', getSortIcon('status'), 'ms-1']"></i>
                     </th>
-                    <th class="sortable" (click)="onSort('creationDate')">
+                    <th class="sortable" (click)="onSort('creationDate')" i18n>
                         Creation date
                         <i [ngClass]="['bi', getSortIcon('creationDate'), 'ms-1']"></i>
                     </th>
-                    <th class="sortable" (click)="onSort('author')">
+                    <th class="sortable" (click)="onSort('author')" i18n>
                         Author
                         <i [ngClass]="['bi', getSortIcon('author'), 'ms-1']"></i>
                     </th>
-                    <th>
+                    <th i18n>
                         Groups
                     </th>
                 </tr>
@@ -249,19 +249,19 @@
                                             placement="top"
                                             container="body">
                                             <i [ngClass]="[getAuthorizationIcon(auth.authorizationLevel), getAuthorizationBadgeClass(auth.authorizationLevel)]"></i>
-                                            <span class="text-dark">{{ auth.group?.name || 'Unknown' }}</span>
+                                            <span class="text-dark" i18n>{{ auth.group?.name || 'Unknown' }}</span>
                                         </span>
                                         <ng-template #popContent>
                                             <div class="text-start">
                                                 <strong>{{ auth.group?.name }}</strong>
                                                 <hr class="my-1">
                                                 <div class="small">
-                                                    <div><strong>Authorization:</strong> {{ getAuthorizationLabel(auth.authorizationLevel) }}</div>
+                                                    <div><strong i18n>Authorization:</strong> {{ getAuthorizationLabel(auth.authorizationLevel) }}</div>
                                                     @if (auth.group?.description) {
-                                                        <div class="mt-1"><strong>Description:</strong> {{ auth.group?.description }}</div>
+                                                        <div class="mt-1"><strong i18n>Description:</strong> {{ auth.group?.description }}</div>
                                                     }
                                                     @if (auth.grantedDate) {
-                                                        <div class="mt-1"><strong>Granted:</strong> {{ auth.grantedDate | date }}</div>
+                                                        <div class="mt-1"><strong i18n>Granted:</strong> {{ auth.grantedDate | date }}</div>
                                                     }
                                                 </div>
                                             </div>
@@ -269,7 +269,7 @@
                                     }
                                 </div>
                             } @else {
-                                <span class="text-muted fst-italic">No groups</span>
+                                <span class="text-muted fst-italic" i18n>No groups</span>
                             }
                         </td>
                     </tr>

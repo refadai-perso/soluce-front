@@ -1,0 +1,310 @@
+---
+description: Angular Internationalization (i18n) - MANDATORY for all user-facing text
+globs: ["**/*.html", "**/*.ts"]
+alwaysApply: true
+---
+
+# Angular Internationalization Requirements
+
+## CRITICAL RULE: Every user-facing text MUST be internationalized
+
+Base language: en-EN (English)
+Translation variants: fr-FR (French)
+
+## HTML Templates - MANDATORY i18n Attributes
+
+### 1. Static Text Content
+ALL visible text must have `i18n` attribute:
+
+**GOOD:**
+```html
+<h1 i18n>Welcome</h1>
+<span i18n>Problems List</span>
+<button i18n>Save</button>
+<th i18n>Name</th>
+<label i18n>Email Address</label>
+<p i18n>No results found</p>
+<div i18n>Loading...</div>
+```
+
+**BAD:**
+```html
+<h1>Welcome</h1>
+<span>Problems List</span>
+<button>Save</button>
+<th>Name</th>
+```
+
+### 2. HTML Attributes That Need Translation
+
+**MUST use `i18n-[attribute]`:**
+- `placeholder` → `i18n-placeholder`
+- `title` → `i18n-title`
+- `alt` → `i18n-alt`
+- `aria-label` → `i18n-aria-label`
+
+**GOOD:**
+```html
+<input placeholder="Enter name..." i18n-placeholder>
+<button title="Click to save" i18n-title>Save</button>
+<img alt="User profile" i18n-alt src="...">
+<button aria-label="Close dialog" i18n-aria-label>X</button>
+```
+
+**BAD:**
+```html
+<input placeholder="Enter name...">
+<button title="Click to save">Save</button>
+<img alt="User profile" src="...">
+```
+
+### 3. Dynamic Content with Interpolation
+
+**GOOD:**
+```html
+<span i18n>{{ userName }}</span>
+<span i18n>{{ getSelectedCount() }} selected</span>
+<div i18n>Welcome, {{ user.name }}!</div>
+<p i18n>Created on {{ problem.creationDate | date }}</p>
+```
+
+### 4. Conditional Content (@if, @else, etc.)
+
+**Each text branch needs i18n:**
+```html
+<span i18n>
+  @if (count === 0) {
+    No items
+  } @else {
+    {{ count }} items
+  }
+</span>
+
+<span i18n>
+  @if (isLoading) {
+    Loading...
+  } @else {
+    Data loaded
+  }
+</span>
+```
+
+### 5. Loops with Text Content
+
+**GOOD:**
+```html
+@for (item of items; track item.id) {
+  <span i18n>{{ item.name }}</span>
+}
+```
+
+## TypeScript - String Constants for Messages
+
+When defining string constants that will be displayed to users:
+
+**GOOD:**
+```typescript
+// Use $localize for runtime translation
+public readonly statusOptions: string[] = [
+  $localize`New`,
+  $localize`In Progress`,
+  $localize`Completed`
+];
+
+// For error messages
+private showError(): void {
+  const message: string = $localize`An error occurred`;
+  alert(message);
+}
+```
+
+**WHEN NOT NEEDED:**
+- Variable names
+- Console logs (console.log, console.error)
+- Error handling for developers only
+- API endpoints
+- Technical identifiers
+- CSS classes
+- Route paths
+
+## Comprehensive Checklist
+
+Before marking any component as complete, verify:
+
+### Essential Elements
+- [ ] All `<button>` text has `i18n`
+- [ ] All `<label>` text has `i18n`
+- [ ] All table headers `<th>` have `i18n`
+- [ ] All `<span>`, `<div>`, `<p>` with visible text have `i18n`
+- [ ] All headings `<h1>` through `<h6>` have `i18n`
+
+### Attributes
+- [ ] All `placeholder` attributes have `i18n-placeholder`
+- [ ] All `title` attributes have `i18n-title`
+- [ ] All `alt` attributes have `i18n-alt`
+- [ ] All `aria-label` attributes have `i18n-aria-label`
+
+### Dynamic Content
+- [ ] All error messages have `i18n`
+- [ ] All validation messages have `i18n`
+- [ ] All dropdown/select options have `i18n`
+- [ ] All tooltips and popovers have `i18n`
+- [ ] All status badges have `i18n`
+- [ ] All notification messages have `i18n`
+
+### Special Cases
+- [ ] All conditionals (@if/@else) wrapping text have `i18n` on parent
+- [ ] All loops (@for) with text content have `i18n` on elements
+- [ ] All interpolated values ({{ }}) are wrapped with `i18n` elements
+
+## Common Patterns in This Project
+
+### Filter Inputs
+```html
+<input 
+  type="text" 
+  class="form-control form-control-sm" 
+  [(ngModel)]="filterName"
+  placeholder="Filter by name..."
+  i18n-placeholder>
+```
+
+### Buttons with Icons
+```html
+<button class="btn btn-primary">
+  <i class="bi-check me-1"></i>
+  <span i18n>Save</span>
+</button>
+
+<!-- Or wrap entire button -->
+<button class="btn btn-primary" i18n>
+  <i class="bi-check me-1"></i>
+  Save
+</button>
+```
+
+### Status Badges
+```html
+<span class="badge bg-primary" i18n>{{ status }}</span>
+```
+
+### Table Headers with Sort Icons
+```html
+<th class="sortable" (click)="onSort('name')" i18n>
+  Name
+  <i [ngClass]="['bi', getSortIcon('name'), 'ms-1']"></i>
+</th>
+```
+
+### Dropdown Menu Items
+```html
+<div ngbDropdownMenu>
+  @for (option of options; track option) {
+    <button ngbDropdownItem>
+      <span i18n>{{ option }}</span>
+    </button>
+  }
+</div>
+```
+
+### Card Headers
+```html
+<div class="card-header">
+  <span i18n>Problems List</span>
+</div>
+```
+
+### Empty States
+```html
+<div class="text-center text-muted" i18n>
+  No problems found
+</div>
+```
+
+### Confirmation Messages
+```html
+<div class="alert alert-success" i18n>
+  Changes saved successfully!
+</div>
+```
+
+## Integration with ng-bootstrap
+
+### Tooltips
+```html
+<button 
+  [ngbTooltip]="tooltipContent"
+  i18n-ngbTooltip>
+  Help
+</button>
+
+<!-- Or with template -->
+<ng-template #tooltipContent>
+  <span i18n>Click here for help</span>
+</ng-template>
+```
+
+### Popovers
+```html
+<button 
+  [ngbPopover]="popoverContent"
+  popoverTitle="Information"
+  i18n-popoverTitle>
+  Info
+</button>
+
+<ng-template #popoverContent>
+  <div i18n>This is additional information</div>
+</ng-template>
+```
+
+### Modal Headers/Content
+```html
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" i18n>Confirmation</h4>
+  </div>
+  <div class="modal-body" i18n>
+    Are you sure you want to delete this item?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" i18n>Cancel</button>
+    <button type="button" class="btn btn-danger" i18n>Delete</button>
+  </div>
+</ng-template>
+```
+
+## Enforcement Strategy
+
+### AI Assistant MUST:
+1. ✅ Add i18n attributes to ALL new user-facing text during initial implementation
+2. ✅ Review existing code and flag missing i18n before considering task complete
+3. ✅ Never generate HTML templates without proper i18n
+4. ✅ Ask for clarification if unsure whether text is user-facing
+5. ✅ Run mental checklist on every component created or modified
+
+### Before ANY HTML File is Considered Complete:
+1. Search the file for text content without `i18n` attribute
+2. Search for `placeholder=` without `i18n-placeholder`
+3. Search for `title=` without `i18n-title`
+4. Verify all interactive elements have proper i18n attributes
+5. Confirm extraction would work: `ng extract-i18n`
+
+## Testing i18n Coverage
+
+To verify i18n is properly implemented, run:
+```bash
+ng extract-i18n
+```
+
+This will generate translation files and highlight any missing translations.
+
+## Quick Reference Card
+
+**Every time you write HTML, ask:**
+- [ ] Does this text appear to the user? → Add `i18n`
+- [ ] Is this a placeholder/title/alt? → Add `i18n-[attribute]`
+- [ ] Is this inside a loop or condition? → Ensure parent has `i18n`
+- [ ] Would a French user need this translated? → Add `i18n`
+
+**When in doubt: Add `i18n`. Better to have too many than miss one!**

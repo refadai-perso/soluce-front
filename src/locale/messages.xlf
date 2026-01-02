@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+  <file source-language="en-EN" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="ngb.alert.close" datatype="html">
         <source>Close</source>
@@ -21,14 +21,14 @@
         <source>Previous</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/carousel/carousel.ts</context>
-          <context context-type="linenumber">143,145</context>
+          <context context-type="linenumber">143</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.carousel.next" datatype="html">
         <source>Next</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/carousel/carousel.ts</context>
-          <context context-type="linenumber">153,156</context>
+          <context context-type="linenumber">151,153</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.datepicker.select-month" datatype="html">
@@ -79,56 +79,56 @@
         <source>««</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">290,291</context>
+          <context context-type="linenumber">290</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.previous" datatype="html">
         <source>«</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">306,309</context>
+          <context context-type="linenumber">305,306</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.next" datatype="html">
         <source>»</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">323</context>
+          <context context-type="linenumber">321,323</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.last" datatype="html">
         <source>»»</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">342</context>
+          <context context-type="linenumber">335,337</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.first-aria" datatype="html">
         <source>First</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">358,360</context>
+          <context context-type="linenumber">353,356</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.previous-aria" datatype="html">
         <source>Previous</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">381,384</context>
+          <context context-type="linenumber">374,377</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.next-aria" datatype="html">
         <source>Next</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">399,400</context>
+          <context context-type="linenumber">396,397</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.pagination.last-aria" datatype="html">
         <source>Last</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/pagination/pagination.ts</context>
-          <context context-type="linenumber">411,412</context>
+          <context context-type="linenumber">407,409</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.progressbar.value" datatype="html">
@@ -142,77 +142,77 @@
         <source>HH</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">238,240</context>
+          <context context-type="linenumber">238</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.hours" datatype="html">
         <source>Hours</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">259,262</context>
+          <context context-type="linenumber">259</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.MM" datatype="html">
         <source>MM</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">283,284</context>
+          <context context-type="linenumber">279,280</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.minutes" datatype="html">
         <source>Minutes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">299,300</context>
+          <context context-type="linenumber">296,297</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
         <source>Increment hours</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">312,314</context>
+          <context context-type="linenumber">310,311</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
         <source>Decrement hours</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">340,341</context>
+          <context context-type="linenumber">333,334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
         <source>Increment minutes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">359,360</context>
+          <context context-type="linenumber">357,358</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
         <source>Decrement minutes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">384,389</context>
+          <context context-type="linenumber">376,378</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.SS" datatype="html">
         <source>SS</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">410,413</context>
+          <context context-type="linenumber">397,398</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.seconds" datatype="html">
         <source>Seconds</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">432,433</context>
+          <context context-type="linenumber">422</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
         <source>Increment seconds</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/timepicker/timepicker.ts</context>
-          <context context-type="linenumber">441</context>
+          <context context-type="linenumber">437,441</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
@@ -233,7 +233,313 @@
         <source>Close</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/src/toast/toast.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">95,96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6116370092693129035" datatype="html">
+        <source>Problems List</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4359014576353578997" datatype="html">
+        <source>Clear Filters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1112185239826335527" datatype="html">
+        <source> # </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7278893984477561703" datatype="html">
+        <source> Name <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;name&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4154573869822104126" datatype="html">
+        <source> Description <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;description&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">28,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4673838082910929480" datatype="html">
+        <source> Status <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;status&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1835804366892276505" datatype="html">
+        <source> Creation date <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;creationDate&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2485516653478992695" datatype="html">
+        <source> Author <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;author&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">40,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5168537033730288208" datatype="html">
+        <source> Groups </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5152800558256845034" datatype="html">
+        <source>Filter name...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1758255836895009550" datatype="html">
+        <source>Filter description...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="987902700013871247" datatype="html">
+        <source>Filter by status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1578305261163315480" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (getSelectedStatusCount() === 0) {"/> Select status... <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> <x id="INTERPOLATION" equiv-text="{{ getSelectedStatusCount() }}"/> selected <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">76,81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7173418716427245373" datatype="html">
+        <source> Clear selection </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="771159891970145922" datatype="html">
+        <source>Filter by creation date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">118,119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="187187500641108332" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ getDateRangeText() }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">119,120</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">252,253</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5201899613266646967" datatype="html">
+        <source>Quick select:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">126,127</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8700121026680200191" datatype="html">
+        <source>Clear</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">143,144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4269623559766476627" datatype="html">
+        <source>Select date range:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">151,152</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="963041755328812064" datatype="html">
+        <source>Go to today</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">156,157</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6048892649018070225" datatype="html">
+        <source>Today</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">159,160</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2628041612607413253" datatype="html">
+        <source>Selected range:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">185</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4320462677876903216" datatype="html">
+        <source>Select end date...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">190,191</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7987600787240814230" datatype="html">
+        <source>Filter author...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">204,205</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3061740603132610617" datatype="html">
+        <source>Filter groups...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">213,214</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8607410591411308200" datatype="html">
+        <source>Authorization:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">259</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6996799422725544865" datatype="html">
+        <source>Description:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6991686467218261626" datatype="html">
+        <source>Granted:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">264</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1301612780139981816" datatype="html">
+        <source>No groups</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.html</context>
+          <context context-type="linenumber">272,273</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5280218112746407598" datatype="html">
+        <source>New</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1780950485960518731" datatype="html">
+        <source>In Progress</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9081463435738465430" datatype="html">
+        <source>Blocked</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5370838177584249385" datatype="html">
+        <source>Resolved</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7860418101283165917" datatype="html">
+        <source>Closed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4873149362496451858" datatype="html">
+        <source>Last 7 days</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2949150997160654358" datatype="html">
+        <source>Last 30 days</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="842657237693374355" datatype="html">
+        <source>This month</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4463380307954693363" datatype="html">
+        <source>Last month</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8462417627724236320" datatype="html">
+        <source>This year</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8026478350961852456" datatype="html">
+        <source>Select date range...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">301</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">309</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5203279511751768967" datatype="html">
+        <source>From</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">307</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4467323362722952678" datatype="html">
+        <source>Unknown</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-card.component.ts</context>
+          <context context-type="linenumber">657</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1043390381565182083" datatype="html">
@@ -320,18 +626,11 @@
           <context context-type="linenumber">43,44</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="62351835645133628" datatype="html">
-        <source>Open/Closed</source>
+      <trans-unit id="8271357500216966879" datatype="html">
+        <source>Visibility</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
           <context context-type="linenumber">48,49</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6208868227957670754" datatype="html">
-        <source>Stored as string: &quot;open&quot; or &quot;closed&quot;.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
-          <context context-type="linenumber">54,55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2275532246801944011" datatype="html">
@@ -387,14 +686,7 @@
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.ts</context>
-          <context context-type="linenumber">51</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8271357500216966879" datatype="html">
-        <source>Visibility</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
     </body>

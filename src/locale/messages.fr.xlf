@@ -220,6 +220,188 @@
         <source>Visibility</source>
         <target>Visibilité</target>
       </trans-unit>
+
+      <!-- Problem Card Component -->
+      <trans-unit id="6116370092693129035" datatype="html">
+        <source>Problems List</source>
+        <target>Liste des problèmes</target>
+      </trans-unit>
+      <trans-unit id="4359014576353578997" datatype="html">
+        <source>Clear Filters</source>
+        <target>Effacer les filtres</target>
+      </trans-unit>
+      <trans-unit id="1112185239826335527" datatype="html">
+        <source> # </source>
+        <target> # </target>
+      </trans-unit>
+      <trans-unit id="7278893984477561703" datatype="html">
+        <source> Name <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;name&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <target> Nom <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;name&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="4154573869822104126" datatype="html">
+        <source> Description <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;description&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <target> Description <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;description&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="4673838082910929480" datatype="html">
+        <source> Status <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;status&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <target> Statut <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;status&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="1835804366892276505" datatype="html">
+        <source> Creation date <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;creationDate&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <target> Date de création <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;creationDate&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="2485516653478992695" datatype="html">
+        <source> Author <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;author&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></source>
+        <target> Auteur <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;author&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="5168537033730288208" datatype="html">
+        <source> Groups </source>
+        <target> Groupes </target>
+      </trans-unit>
+      <trans-unit id="5152800558256845034" datatype="html">
+        <source>Filter name...</source>
+        <target>Filtrer par nom...</target>
+      </trans-unit>
+      <trans-unit id="1758255836895009550" datatype="html">
+        <source>Filter description...</source>
+        <target>Filtrer par description...</target>
+      </trans-unit>
+      <trans-unit id="987902700013871247" datatype="html">
+        <source>Filter by status</source>
+        <target>Filtrer par statut</target>
+      </trans-unit>
+      <trans-unit id="1578305261163315480" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (getSelectedStatusCount() === 0) {"/> Select status... <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> <x id="INTERPOLATION" equiv-text="{{ getSelectedStatusCount() }}"/> selected <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></source>
+        <target><x id="START_BLOCK_IF" equiv-text="@if (getSelectedStatusCount() === 0) {"/> Sélectionner le statut... <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> <x id="INTERPOLATION" equiv-text="{{ getSelectedStatusCount() }}"/> sélectionné(s) <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="7708270344948043036" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{ status }}"/> </source>
+        <target> <x id="INTERPOLATION" equiv-text="{{ status }}"/> </target>
+      </trans-unit>
+      <trans-unit id="7173418716427245373" datatype="html">
+        <source> Clear selection </source>
+        <target> Effacer la sélection </target>
+      </trans-unit>
+      <trans-unit id="771159891970145922" datatype="html">
+        <source>Filter by creation date</source>
+        <target>Filtrer par date de création</target>
+      </trans-unit>
+      <trans-unit id="187187500641108332" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ getDateRangeText() }}"/></source>
+        <target><x id="INTERPOLATION" equiv-text="{{ getDateRangeText() }}"/></target>
+      </trans-unit>
+      <trans-unit id="5201899613266646967" datatype="html">
+        <source>Quick select:</source>
+        <target>Sélection rapide :</target>
+      </trans-unit>
+      <trans-unit id="9174506902614164802" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, preset.icon, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> <x id="INTERPOLATION" equiv-text="{{ preset.label }}"/> </source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, preset.icon, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> <x id="INTERPOLATION" equiv-text="{{ preset.label }}"/> </target>
+      </trans-unit>
+      <trans-unit id="8700121026680200191" datatype="html">
+        <source>Clear</source>
+        <target>Effacer</target>
+      </trans-unit>
+      <trans-unit id="4269623559766476627" datatype="html">
+        <source>Select date range:</source>
+        <target>Sélectionner la plage de dates :</target>
+      </trans-unit>
+      <trans-unit id="963041755328812064" datatype="html">
+        <source>Go to today</source>
+        <target>Aller à aujourd'hui</target>
+      </trans-unit>
+      <trans-unit id="6048892649018070225" datatype="html">
+        <source>Today</source>
+        <target>Aujourd'hui</target>
+      </trans-unit>
+      <trans-unit id="2628041612607413253" datatype="html">
+        <source>Selected range:</source>
+        <target>Plage sélectionnée :</target>
+      </trans-unit>
+      <trans-unit id="4320462677876903216" datatype="html">
+        <source>Select end date...</source>
+        <target>Sélectionnez la date de fin...</target>
+      </trans-unit>
+      <trans-unit id="7987600787240814230" datatype="html">
+        <source>Filter author...</source>
+        <target>Filtrer par auteur...</target>
+      </trans-unit>
+      <trans-unit id="3061740603132610617" datatype="html">
+        <source>Filter groups...</source>
+        <target>Filtrer par groupes...</target>
+      </trans-unit>
+      <trans-unit id="8607410591411308200" datatype="html">
+        <source>Authorization:</source>
+        <target>Autorisation :</target>
+      </trans-unit>
+      <trans-unit id="6996799422725544865" datatype="html">
+        <source>Description:</source>
+        <target>Description :</target>
+      </trans-unit>
+      <trans-unit id="6991686467218261626" datatype="html">
+        <source>Granted:</source>
+        <target>Accordée :</target>
+      </trans-unit>
+      <trans-unit id="1301612780139981816" datatype="html">
+        <source>No groups</source>
+        <target>Aucun groupe</target>
+      </trans-unit>
+      <trans-unit id="8026478350961852456" datatype="html">
+        <source>Select date range...</source>
+        <target>Sélectionner la plage de dates...</target>
+      </trans-unit>
+      <trans-unit id="5203279511751768967" datatype="html">
+        <source>From</source>
+        <target>Du</target>
+      </trans-unit>
+      <trans-unit id="4467323362722952678" datatype="html">
+        <source>Unknown</source>
+        <target>Inconnu</target>
+      </trans-unit>
+
+      <!-- Problem Status Values -->
+      <trans-unit id="5280218112746407598" datatype="html">
+        <source>New</source>
+        <target>Nouveau</target>
+      </trans-unit>
+      <trans-unit id="1780950485960518731" datatype="html">
+        <source>In Progress</source>
+        <target>En cours</target>
+      </trans-unit>
+      <trans-unit id="9081463435738465430" datatype="html">
+        <source>Blocked</source>
+        <target>Bloqué</target>
+      </trans-unit>
+      <trans-unit id="5370838177584249385" datatype="html">
+        <source>Resolved</source>
+        <target>Résolu</target>
+      </trans-unit>
+      <trans-unit id="7860418101283165917" datatype="html">
+        <source>Closed</source>
+        <target>Fermé</target>
+      </trans-unit>
+
+      <!-- Date Range Presets -->
+      <trans-unit id="4873149362496451858" datatype="html">
+        <source>Last 7 days</source>
+        <target>7 derniers jours</target>
+      </trans-unit>
+      <trans-unit id="2949150997160654358" datatype="html">
+        <source>Last 30 days</source>
+        <target>30 derniers jours</target>
+      </trans-unit>
+      <trans-unit id="842657237693374355" datatype="html">
+        <source>This month</source>
+        <target>Ce mois-ci</target>
+      </trans-unit>
+      <trans-unit id="4463380307954693363" datatype="html">
+        <source>Last month</source>
+        <target>Le mois dernier</target>
+      </trans-unit>
+      <trans-unit id="8462417627724236320" datatype="html">
+        <source>This year</source>
+        <target>Cette année</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,26 +1,47 @@
 ---
-description: ORM override
-globs: ["**/*.ts", "**/**/*.ts"]
+description: ORM override and TypeScript rules
+globs: ["**/*.ts", "**/**/*.ts", "**/*.html"]
 alwaysApply: true
 ---
 
+# ⚠️ CRITICAL: Angular Internationalization (i18n)
+
+**EVERY user-facing text MUST be internationalized. NO EXCEPTIONS.**
+
+📖 **See `.cursor/rules/angular-i18n.mdc` for complete i18n guidelines**
+
+## Quick i18n Checklist:
+✅ All text content: `<span i18n>Text</span>`  
+✅ All placeholders: `i18n-placeholder`  
+✅ All titles: `i18n-title`  
+✅ All buttons, labels, headers: add `i18n`  
+
+**Before completing ANY component with HTML:**
+1. Search for text without `i18n`
+2. Search for `placeholder=` without `i18n-placeholder`
+3. Search for `title=` without `i18n-title`
+4. Verify ALL user-visible text is marked
+
+Base language: `en-EN` | Translation: `fr-FR`
+
+---
+
+# TypeScript and ORM Rules
 
 - Use TypeORM for data persistence.
 - Prefer inheritance over composition. If inheritance is not possible then use composition.
-
 - Use TypeDoc to document public classes and methods.
 - Use Bootstrap widgets as much as possible
-* **Don't use Type Inference:** Don't allow TypeScript to infer types even when they are obvious from the context.
-    * **Good:**
-        ```typescript
-        let name: string = 'Angular';
-        ```
-    * **Bad:**
-        ```typescript
-        let name = 'Angular';
-        ```
 
-# Angular Best Practices
+## Don't use Type Inference
+Don't allow TypeScript to infer types even when they are obvious from the context.
 
-* **Angular Internationalization:**
-- For every label in the GUI, use Angular Internationalization. Label should be first in English in html component. A "sourceLocale": "en-EN" will be the application base language. An application variants, fr-FR, will be generated with french translation. 
+**Good:**
+```typescript
+let name: string = 'Angular';
+```
+
+**Bad:**
+```typescript
+let name = 'Angular';
+``` 
