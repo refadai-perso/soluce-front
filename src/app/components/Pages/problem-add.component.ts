@@ -6,8 +6,10 @@
 */
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProblemFormComponent } from '../Components/Problem/problem-form.component';
+import { Problem } from '../../model';
 
 @Component({
   selector: 'app-problem-add',
@@ -16,6 +18,23 @@ import { ProblemFormComponent } from '../Components/Problem/problem-form.compone
   imports: [ProblemFormComponent, CommonModule]
 })
 export class ProblemAddComponent {
+  private activeModal = inject(NgbActiveModal);
 
-  constructor() {}
+  @Input() initialValue: Problem | null = null;
+
+  public onProblemSubmit(problem: Problem): void {
+    this.activeModal.close(problem);
+  }
+
+  public onCancel(): void {
+    this.activeModal.dismiss('cancel');
+  }
+
+  public triggerFormSubmit(): void {
+    // Find the form element and trigger submit
+    const formElement = document.querySelector('app-problem-form form') as HTMLFormElement;
+    if (formElement) {
+      formElement.requestSubmit();
+    }
+  }
 }

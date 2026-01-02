@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbDateStruct, NgbDropdown, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbDateStruct, NgbDropdown, NgbDatepicker, NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Authorization } from '@shared/dto/group/authorization.enum';
 import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
 import { Problem, User, GroupAuthorization } from '../../../model';
 import { ProblemService } from '../../../services/problem.service';
+import { ProblemAddComponent } from '../../Pages/problem-add.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { format, isAfter, isBefore, isEqual } from 'date-fns';
@@ -37,7 +38,7 @@ interface DateRangePreset {
   standalone: true,
   templateUrl: './problem-card.component.html',
   styleUrls: ['./problem-card.component.scss'],
-  imports: [RouterLink, CommonModule, NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, FormsModule]
+  imports: [RouterLink, CommonModule, NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbModalModule, FormsModule]
 })
 export class ProblemCardComponent implements OnInit {
   public currentUserProblems$!: Observable<Problem[] | undefined>;
@@ -146,7 +147,8 @@ export class ProblemCardComponent implements OnInit {
   ];
 
   constructor(
-    private problemService: ProblemService
+    private problemService: ProblemService,
+    private modalService: NgbModal
   ) {}
 
   public ngOnInit(): void {
@@ -571,5 +573,28 @@ export class ProblemCardComponent implements OnInit {
    */
   public getLocalizedStatus(status: string | undefined): string {
     return this.problemService.getLocalizedStatus(status);
+  }
+
+  /**
+   * Opens the create problem modal dialog.
+   */
+  public openCreateProblemModal(): void {
+    const modalRef = this.modalService.open(ProblemAddComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    modalRef.result.then(
+      (result) => {
+        // Handle successful creation
+        console.log('Problem created successfully', result);
+        this.refreshData();
+      },
+      (reason) => {
+        // Handle dismissal
+        console.log('Modal dismissed', reason);
+      }
+    );
   }
 }

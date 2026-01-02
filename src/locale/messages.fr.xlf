@@ -402,6 +402,24 @@
         <source>This year</source>
         <target>Cette année</target>
       </trans-unit>
+
+      <!-- New Problem Creation Strings -->
+      <trans-unit id="140606182013610089" datatype="html">
+        <source>Create new problem</source>
+        <target>Créer un nouveau problème</target>
+      </trans-unit>
+      <trans-unit id="3249513483374643425" datatype="html">
+        <source>Add</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit id="6763212051822165833" datatype="html">
+        <source>Create New Problem</source>
+        <target>Créer un nouveau problème</target>
+      </trans-unit>
+      <trans-unit id="8412749823661703486" datatype="html">
+        <source>Create Problem</source>
+        <target>Créer le problème</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -8,6 +8,14 @@
 <div class="card">
     <div class="card-header d-flex align-items-center">
         <span class="me-3" i18n>Problems List</span>
+        <button
+            class="btn btn-sm btn-success me-2"
+            (click)="openCreateProblemModal()"
+            ngbTooltip="Create new problem"
+            i18n-ngbTooltip
+            placement="bottom">
+            <i class="bi-file-plus me-1"></i><span i18n>Add</span>
+        </button>
         <button class="btn btn-sm btn-outline-secondary ms-auto" (click)="clearFilters()">
             <i class="bi-x-circle me-1"></i><span i18n>Clear Filters</span>
         </button>
