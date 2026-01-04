@@ -65,7 +65,7 @@ export class LocaleGuard implements CanActivate {
 
   private mapLocaleIdToCode(localeId: string): string {
     if ((localeId || '').toLowerCase().startsWith('fr')) {
-      return 'fr-FR';
+      return 'fr';
     }
     return 'en-EN';
   }

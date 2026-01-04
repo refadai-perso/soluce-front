@@ -40,7 +40,7 @@
       "i18n": {
         "sourceLocale": "en-EN",
         "locales": {
-          "fr-FR": "src/locale/messages.fr.xlf"
+          "fr": "src/locale/messages.fr.xlf"
         }
       },
       "architect": {
@@ -90,9 +90,9 @@
               "extractLicenses": false,
               "sourceMap": true
             },
-            "fr-FR": {
+            "fr": {
               "localize": [
-                "fr-FR"
+                "fr"
               ]
             },
             "en-EN": {
@@ -112,8 +112,8 @@
             "development": {
               "buildTarget": "my-app:build:development"
             },
-            "fr-FR": {
-              "buildTarget": "my-app:build:development,fr-FR"
+            "fr": {
+              "buildTarget": "my-app:build:development,fr"
             },
             "en-EN": {
               "buildTarget": "my-app:build:development,en-EN"

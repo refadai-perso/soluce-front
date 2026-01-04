@@ -31,7 +31,7 @@ function getLocaleFromUrl(): SupportedLocaleCode | null {
   }
 
   const firstSegment: string = pathSegments[0];
-  const supportedLocales: ReadonlyArray<SupportedLocaleCode> = ['en-EN', 'fr-FR'] as const;
+  const supportedLocales: ReadonlyArray<SupportedLocaleCode> = ['en-EN', 'fr'] as const;
   
   if (supportedLocales.includes(firstSegment as SupportedLocaleCode)) {
     return firstSegment as SupportedLocaleCode;

@@ -22,7 +22,7 @@ export class LocaleService {
   private readonly localeConfig: LocaleServiceConfig = {
     supportedLocales: [
       { code: 'en-EN', displayName: 'English', language: 'en', country: 'EN' },
-      { code: 'fr-FR', displayName: 'Français', language: 'fr', country: 'FR' }
+      { code: 'fr', displayName: 'Français', language: 'fr', country: 'FR' }
     ] as const,
     defaultLocale: { code: 'en-EN', displayName: 'English', language: 'en', country: 'EN' }
   };
@@ -67,7 +67,7 @@ export class LocaleService {
 
   /**
    * Set the current locale and update the URL accordingly.
-   * @param locale The locale to set (e.g., 'en-EN', 'fr-FR').
+   * @param locale The locale to set (e.g., 'en-EN', 'fr').
    */
   setLocale(locale: string): void {
     if (this.isValidLocale(locale) === false) {

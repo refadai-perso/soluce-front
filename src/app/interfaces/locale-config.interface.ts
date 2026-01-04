@@ -3,7 +3,7 @@
  */
 export interface LocaleConfig {
   /**
-   * The locale code (e.g., 'en-EN', 'fr-FR').
+   * The locale code (e.g., 'en-EN', 'fr').
    */
   readonly code: string;
 
@@ -41,7 +41,7 @@ export interface LocaleServiceConfig {
 /**
  * Type for supported locale codes.
  */
-export type SupportedLocaleCode = 'en-EN' | 'fr-FR';
+export type SupportedLocaleCode = 'en-EN' | 'fr';
 
 /**
  * Type for navigation commands with locale support.
