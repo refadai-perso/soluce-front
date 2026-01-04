@@ -36,11 +36,14 @@
 
 // Filter row styling
 .filter-row {
-  background-color: rgba(0, 0, 0, 0.02);
+  // Match card-header background color using Bootstrap CSS variable
+  background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
   
   th {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    // Match card-header background color using Bootstrap CSS variable
+    background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
   }
 
   input[type="text"],
@@ -239,9 +242,12 @@ ngb-dropdown {
       width: 100%;
       table-layout: fixed;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      // Match card-header background color using Bootstrap CSS variable
+      background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
       
       th {
-        border-bottom: 1px solid #dee2e6;
+        // Match card-header background color using Bootstrap CSS variable
+        background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
       }
     }
 
@@ -250,11 +256,12 @@ ngb-dropdown {
       display: table;
       width: 100%;
       table-layout: fixed;
-      background-color: rgba(0, 0, 0, 0.02);
+      // Match card-header background color using Bootstrap CSS variable
+      background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
       
       th {
-        background-color: rgba(0, 0, 0, 0.02);
-        border-bottom: 1px solid #dee2e6;
+        // Match card-header background color using Bootstrap CSS variable
+        background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
       }
     }
   }
