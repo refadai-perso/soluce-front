@@ -216,62 +216,82 @@ ngb-dropdown {
 
 // Scrollable table container
 .table-container {
-  max-height: 800px;
-  overflow-y: auto;
-  overflow-x: hidden;
   position: relative;
+  max-height: 800px;
+  display: flex;
+  flex-direction: column;
 
-  // Smooth scrolling
-  scroll-behavior: smooth;
-
-  // Custom scrollbar styling for webkit browsers
-  &::-webkit-scrollbar {
-    width: 8px;
+  table {
+    width: 100%;
+    margin-bottom: 0;
+    // Use fixed layout to maintain column alignment
+    table-layout: fixed;
   }
 
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+  // Header section (fixed, outside scrollable area)
+  table thead {
+    display: block;
+    flex-shrink: 0;
     
-    &:hover {
-      background: #555;
+    tr:first-child {
+      // Main header row with column names
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      
+      th {
+        border-bottom: 1px solid #dee2e6;
+      }
+    }
+
+    tr.filter-row {
+      // Filter row (also fixed, outside scrollable area)
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      background-color: rgba(0, 0, 0, 0.02);
+      
+      th {
+        background-color: rgba(0, 0, 0, 0.02);
+        border-bottom: 1px solid #dee2e6;
+      }
     }
   }
 
-  // Sticky table header rows
-  table thead {
-    tr {
-      &:first-child {
-        // Main header row with column names
-        position: sticky;
-        top: 0;
-        z-index: 12;
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        
-        th {
-          background-color: white;
-          border-bottom: 1px solid #dee2e6;
-        }
-      }
+  // Scrollable body section
+  table tbody {
+    display: block;
+    max-height: 600px; // Leave room for header rows
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    // Smooth scrolling
+    scroll-behavior: smooth;
 
-      &.filter-row {
-        // Filter row sticks below the main header
-        position: sticky;
-        top: 47px; // Height of the first header row (approximately)
-        z-index: 11;
-        background-color: rgba(0, 0, 0, 0.02);
-        
-        th {
-          background-color: rgba(0, 0, 0, 0.02);
-          border-bottom: 1px solid #dee2e6;
-        }
+    // Custom scrollbar styling for webkit browsers
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+      
+      &:hover {
+        background: #555;
       }
+    }
+
+    tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
     }
   }
 }

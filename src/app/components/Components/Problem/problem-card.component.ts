@@ -606,6 +606,11 @@ export class ProblemCardComponent implements OnInit {
    * Opens the create problem modal dialog.
    */
   public openCreateProblemModal(): void {
+    // Blur any focused element to prevent aria-hidden accessibility warning
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    
     const modalRef = this.modalService.open(ProblemAddComponent, {
       size: 'lg',
       backdrop: 'static',
@@ -633,6 +638,11 @@ export class ProblemCardComponent implements OnInit {
    * @param problem The problem to edit
    */
   public openEditProblemModal(problem: Problem): void {
+    // Blur any focused element to prevent aria-hidden accessibility warning
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    
     const modalRef = this.modalService.open(ProblemAddComponent, {
       size: 'lg',
       backdrop: 'static',

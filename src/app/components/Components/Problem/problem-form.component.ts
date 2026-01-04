@@ -18,7 +18,7 @@
  * ```
  */
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Input, isDevMode, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -29,6 +29,7 @@ import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
 import type { Problem } from '../../../model/model';
 import { LocaleService } from '../../../services/locale.service';
 import { ProblemService } from '../../../services/problem.service';
+import { AuthService, DUMMY_USER_ID } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-problem-form',
@@ -91,6 +92,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
   private readonly router: Router = inject(Router);
   private readonly localeService: LocaleService = inject(LocaleService);
   private readonly problemService: ProblemService = inject(ProblemService);
+  private readonly authService: AuthService = inject(AuthService);
 
   /**
    * Strongly-typed reactive form grouping all {@link Problem} fields.
@@ -115,7 +117,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     idCtrl: new FormControl<number | null>(null, { nonNullable: false }),
     nameCtrl: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(3)] }),
     descriptionCtrl: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(5)] }),
-    statusCtrl: new FormControl<string | null>(null, { validators: [Validators.required] }),
+    statusCtrl: new FormControl<string | null>('New', { validators: [Validators.required] }),
     visibilityCtrl: new FormControl<string | null>('Private', { validators: [Validators.required] }),
     creationDateCtrl: new FormControl<string | null>(null, { validators: [Validators.required] }),
     creatorCtrl: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(2)] }),
@@ -175,6 +177,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     const rawVisibility: string | null = this.form.controls.visibilityCtrl.value;
     const rawId: number | null = this.form.controls.idCtrl.value;
     const rawStatus: string | null = this.form.controls.statusCtrl.value;
+    const rawCreationDate: string | null = this.form.controls.creationDateCtrl.value;
 
     if (this.isEditMode && rawId !== null) {
       // Update existing problem - use UpdateProblemDto
@@ -202,11 +205,24 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       this.destroyRef.onDestroy((): void => sub.unsubscribe());
     } else {
       // Create new problem - use CreateProblemDto
+      const currentUserId: number | null = this.authService.getCurrentUserId();
+      let creatorId: number;
+      if (currentUserId !== null) {
+        creatorId = currentUserId;
+      } else if (isDevMode()) {
+        // In development mode, use dummy ID as fallback
+        creatorId = DUMMY_USER_ID;
+      } else {
+        // In production mode, throw exception if user is not authenticated
+        throw new Error('Cannot create problem: User must be authenticated. Please sign in before creating a problem.');
+      }
       const createBody: CreateProblemDto = {
         name: rawName === null ? '' : rawName,
         description: rawDescription === null ? '' : rawDescription,
         open: (rawVisibility ?? 'Private') === 'Public',
-        status: rawStatus ? (rawStatus as ProblemStatus) : undefined,
+        status: (rawStatus as ProblemStatus) || ProblemStatus.NEW,
+        creatorId: creatorId,
+        creationDate: rawCreationDate === null ? new Date().toISOString() : new Date(rawCreationDate).toISOString(),
       };
       console.log('Form submission body:', createBody);
 
