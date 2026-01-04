@@ -21,8 +21,9 @@
         </button>
         <i class="text-info ms-2 bi-card-list"></i>
     </div>
-    <div class="card-body">
-        <table class="table table-borderless table-sm">
+    <div class="card-body p-0">
+        <div class="table-container">
+            <table class="table table-borderless table-sm mb-0">
             <thead>
                 <tr>
                     <th i18n>
@@ -225,9 +226,10 @@
             </thead>
             <tbody>
                 @for (currentUserProblemsItem of (currentUserProblems$ | async); let i = $index; track i) {
-                    <tr>
+                    <tr [class.table-success]="isRowHighlighted(currentUserProblemsItem.id)"
+                        [class.highlight-fade]="isRowHighlighted(currentUserProblemsItem.id)">
                         <td>
-                            <a routerLink="/orders">
+                            <a href="javascript:void(0)" (click)="openEditProblemModal(currentUserProblemsItem)" class="text-primary" style="cursor: pointer;">
                                 {{ currentUserProblemsItem.id }}
                             </a>
                         </td>
@@ -284,5 +286,6 @@
                 }
             </tbody>
         </table>
+        </div>
     </div>
 </div>

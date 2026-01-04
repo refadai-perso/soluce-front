@@ -469,7 +469,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/services/problem.service.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1780950485960518731" datatype="html">
@@ -480,7 +480,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/services/problem.service.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9081463435738465430" datatype="html">
@@ -491,7 +491,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/services/problem.service.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">91</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5370838177584249385" datatype="html">
@@ -502,7 +502,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/services/problem.service.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7860418101283165917" datatype="html">
@@ -513,7 +513,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/services/problem.service.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4873149362496451858" datatype="html">
@@ -696,7 +696,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/Pages/problem-add.component.html</context>
-          <context context-type="linenumber">24,25</context>
+          <context context-type="linenumber">25,26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6057653563658832200" datatype="html">
@@ -724,21 +724,35 @@
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2140960006988176487" datatype="html">
+        <source>Edit Problem</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Pages/problem-add.component.ts</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6763212051822165833" datatype="html">
         <source>Create New Problem</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/Pages/problem-add.component.html</context>
-          <context context-type="linenumber">11,12</context>
+          <context context-type="sourcefile">src/app/components/Pages/problem-add.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="707474005115452438" datatype="html">
+        <source>Update Problem</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Pages/problem-add.component.ts</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8412749823661703486" datatype="html">
         <source>Create Problem</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/Pages/problem-add.component.html</context>
-          <context context-type="linenumber">25,26</context>
+          <context context-type="sourcefile">src/app/components/Pages/problem-add.component.ts</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
     </body>

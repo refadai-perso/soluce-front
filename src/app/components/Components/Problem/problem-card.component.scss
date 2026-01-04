@@ -214,3 +214,85 @@ ngb-dropdown {
   }
 }
 
+// Scrollable table container
+.table-container {
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+
+  // Smooth scrolling
+  scroll-behavior: smooth;
+
+  // Custom scrollbar styling for webkit browsers
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+    
+    &:hover {
+      background: #555;
+    }
+  }
+
+  // Sticky table header rows
+  table thead {
+    tr {
+      &:first-child {
+        // Main header row with column names
+        position: sticky;
+        top: 0;
+        z-index: 12;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        
+        th {
+          background-color: white;
+          border-bottom: 1px solid #dee2e6;
+        }
+      }
+
+      &.filter-row {
+        // Filter row sticks below the main header
+        position: sticky;
+        top: 47px; // Height of the first header row (approximately)
+        z-index: 11;
+        background-color: rgba(0, 0, 0, 0.02);
+        
+        th {
+          background-color: rgba(0, 0, 0, 0.02);
+          border-bottom: 1px solid #dee2e6;
+        }
+      }
+    }
+  }
+}
+
+// Row highlight animation for updated problems
+.highlight-fade {
+  animation: fadeHighlight 3s ease-in-out;
+}
+
+@keyframes fadeHighlight {
+  0% {
+    background-color: #d1e7dd !important; // Bootstrap success light
+    border-left: 4px solid #198754; // Bootstrap success
+  }
+  70% {
+    background-color: #d1e7dd !important;
+    border-left: 4px solid #198754;
+  }
+  100% {
+    background-color: transparent !important;
+    border-left: 4px solid transparent;
+  }
+}
+

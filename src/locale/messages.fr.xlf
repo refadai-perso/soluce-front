@@ -420,6 +420,16 @@
         <source>Create Problem</source>
         <target>Créer le problème</target>
       </trans-unit>
+
+      <!-- Edit Problem Strings -->
+      <trans-unit id="2140960006988176487" datatype="html">
+        <source>Edit Problem</source>
+        <target>Modifier le problème</target>
+      </trans-unit>
+      <trans-unit id="707474005115452438" datatype="html">
+        <source>Update Problem</source>
+        <target>Mettre à jour le problème</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

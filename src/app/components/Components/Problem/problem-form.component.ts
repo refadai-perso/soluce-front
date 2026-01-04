@@ -23,7 +23,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { debounceTime, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { CreateProblemDto } from '@shared/dto';
+import { CreateProblemDto, UpdateProblemDto } from '@shared/dto';
+import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
 
 import type { Problem } from '../../../model/model';
 import { LocaleService } from '../../../services/locale.service';
@@ -50,6 +51,11 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * When true and not in wizard mode, shows Reset/Cancel/Submit actions.
    */
   @Input() showActions: boolean = true;
+
+  /**
+   * When true, the form is in edit mode and will update an existing problem.
+   */
+  @Input() isEditMode: boolean = false;
 
   /**
    * Label for the primary submit button.
@@ -167,23 +173,58 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     const rawName: string | null = this.form.controls.nameCtrl.value;
     const rawDescription: string | null = this.form.controls.descriptionCtrl.value;
     const rawVisibility: string | null = this.form.controls.visibilityCtrl.value;
-    const body: CreateProblemDto = {
-      name: rawName === null ? '' : rawName,
-      description: rawDescription === null ? '' : rawDescription,
-      open: (rawVisibility ?? 'Private') === 'Public',
-    };
-    console.log('Form submission body:', body);
-    const sub: Subscription = this.problemService.createProblem(body).subscribe({
-      next: (created: Problem): void => {
-        this.submitProblem.emit(created);
-        void this.localeService.navigateWithLocale(['dashboard']);
-      },
-      error: (_err: unknown): void => {
-        // Keep simple UX for now; could surface an alert/Toast
-        console.log('Create problem failed');
-      },
-    });
-    this.destroyRef.onDestroy((): void => sub.unsubscribe());
+    const rawId: number | null = this.form.controls.idCtrl.value;
+    const rawStatus: string | null = this.form.controls.statusCtrl.value;
+
+    if (this.isEditMode && rawId !== null) {
+      // Update existing problem - use UpdateProblemDto
+      const updateBody: UpdateProblemDto = {
+        name: rawName ?? undefined,
+        description: rawDescription ?? undefined,
+        open: rawVisibility ? (rawVisibility === 'Public') : undefined,
+        status: rawStatus ? (rawStatus as ProblemStatus) : undefined,
+      };
+      console.log('Form update body:', updateBody);
+
+      const sub: Subscription = this.problemService.updateProblem(rawId, updateBody).subscribe({
+        next: (updated: Problem): void => {
+          this.submitProblem.emit(updated);
+          // Only navigate if we're showing actions (standalone mode, not in a modal)
+          if (this.showActions) {
+            void this.localeService.navigateWithLocale(['dashboard']);
+          }
+        },
+        error: (_err: unknown): void => {
+          // Keep simple UX for now; could surface an alert/Toast
+          console.log('Update problem failed');
+        },
+      });
+      this.destroyRef.onDestroy((): void => sub.unsubscribe());
+    } else {
+      // Create new problem - use CreateProblemDto
+      const createBody: CreateProblemDto = {
+        name: rawName === null ? '' : rawName,
+        description: rawDescription === null ? '' : rawDescription,
+        open: (rawVisibility ?? 'Private') === 'Public',
+        status: rawStatus ? (rawStatus as ProblemStatus) : undefined,
+      };
+      console.log('Form submission body:', createBody);
+
+      const sub: Subscription = this.problemService.createProblem(createBody).subscribe({
+        next: (created: Problem): void => {
+          this.submitProblem.emit(created);
+          // Only navigate if we're showing actions (standalone mode, not in a modal)
+          if (this.showActions) {
+            void this.localeService.navigateWithLocale(['dashboard']);
+          }
+        },
+        error: (_err: unknown): void => {
+          // Keep simple UX for now; could surface an alert/Toast
+          console.log('Create problem failed');
+        },
+      });
+      this.destroyRef.onDestroy((): void => sub.unsubscribe());
+    }
   }
 
   /**
@@ -215,7 +256,10 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     }
     this.cancel.emit();
-    void this.localeService.navigateWithLocale(['dashboard']);
+    // Only navigate if we're showing actions (standalone mode, not in a modal)
+    if (this.showActions) {
+      void this.localeService.navigateWithLocale(['dashboard']);
+    }
   }
 
   /**

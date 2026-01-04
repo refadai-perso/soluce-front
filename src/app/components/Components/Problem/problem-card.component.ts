@@ -7,7 +7,6 @@
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbDateStruct, NgbDropdown, NgbDatepicker, NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Authorization } from '@shared/dto/group/authorization.enum';
@@ -38,7 +37,7 @@ interface DateRangePreset {
   standalone: true,
   templateUrl: './problem-card.component.html',
   styleUrls: ['./problem-card.component.scss'],
-  imports: [RouterLink, CommonModule, NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbModalModule, FormsModule]
+  imports: [CommonModule, NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbModalModule, FormsModule]
 })
 export class ProblemCardComponent implements OnInit {
   public currentUserProblems$!: Observable<Problem[] | undefined>;
@@ -51,6 +50,9 @@ export class ProblemCardComponent implements OnInit {
   public filterGroups: string = '';
   public filterCreationDateFrom: string = '';
   public filterCreationDateTo: string = '';
+  
+  // Row highlighting for updates
+  public lastUpdatedProblemId: number | null = null;
   
   // Date picker properties
   public hoveredDate: NgbDateStruct | null = null;
@@ -576,6 +578,15 @@ export class ProblemCardComponent implements OnInit {
   }
 
   /**
+   * Checks if a problem row should be highlighted as recently updated.
+   * @param problemId The ID of the problem to check
+   * @returns True if the problem was recently updated and should be highlighted
+   */
+  public isRowHighlighted(problemId: number | undefined): boolean {
+    return problemId !== undefined && problemId === this.lastUpdatedProblemId;
+  }
+
+  /**
    * Opens the create problem modal dialog.
    */
   public openCreateProblemModal(): void {
@@ -585,11 +596,50 @@ export class ProblemCardComponent implements OnInit {
       keyboard: false
     });
 
+    modalRef.componentInstance.initialValue = null;
+    modalRef.componentInstance.isEditMode = false;
+
     modalRef.result.then(
       (result) => {
         // Handle successful creation
         console.log('Problem created successfully', result);
         this.refreshData();
+      },
+      (reason) => {
+        // Handle dismissal
+        console.log('Modal dismissed', reason);
+      }
+    );
+  }
+
+  /**
+   * Opens the edit problem modal dialog with existing problem data.
+   * @param problem The problem to edit
+   */
+  public openEditProblemModal(problem: Problem): void {
+    const modalRef = this.modalService.open(ProblemAddComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    modalRef.componentInstance.initialValue = problem;
+    modalRef.componentInstance.isEditMode = true;
+
+    modalRef.result.then(
+      (result) => {
+        // Handle successful update
+        console.log('Problem updated successfully', result);
+        
+        // Highlight the updated row
+        this.lastUpdatedProblemId = result.id;
+        
+        this.refreshData();
+        
+        // Remove highlight after 3 seconds
+        setTimeout(() => {
+          this.lastUpdatedProblemId = null;
+        }, 3000);
       },
       (reason) => {
         // Handle dismissal

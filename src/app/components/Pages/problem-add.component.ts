@@ -21,6 +21,7 @@ export class ProblemAddComponent {
   private activeModal = inject(NgbActiveModal);
 
   @Input() initialValue: Problem | null = null;
+  @Input() isEditMode: boolean = false;
 
   public onProblemSubmit(problem: Problem): void {
     this.activeModal.close(problem);
@@ -36,5 +37,13 @@ export class ProblemAddComponent {
     if (formElement) {
       formElement.requestSubmit();
     }
+  }
+
+  public getModalTitle(): string {
+    return this.isEditMode ? $localize`Edit Problem` : $localize`Create New Problem`;
+  }
+
+  public getSubmitButtonLabel(): string {
+    return this.isEditMode ? $localize`Update Problem` : $localize`Create Problem`;
   }
 }

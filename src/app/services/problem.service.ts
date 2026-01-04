@@ -10,6 +10,7 @@ import { Problem } from '../model';
 import { problem_list_mock } from './problem.service.mock-data';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { UpdateProblemDto } from '@shared/dto';
 
 @Injectable({ providedIn: 'root' })
 export class ProblemService {
@@ -45,6 +46,30 @@ export class ProblemService {
       open: body.open === true ? 'Public' : 'Private',
     };
     return of(mockCreated);
+  }
+
+  /**
+   * Update an existing problem entry.
+   *
+   * Base mock implementation used in development without a backend. It simulates
+   * updating a problem by returning the updated problem data with partial updates.
+   *
+   * @param id The ID of the problem to update
+   * @param body The {@link UpdateProblemDto} payload with optional fields for partial updates.
+   * - When `open` is `true`, visibility is interpreted as 'Public'.
+   * - When `open` is `false`, visibility is interpreted as 'Private'.
+   * - All fields are optional, allowing partial updates.
+   * @returns An observable emitting the updated {@link Problem}.
+   */
+  public updateProblem(id: number, body: UpdateProblemDto): Observable<Problem> {
+    const mockUpdated: Problem = {
+      id: id,
+      name: body.name,
+      description: body.description,
+      open: body.open !== undefined ? (body.open === true ? 'Public' : 'Private') : undefined,
+      status: body.status,
+    };
+    return of(mockUpdated);
   }
 
   /**

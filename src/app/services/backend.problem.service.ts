@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { Authorization } from '@shared/dto/group/authorization.enum';
+import { UpdateProblemDto } from '@shared/dto';
 
 import { Problem, GroupAuthorization } from '../model';
 import { ProblemService } from './problem.service';
@@ -39,6 +40,30 @@ export class DBProblemService extends ProblemService {
       catchError((error) => {
         console.log(error);
         return throwError(() => new Error('Failed to create problem'));
+      })
+    );
+  }
+
+  /**
+   * Update an existing {@link Problem} by PATCHing to the API.
+   *
+   * Uses PATCH for partial updates with {@link UpdateProblemDto}.
+   * All fields in the DTO are optional, allowing partial updates.
+   *
+   * @param id The ID of the problem to update
+   * @param body The {@link UpdateProblemDto} payload with optional fields for partial updates.
+   * @returns Observable emitting the updated {@link Problem} as returned by the API.
+   */
+  public override updateProblem(id: number, body: UpdateProblemDto): Observable<Problem> {
+    const url: string = `http://localhost:3000/problem/${id}`;
+    console.log('Backend service - updating problem:', id, 'with body:', body);
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.patch<Problem>(url, body, { headers }).pipe(
+      catchError((error) => {
+        console.log(error);
+        return throwError(() => new Error('Failed to update problem'));
       })
     );
   }
