@@ -8,20 +8,12 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
-import { importProvidersFrom, Provider } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
 import { SupportedLocaleCode } from './app/interfaces/locale-config.interface';
 
 // Configure locale detection and i18n
 const locale: SupportedLocaleCode = getLocaleFromUrl() || 'en-EN';
 
-bootstrapApplication(AppComponent, {
-  ...appConfig,
-  providers: [
-    ...appConfig.providers,
-    provideClientHydration()
-  ]
-})
+bootstrapApplication(AppComponent, appConfig)
   .catch(err => console.error(err));
 
 /**

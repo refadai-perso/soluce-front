@@ -17,7 +17,6 @@ import { ProblemAddComponent } from '../../Pages/problem-add.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { format, isAfter, isBefore, isEqual } from 'date-fns';
-import { sortBy } from 'lodash-es';
 import {
   ngbDateToDate,
   dateToNgbDate
@@ -434,30 +433,47 @@ export class ProblemCardComponent implements OnInit {
       });
     }
 
-    // Apply sorting using lodash-es
+    // Apply sorting using native JavaScript
     if (this.sortColumn && this.sortDirection) {
-      const iteratee = (problem: Problem): any => {
+      filteredProblems.sort((a: Problem, b: Problem) => {
+        let aValue: any;
+        let bValue: any;
+
         switch (this.sortColumn) {
           case 'name':
-            return (problem.name || '').toLowerCase();
+            aValue = (a.name || '').toLowerCase();
+            bValue = (b.name || '').toLowerCase();
+            break;
           case 'description':
-            return (problem.description || '').toLowerCase();
+            aValue = (a.description || '').toLowerCase();
+            bValue = (b.description || '').toLowerCase();
+            break;
           case 'status':
-            return (problem.status || '').toLowerCase();
+            aValue = (a.status || '').toLowerCase();
+            bValue = (b.status || '').toLowerCase();
+            break;
           case 'creationDate':
-            return problem.creationDate ? new Date(problem.creationDate).getTime() : 0;
+            aValue = a.creationDate ? new Date(a.creationDate).getTime() : 0;
+            bValue = b.creationDate ? new Date(b.creationDate).getTime() : 0;
+            break;
           case 'author':
-            return this.getAuthorFullName(problem.creator).toLowerCase();
+            aValue = this.getAuthorFullName(a.creator).toLowerCase();
+            bValue = this.getAuthorFullName(b.creator).toLowerCase();
+            break;
           default:
-            return '';
+            aValue = '';
+            bValue = '';
         }
-      };
 
-      filteredProblems = sortBy(filteredProblems, iteratee);
-
-      if (this.sortDirection === 'desc') {
-        filteredProblems.reverse();
-      }
+        // Compare values
+        if (aValue < bValue) {
+          return this.sortDirection === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return this.sortDirection === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
     }
 
     return filteredProblems;

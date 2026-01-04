@@ -29,7 +29,6 @@
     "bootstrap": "~5.3.2",
     "bootstrap-icons": "~1.11.2",
     "date-fns": "^4.1.0",
-    "lodash-es": "^4.17.22",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -38,7 +37,6 @@
     "@angular-devkit/build-angular": "~19.0.6",
     "@angular/cli": "~19.0.6",
     "@angular/compiler-cli": "~19.0.0",
-    "@types/lodash-es": "^4.17.12",
     "typescript": "~5.6.2"
   }
 }
