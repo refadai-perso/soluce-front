@@ -755,6 +755,99 @@
           <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
+
+      <!-- Group Authorization Strings -->
+      <trans-unit id="unknown" datatype="html">
+        <source>Unknown</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.ts</context>
+          <context context-type="linenumber">520</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="groupAlreadyAdded" datatype="html">
+        <source>This group is already added</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.ts</context>
+          <context context-type="linenumber">591</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3278923567926404286" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-people-fill&apos;, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Group Authorizations <x id="START_BLOCK_IF" equiv-text="@if (groupAuthorizations.length > 0) {"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span"/><x id="INTERPOLATION" equiv-text="{{ groupAuthorizations.length }}"/><x id="CLOSE_TAG_SPAN" equiv-text="&lt;/span&gt;"/><x id="CLOSE_BLOCK_IF" equiv-text="}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">102,106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5154488200178673829" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-plus-circle&apos;, &apos;me-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Add Group </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">121,123</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1874816437393863346" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-inbox&apos;, &apos;fs-4&apos;, &apos;d-block&apos;, &apos;mb-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> No groups assigned yet </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">128,130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7819314041543176992" datatype="html">
+        <source>Close</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1535423498626471921" datatype="html">
+        <source>Search groups...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">208,209</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6548789726417800164" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-people-fill&apos;, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Select Group </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">186,188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1618047616149224297" datatype="html">
+        <source>Authorization Level</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">253,254</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5547981558491672240" datatype="html">
+        <source> Close </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">284,285</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4512471968318823243" datatype="html">
+        <source> Add Selected </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">292,293</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6903811090636216208" datatype="html">
+        <source>No groups found matching your search</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">220,221</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2010689005013910824" datatype="html">
+        <source>All available groups have been added</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Problem/problem-form.component.html</context>
+          <context context-type="linenumber">222,223</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

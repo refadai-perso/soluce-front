@@ -430,6 +430,60 @@
         <source>Update Problem</source>
         <target>Mettre à jour le problème</target>
       </trans-unit>
+
+      <!-- Group Authorization Strings -->
+      <trans-unit id="unknown" datatype="html">
+        <source>Unknown</source>
+        <target>Inconnu</target>
+      </trans-unit>
+      <trans-unit id="groupAlreadyAdded" datatype="html">
+        <source>This group is already added</source>
+        <target>Ce groupe a déjà été ajouté</target>
+      </trans-unit>
+      <trans-unit id="3278923567926404286" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-people-fill&apos;, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Group Authorizations <x id="START_BLOCK_IF" equiv-text="@if (groupAuthorizations.length > 0) {"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span"/><x id="INTERPOLATION" equiv-text="{{ groupAuthorizations.length }}"/><x id="CLOSE_TAG_SPAN" equiv-text="&lt;/span&gt;"/><x id="CLOSE_BLOCK_IF" equiv-text="}"/></source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-people-fill&apos;, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Autorisations de groupe <x id="START_BLOCK_IF" equiv-text="@if (groupAuthorizations.length > 0) {"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span"/><x id="INTERPOLATION" equiv-text="{{ groupAuthorizations.length }}"/><x id="CLOSE_TAG_SPAN" equiv-text="&lt;/span&gt;"/><x id="CLOSE_BLOCK_IF" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="5154488200178673829" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-plus-circle&apos;, &apos;me-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Add Group </source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-plus-circle&apos;, &apos;me-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Ajouter un groupe </target>
+      </trans-unit>
+      <trans-unit id="1874816437393863346" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-inbox&apos;, &apos;fs-4&apos;, &apos;d-block&apos;, &apos;mb-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> No groups assigned yet </source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-inbox&apos;, &apos;fs-4&apos;, &apos;d-block&apos;, &apos;mb-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Aucun groupe assigné pour le moment </target>
+      </trans-unit>
+      <trans-unit id="7819314041543176992" datatype="html">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="1535423498626471921" datatype="html">
+        <source>Search groups...</source>
+        <target>Rechercher des groupes...</target>
+      </trans-unit>
+      <trans-unit id="6548789726417800164" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-people-fill&apos;, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Select Group </source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, &apos;bi-people-fill&apos;, &apos;me-2&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Sélectionner un groupe </target>
+      </trans-unit>
+      <trans-unit id="1618047616149224297" datatype="html">
+        <source>Authorization Level</source>
+        <target>Niveau d'autorisation</target>
+      </trans-unit>
+      <trans-unit id="5547981558491672240" datatype="html">
+        <source> Close </source>
+        <target> Fermer </target>
+      </trans-unit>
+      <trans-unit id="4512471968318823243" datatype="html">
+        <source> Add Selected </source>
+        <target> Ajouter la sélection </target>
+      </trans-unit>
+      <trans-unit id="6903811090636216208" datatype="html">
+        <source>No groups found matching your search</source>
+        <target>Aucun groupe trouvé correspondant à votre recherche</target>
+      </trans-unit>
+      <trans-unit id="2010689005013910824" datatype="html">
+        <source>All available groups have been added</source>
+        <target>Tous les groupes disponibles ont été ajoutés</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

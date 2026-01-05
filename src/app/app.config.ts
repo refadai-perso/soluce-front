@@ -16,12 +16,15 @@ import {
 } from '@angular/common/http';
 import { ProblemService } from './services/problem.service';
 import { DBProblemService } from './services/backend.problem.service';
+import { GroupService } from './services/group.service';
+import { DBGroupService } from './services/backend.group.service';
 import { LocaleService } from './services/locale.service';
 import { LocaleGuard } from './guards/locale.guard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     { provide: ProblemService, useClass: DBProblemService },
+    { provide: GroupService, useClass: DBGroupService },
     LocaleService,
     LocaleGuard,
     provideHttpClient(),

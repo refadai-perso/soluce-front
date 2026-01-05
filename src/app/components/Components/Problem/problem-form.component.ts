@@ -19,23 +19,26 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, EventEmitter, Input, isDevMode, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { debounceTime, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { CreateProblemDto, UpdateProblemDto } from '@shared/dto';
 import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
+import { Authorization } from '@shared/dto/group/authorization.enum';
 
 import type { Problem } from '../../../model/model';
+import { Group, GroupAuthorization } from '../../../model/model';
 import { LocaleService } from '../../../services/locale.service';
 import { ProblemService } from '../../../services/problem.service';
 import { AuthService, DUMMY_USER_ID } from '../../../services/auth.service';
+import { GroupService } from '../../../services/group.service';
 
 @Component({
   selector: 'app-problem-form',
   standalone: true,
   templateUrl: './problem-form.component.html',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })
 export class ProblemFormComponent implements OnInit, OnChanges {
   /**
@@ -88,11 +91,56 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    */
   readonly visibilityOptions: ReadonlyArray<string> = ['Public', 'Private'];
 
+  /**
+   * List of group authorizations for this problem.
+   */
+  public groupAuthorizations: GroupAuthorization[] = [];
+
+  /**
+   * Whether the group authorizations accordion is expanded.
+   */
+  public groupAuthExpanded: boolean = false;
+
+  /**
+   * Whether the side panel for selecting groups is visible.
+   */
+  public groupSelectionPanelOpen: boolean = false;
+
+  /**
+   * Currently selected group in the side panel.
+   */
+  public selectedGroupForAdd: Group | null = null;
+
+  /**
+   * Selected authorization level in the side panel.
+   */
+  public selectedAuthLevelForAdd: Authorization = Authorization.READER;
+
+  /**
+   * Search filter for groups in the side panel.
+   */
+  public groupSearchFilter: string = '';
+
+  /**
+   * Available authorization levels.
+   */
+  public readonly authorizationLevels: ReadonlyArray<string> = [
+    Authorization.ADMINISTRATOR,
+    Authorization.CONTRIBUTOR,
+    Authorization.READER
+  ];
+
+  /**
+   * Available groups to select from (loaded from backend service).
+   */
+  public availableGroups: Group[] = [];
+
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
   private readonly localeService: LocaleService = inject(LocaleService);
   private readonly problemService: ProblemService = inject(ProblemService);
   private readonly authService: AuthService = inject(AuthService);
+  private readonly groupService: GroupService = inject(GroupService);
 
   /**
    * Strongly-typed reactive form grouping all {@link Problem} fields.
@@ -125,6 +173,10 @@ export class ProblemFormComponent implements OnInit, OnChanges {
 
   /** @internal */
   ngOnInit(): void {
+    // Ensure groupAuthorizations is initialized before any operations
+    if (this.groupAuthorizations === undefined || this.groupAuthorizations === null) {
+      this.groupAuthorizations = [];
+    }
     this.patchFromInitial(this.initialValue);
     // Ensure creator and creation date are set from environment/session when missing
     const currentUserName: string = this.resolveCurrentUserName();
@@ -139,21 +191,30 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       this.form.controls.creationDateCtrl.setValue(today, { emitEvent: false });
     }
     this.form.controls.creationDateCtrl.disable({ emitEvent: false });
-    const sub: Subscription = this.form.valueChanges
-      .pipe(debounceTime(200))
-      .subscribe((value: Partial<{
-        idCtrl: number | null;
-        nameCtrl: string | null;
-        descriptionCtrl: string | null;
-        statusCtrl: string | null;
-        visibilityCtrl: string | null;
-        creationDateCtrl: string | null;
-        creatorCtrl: string | null;
-      }>): void => {
-        const current: Problem | null = this.toProblemOrNull();
-        this.changed.emit(current);
-      });
-    this.destroyRef.onDestroy((): void => sub.unsubscribe());
+    // Load available groups from backend service
+    this.loadAvailableGroups();
+    // Ensure form is ready before subscribing
+    if (this.form && this.form.valueChanges) {
+      const sub: Subscription = this.form.valueChanges
+        .pipe(debounceTime(200))
+        .subscribe((value: Partial<{
+          idCtrl: number | null;
+          nameCtrl: string | null;
+          descriptionCtrl: string | null;
+          statusCtrl: string | null;
+          visibilityCtrl: string | null;
+          creationDateCtrl: string | null;
+          creatorCtrl: string | null;
+        }>): void => {
+          try {
+            const current: Problem | null = this.toProblemOrNull();
+            this.changed.emit(current);
+          } catch (error: unknown) {
+            console.error('Error in form valueChanges subscription:', error);
+          }
+        });
+      this.destroyRef.onDestroy((): void => sub.unsubscribe());
+    }
   }
 
   /** @internal */
@@ -255,6 +316,11 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     this.form.controls.creatorCtrl.disable({ emitEvent: false });
     this.form.controls.creationDateCtrl.setValue(today, { emitEvent: false });
     this.form.controls.creationDateCtrl.disable({ emitEvent: false });
+    if (this.initialValue?.groupAuthorizations) {
+      this.groupAuthorizations = [...this.initialValue.groupAuthorizations];
+    } else {
+      this.groupAuthorizations = [];
+    }
   }
 
   /**
@@ -283,7 +349,12 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * @param value The initial problem; when null the method is no-op.
    */
   private patchFromInitial(value: Problem | null): void {
+    // Ensure groupAuthorizations is always initialized
+    if (this.groupAuthorizations === undefined || this.groupAuthorizations === null) {
+      this.groupAuthorizations = [];
+    }
     if (value === null) {
+      this.groupAuthorizations = [];
       return;
     }
     const dateString: string | null = value.creationDate instanceof Date
@@ -300,6 +371,11 @@ export class ProblemFormComponent implements OnInit, OnChanges {
         ? `${value.creator.firstName ?? ''} ${value.creator.surname ?? ''}`.trim() 
         : null,
     }, { emitEvent: false });
+    if (value.groupAuthorizations && value.groupAuthorizations.length > 0) {
+      this.groupAuthorizations = [...value.groupAuthorizations];
+    } else {
+      this.groupAuthorizations = [];
+    }
   }
 
   /**
@@ -329,6 +405,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       open: rawOpen === null ? undefined : rawOpen,
       creationDate: creationDate,
       creator: creatorUser,
+      groupAuthorizations: (this.groupAuthorizations && this.groupAuthorizations.length > 0) ? this.groupAuthorizations : undefined,
     };
     return problem;
   }
@@ -387,5 +464,166 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     const firstName: string = parts[0];
     const surname: string = parts.slice(1).join(' ');
     return { firstName, surname };
+  }
+
+  /**
+   * Returns the Bootstrap text color class based on authorization level.
+   * @param authLevel The authorization level
+   * @returns A Bootstrap text color class name
+   */
+  public getAuthorizationBadgeClass(authLevel: Authorization | undefined): string {
+    switch (authLevel) {
+      case Authorization.ADMINISTRATOR:
+        return 'text-danger';
+      case Authorization.CONTRIBUTOR:
+        return 'text-warning';
+      case Authorization.READER:
+        return 'text-info';
+      default:
+        return 'text-secondary';
+    }
+  }
+
+  /**
+   * Returns a Bootstrap icon class for the authorization level.
+   * @param authLevel The authorization level (string or Authorization enum)
+   * @returns A Bootstrap icon class name
+   */
+  public getAuthorizationIcon(authLevel: Authorization | string | undefined): string {
+    const level: string = typeof authLevel === 'string' ? authLevel : authLevel ?? '';
+    switch (level) {
+      case Authorization.ADMINISTRATOR:
+      case 'ADMINISTRATOR':
+        return 'bi-shield-fill-check';
+      case Authorization.CONTRIBUTOR:
+      case 'CONTRIBUTOR':
+        return 'bi-pencil-fill';
+      case Authorization.READER:
+      case 'READER':
+        return 'bi-eye-fill';
+      default:
+        return 'bi-question-circle';
+    }
+  }
+
+  /**
+   * Returns a human-readable label for the authorization level.
+   * @param authLevel The authorization level
+   * @returns A formatted label string
+   */
+  public getAuthorizationLabel(authLevel: Authorization | undefined): string {
+    return authLevel || $localize`:@@unknown:Unknown`;
+  }
+
+  /**
+   * Opens the side panel for selecting a group.
+   */
+  public onAddGroupAuthorization(): void {
+    this.selectedGroupForAdd = null;
+    this.selectedAuthLevelForAdd = Authorization.READER;
+    this.groupSearchFilter = '';
+    this.groupSelectionPanelOpen = true;
+  }
+
+  /**
+   * Closes the side panel for selecting groups.
+   */
+  public onCloseGroupSelectionPanel(): void {
+    this.groupSelectionPanelOpen = false;
+    this.selectedGroupForAdd = null;
+    this.groupSearchFilter = '';
+  }
+
+  /**
+   * Filters available groups based on search term.
+   * @returns Filtered list of groups
+   */
+  public getFilteredGroups(): Group[] {
+    if (this.groupSearchFilter.trim() === '') {
+      return this.availableGroups;
+    }
+    const filterLower: string = this.groupSearchFilter.toLowerCase();
+    return this.availableGroups.filter((group: Group) => {
+      const nameMatch: boolean = group.name?.toLowerCase().includes(filterLower) ?? false;
+      const descMatch: boolean = group.description?.toLowerCase().includes(filterLower) ?? false;
+      return nameMatch || descMatch;
+    });
+  }
+
+  /**
+   * Gets groups that are not already added to authorizations.
+   * @returns Available groups that can be added
+   */
+  public getAvailableGroupsForSelection(): Group[] {
+    const filtered: Group[] = this.getFilteredGroups();
+    return filtered.filter((group: Group) => {
+      const alreadyAdded: boolean = this.groupAuthorizations.some(
+        (auth: GroupAuthorization) => auth.group?.id === group.id
+      );
+      return !alreadyAdded;
+    });
+  }
+
+  /**
+   * Handles selecting a group in the side panel.
+   * @param group The group to select
+   */
+  public onSelectGroup(group: Group): void {
+    this.selectedGroupForAdd = group;
+  }
+
+  /**
+   * Handles adding the selected group with the selected authorization level.
+   */
+  public onConfirmAddSelectedGroup(): void {
+    if (this.selectedGroupForAdd === null) {
+      return;
+    }
+    const exists: boolean = this.groupAuthorizations.some(
+      (auth: GroupAuthorization) => auth.group?.id === this.selectedGroupForAdd?.id
+    );
+    if (exists) {
+      alert($localize`:@@groupAlreadyAdded:This group is already added`);
+      return;
+    }
+    // Ensure we store the authorization level exactly as it appears in authorizationLevels array
+    // This ensures proper matching in the dropdown
+    const selectedStr: string = String(this.selectedAuthLevelForAdd);
+    const authLevelToStore: Authorization = this.authorizationLevels.find(
+      (level: string) => level === selectedStr || String(level) === selectedStr
+    ) as Authorization || this.selectedAuthLevelForAdd;
+    
+    const newAuth: GroupAuthorization = {
+      group: this.selectedGroupForAdd,
+      authorizationLevel: authLevelToStore,
+      grantedDate: new Date()
+    };
+    this.groupAuthorizations = [...this.groupAuthorizations, newAuth];
+    this.onCloseGroupSelectionPanel();
+  }
+
+  /**
+   * Handles removing a group authorization.
+   * @param index The index of the authorization to remove
+   */
+  public onRemoveGroupAuthorization(index: number): void {
+    this.groupAuthorizations = this.groupAuthorizations.filter((_, i: number) => i !== index);
+  }
+
+  /**
+   * Loads available groups from the backend service.
+   */
+  private loadAvailableGroups(): void {
+    const sub: Subscription = this.groupService.fetchGroups().subscribe({
+      next: (groups: Group[]): void => {
+        this.availableGroups = groups;
+      },
+      error: (error: unknown): void => {
+        console.error('Error loading groups:', error);
+        // Keep empty array on error - user will see "No groups found" message
+        this.availableGroups = [];
+      }
+    });
+    this.destroyRef.onDestroy((): void => sub.unsubscribe());
   }
 }
