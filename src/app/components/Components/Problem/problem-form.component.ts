@@ -33,12 +33,13 @@ import { LocaleService } from '../../../services/locale.service';
 import { ProblemService } from '../../../services/problem.service';
 import { AuthService, DUMMY_USER_ID } from '../../../services/auth.service';
 import { GroupService } from '../../../services/group.service';
+import { GroupSelectionPanelComponent } from './group-selection-panel.component';
 
 @Component({
   selector: 'app-problem-form',
   standalone: true,
   templateUrl: './problem-form.component.html',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, GroupSelectionPanelComponent],
 })
 export class ProblemFormComponent implements OnInit, OnChanges {
   /**
@@ -105,30 +106,6 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * Whether the side panel for selecting groups is visible.
    */
   public groupSelectionPanelOpen: boolean = false;
-
-  /**
-   * Currently selected group in the side panel.
-   */
-  public selectedGroupForAdd: Group | null = null;
-
-  /**
-   * Selected authorization level in the side panel.
-   */
-  public selectedAuthLevelForAdd: Authorization = Authorization.READER;
-
-  /**
-   * Search filter for groups in the side panel.
-   */
-  public groupSearchFilter: string = '';
-
-  /**
-   * Available authorization levels.
-   */
-  public readonly authorizationLevels: ReadonlyArray<string> = [
-    Authorization.ADMINISTRATOR,
-    Authorization.CONTRIBUTOR,
-    Authorization.READER
-  ];
 
   /**
    * Available groups to select from (loaded from backend service).
@@ -471,7 +448,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * @param authLevel The authorization level
    * @returns A Bootstrap text color class name
    */
-  public getAuthorizationBadgeClass(authLevel: Authorization | undefined): string {
+  public getAuthorizationBadgeClass(authLevel: Authorization | string | undefined): string {
     switch (authLevel) {
       case Authorization.ADMINISTRATOR:
         return 'text-danger';
@@ -519,9 +496,6 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * Opens the side panel for selecting a group.
    */
   public onAddGroupAuthorization(): void {
-    this.selectedGroupForAdd = null;
-    this.selectedAuthLevelForAdd = Authorization.READER;
-    this.groupSearchFilter = '';
     this.groupSelectionPanelOpen = true;
   }
 
@@ -530,72 +504,34 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    */
   public onCloseGroupSelectionPanel(): void {
     this.groupSelectionPanelOpen = false;
-    this.selectedGroupForAdd = null;
-    this.groupSearchFilter = '';
   }
 
   /**
-   * Filters available groups based on search term.
-   * @returns Filtered list of groups
+   * Gets the IDs of groups that are already added to authorizations.
+   * @returns Array of group IDs that should be excluded from selection
    */
-  public getFilteredGroups(): Group[] {
-    if (this.groupSearchFilter.trim() === '') {
-      return this.availableGroups;
-    }
-    const filterLower: string = this.groupSearchFilter.toLowerCase();
-    return this.availableGroups.filter((group: Group) => {
-      const nameMatch: boolean = group.name?.toLowerCase().includes(filterLower) ?? false;
-      const descMatch: boolean = group.description?.toLowerCase().includes(filterLower) ?? false;
-      return nameMatch || descMatch;
-    });
+  public getExcludedGroupIds(): number[] {
+    return this.groupAuthorizations
+      .map((auth: GroupAuthorization) => auth.group?.id)
+      .filter((id: number | undefined): id is number => id !== undefined && id !== null);
   }
 
   /**
-   * Gets groups that are not already added to authorizations.
-   * @returns Available groups that can be added
+   * Handles group selection from the panel component.
+   * @param event The event containing the selected group and authorization level
    */
-  public getAvailableGroupsForSelection(): Group[] {
-    const filtered: Group[] = this.getFilteredGroups();
-    return filtered.filter((group: Group) => {
-      const alreadyAdded: boolean = this.groupAuthorizations.some(
-        (auth: GroupAuthorization) => auth.group?.id === group.id
-      );
-      return !alreadyAdded;
-    });
-  }
-
-  /**
-   * Handles selecting a group in the side panel.
-   * @param group The group to select
-   */
-  public onSelectGroup(group: Group): void {
-    this.selectedGroupForAdd = group;
-  }
-
-  /**
-   * Handles adding the selected group with the selected authorization level.
-   */
-  public onConfirmAddSelectedGroup(): void {
-    if (this.selectedGroupForAdd === null) {
-      return;
-    }
+  public onGroupSelected(event: { group: Group; authorizationLevel: Authorization }): void {
     const exists: boolean = this.groupAuthorizations.some(
-      (auth: GroupAuthorization) => auth.group?.id === this.selectedGroupForAdd?.id
+      (auth: GroupAuthorization) => auth.group?.id === event.group.id
     );
     if (exists) {
       alert($localize`:@@groupAlreadyAdded:This group is already added`);
       return;
     }
-    // Ensure we store the authorization level exactly as it appears in authorizationLevels array
-    // This ensures proper matching in the dropdown
-    const selectedStr: string = String(this.selectedAuthLevelForAdd);
-    const authLevelToStore: Authorization = this.authorizationLevels.find(
-      (level: string) => level === selectedStr || String(level) === selectedStr
-    ) as Authorization || this.selectedAuthLevelForAdd;
     
     const newAuth: GroupAuthorization = {
-      group: this.selectedGroupForAdd,
-      authorizationLevel: authLevelToStore,
+      group: event.group,
+      authorizationLevel: event.authorizationLevel,
       grantedDate: new Date()
     };
     this.groupAuthorizations = [...this.groupAuthorizations, newAuth];
@@ -616,6 +552,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
   private loadAvailableGroups(): void {
     const sub: Subscription = this.groupService.fetchGroups().subscribe({
       next: (groups: Group[]): void => {
+        console.log('Groups loaded:', groups);
         this.availableGroups = groups;
       },
       error: (error: unknown): void => {

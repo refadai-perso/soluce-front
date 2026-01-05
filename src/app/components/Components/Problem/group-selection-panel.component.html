@@ -1,0 +1,133 @@
+@if (isOpen) {
+  <!-- Backdrop -->
+  <div 
+    class="position-fixed top-0 start-0 w-100 h-100" 
+    style="z-index: 1040; animation: fadeIn 0.2s ease-out; background-color: rgba(0, 0, 0, 0.5);"
+    (click)="onClose()">
+  </div>
+  
+  <!-- Side Panel -->
+  <div 
+    class="position-fixed top-0 end-0 h-100 shadow-lg"
+    style="width: 400px; max-width: 90vw; z-index: 1050; overflow-y: auto; animation: slideInRight 0.3s ease-out; background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);"
+    (click)="$event.stopPropagation()">
+    <div class="d-flex flex-column h-100">
+      <!-- Panel Header -->
+      <div class="border-bottom p-3" style="background-color: var(--bs-secondary-bg, #f8f9fa);">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0" i18n>
+            <i class="bi-people-fill me-2"></i>
+            Select Group
+          </h5>
+          <button 
+            type="button" 
+            class="btn-close" 
+            (click)="onClose()"
+            aria-label="Close"
+            i18n-aria-label>
+          </button>
+        </div>
+        
+        <!-- Search Input -->
+        <div class="input-group">
+          <span class="input-group-text" style="background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);">
+            <i class="bi-search"></i>
+          </span>
+          <input 
+            type="text" 
+            class="form-control"
+            [(ngModel)]="searchFilter"
+            placeholder="Search groups..."
+            i18n-placeholder
+            autofocus
+            style="background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);">
+        </div>
+      </div>
+
+      <!-- Panel Body -->
+      <div class="flex-grow-1 p-3" style="overflow-y: auto;">
+        @if (getAvailableGroupsForSelection().length === 0) {
+          <div class="text-center text-muted py-5">
+            <i class="bi-inbox fs-1 d-block mb-3"></i>
+            @if (searchFilter.trim() !== '') {
+              <p i18n>No groups found matching your search</p>
+            } @else {
+              <p i18n>All available groups have been added</p>
+            }
+          </div>
+        } @else {
+          <div class="list-group">
+            @for (group of getAvailableGroupsForSelection(); track group.id || $index) {
+              <div 
+                class="list-group-item list-group-item-action cursor-pointer"
+                [class.active]="selectedGroup?.id === group.id"
+                (click)="onSelectGroup(group)"
+                style="cursor: pointer; background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);">
+                <div class="d-flex w-100 justify-content-between align-items-start">
+                  <div class="flex-grow-1">
+                    <h6 class="mb-1">{{ group.name || 'Unknown Group' }}</h6>
+                    @if (group.description) {
+                      <p class="mb-0 small text-muted">{{ group.description }}</p>
+                    }
+                  </div>
+                  @if (selectedGroup?.id === group.id) {
+                    <i class="bi-check-circle-fill text-primary ms-2"></i>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Panel Footer -->
+      <div class="border-top p-3" style="background-color: var(--bs-secondary-bg, #f8f9fa);">
+        <div class="mb-3">
+          <label class="form-label small mb-2 d-block fw-semibold" i18n>Authorization Level</label>
+          <div class="d-flex gap-2 w-100" role="group" aria-label="Authorization level selection">
+            @for (level of authorizationLevels; track level; let i = $index) {
+              <input 
+                type="radio" 
+                class="btn-check" 
+                [id]="'auth-level-' + level"
+                [value]="level"
+                [(ngModel)]="selectedAuthLevel"
+                name="authLevelRadio"
+                autocomplete="off">
+              <label
+                class="btn d-flex flex-column align-items-center justify-content-center gap-1"
+                [style.flex]="'1 1 0'"
+                [for]="'auth-level-' + level"
+                [ngClass]="{
+                  'btn-outline-danger': level === authorizationLevels[0],
+                  'btn-outline-warning': level === authorizationLevels[1],
+                  'btn-outline-info': level === authorizationLevels[2]
+                }">
+                <i [ngClass]="getAuthorizationIcon(level)" class="fs-5"></i>
+                <span class="small fw-medium">{{ level }}</span>
+              </label>
+            }
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button 
+            type="button" 
+            class="btn btn-secondary flex-grow-1" 
+            (click)="onClose()"
+            i18n>
+            Close
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-primary flex-grow-1" 
+            (click)="onConfirmSelection()"
+            [disabled]="selectedGroup === null"
+            i18n>
+            Add Selected
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+

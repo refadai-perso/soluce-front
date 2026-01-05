@@ -23,7 +23,8 @@ export class DBGroupService extends GroupService {
     const url: string = `${this.API_BASE_URL}/group`;
     return this.httpClient.get<GroupDto[]>(url).pipe(
       map((backendGroups: GroupDto[]): Group[] => {
-        return backendGroups.map((backendGroup: GroupDto): Group => {
+        console.log('Backend groups response:', backendGroups);
+        const mappedGroups: Group[] = backendGroups.map((backendGroup: GroupDto): Group => {
           const group: Group = {
             id: backendGroup.id,
             name: backendGroup.name,
@@ -31,6 +32,8 @@ export class DBGroupService extends GroupService {
           };
           return group;
         });
+        console.log('Mapped groups:', mappedGroups);
+        return mappedGroups;
       }),
       catchError((error: unknown) => {
         console.log('Error fetching groups:', error);
