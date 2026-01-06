@@ -1,0 +1,148 @@
+/**
+ * Styling for user card component
+ */
+
+// Sortable column headers
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  i {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover i {
+    opacity: 1;
+  }
+}
+
+// Filter row styling
+.filter-row {
+  // Match card-header background color using Bootstrap CSS variable
+  background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
+  
+  th {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    // Match card-header background color using Bootstrap CSS variable
+    background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
+  }
+
+  input[type="text"] {
+    font-size: 0.875rem;
+  }
+}
+
+// Scrollable table container
+.table-container {
+  position: relative;
+  max-height: 800px;
+  display: flex;
+  flex-direction: column;
+
+  table {
+    width: 100%;
+    margin-bottom: 0;
+    // Use fixed layout to maintain column alignment
+    table-layout: fixed;
+  }
+
+  // Header section (fixed, outside scrollable area)
+  table thead {
+    display: block;
+    flex-shrink: 0;
+    
+    tr:first-child {
+      // Main header row with column names
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      // Match card-header background color using Bootstrap CSS variable
+      background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
+      
+      th {
+        // Match card-header background color using Bootstrap CSS variable
+        background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
+      }
+    }
+
+    tr.filter-row {
+      // Filter row (also fixed, outside scrollable area)
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      // Match card-header background color using Bootstrap CSS variable
+      background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
+      
+      th {
+        // Match card-header background color using Bootstrap CSS variable
+        background-color: var(--bs-card-cap-bg, var(--bs-secondary-bg));
+      }
+    }
+  }
+
+  // Scrollable body section
+  table tbody {
+    display: block;
+    max-height: 600px; // Leave room for header rows
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    // Smooth scrolling
+    scroll-behavior: smooth;
+
+    // Custom scrollbar styling for webkit browsers
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+      
+      &:hover {
+        background: #555;
+      }
+    }
+
+    tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+  }
+}
+
+// Row highlight animation for updated users
+.highlight-fade {
+  animation: fadeHighlight 3s ease-in-out;
+}
+
+@keyframes fadeHighlight {
+  0% {
+    background-color: #d1e7dd !important; // Bootstrap success light
+    border-left: 4px solid #198754; // Bootstrap success
+  }
+  70% {
+    background-color: #d1e7dd !important;
+    border-left: 4px solid #198754;
+  }
+  100% {
+    background-color: transparent !important;
+    border-left: 4px solid transparent;
+  }
+}
+

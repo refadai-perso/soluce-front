@@ -137,6 +137,19 @@ export class AuthService {
   }
 
   /**
+   * Check if the current user is an administrator.
+   * 
+   * @returns True if the current user is an administrator, false otherwise.
+   */
+  public isAdmin(): boolean {
+    const cachedUser: UserDto | null = this.getCachedUser();
+    if (cachedUser !== null && cachedUser.admin === true) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Cache the current user in localStorage.
    * 
    * @param user The user to cache.

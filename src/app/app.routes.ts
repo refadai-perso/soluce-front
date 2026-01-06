@@ -12,6 +12,7 @@ import { CustomerSearchComponent } from './components/Pages/customer-search.comp
 import { DashboardComponent } from './components/Pages/dashboard.component';
 import { FindProblemOutletComponent } from './components/Pages/find-problem-outlet.component';
 import { ProblemAddComponent } from './components/Pages/problem-add.component';
+import { UserManagementComponent } from './components/Pages/user-management.component';
 import { LocaleGuard } from './guards/locale.guard';
 
 export const routes: Routes = [
@@ -45,6 +46,10 @@ export const routes: Routes = [
       {
         path: 'admin',
         component: AdminComponent
+      },
+      {
+        path: 'user-management',
+        component: UserManagementComponent
       },
       {
         path: 'app',

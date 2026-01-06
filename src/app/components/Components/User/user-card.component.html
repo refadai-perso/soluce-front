@@ -1,0 +1,140 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <span class="me-3" i18n>Users List</span>
+        <button
+            class="btn btn-sm btn-success me-2"
+            (click)="openCreateUserModal()"
+            ngbTooltip="Create new user"
+            i18n-ngbTooltip
+            placement="bottom">
+            <i class="bi-person-plus me-1"></i><span i18n>Add</span>
+        </button>
+        <button class="btn btn-sm btn-outline-secondary ms-auto" (click)="clearFilters()">
+            <i class="bi-x-circle me-1"></i><span i18n>Clear Filters</span>
+        </button>
+        <i class="text-info ms-2 bi-people"></i>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-container">
+            <table class="table table-borderless table-sm mb-0">
+            <thead>
+                <tr>
+                    <th class="sortable" (click)="onSort('id')" i18n>
+                        ID
+                        <i [ngClass]="['bi', getSortIcon('id'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('email')" i18n>
+                        Email
+                        <i [ngClass]="['bi', getSortIcon('email'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('firstName')" i18n>
+                        First Name
+                        <i [ngClass]="['bi', getSortIcon('firstName'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('surname')" i18n>
+                        Surname
+                        <i [ngClass]="['bi', getSortIcon('surname'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('admin')" i18n>
+                        Admin
+                        <i [ngClass]="['bi', getSortIcon('admin'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('creationDate')" i18n>
+                        Creation Date
+                        <i [ngClass]="['bi', getSortIcon('creationDate'), 'ms-1']"></i>
+                    </th>
+                    <th i18n>
+                        Actions
+                    </th>
+                </tr>
+                <tr class="filter-row">
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterEmail"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter email..."
+                            i18n-placeholder>
+                    </th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterFirstName"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter first name..."
+                            i18n-placeholder>
+                    </th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterSurname"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter surname..."
+                            i18n-placeholder>
+                    </th>
+                    <th>
+                        <button 
+                            type="button" 
+                            class="btn btn-sm btn-outline-secondary w-100"
+                            (click)="toggleAdminFilter()"
+                            i18n-title
+                            title="Filter by admin status">
+                            <span i18n>{{ getAdminFilterText() }}</span>
+                        </button>
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (user of (users$ | async); track user.id) {
+                    <tr [class.table-success]="isRowHighlighted(user.id)"
+                        [class.highlight-fade]="isRowHighlighted(user.id)">
+                        <td>
+                            <a href="javascript:void(0)" (click)="openEditUserModal(user)" class="text-primary" style="cursor: pointer;">
+                                {{ user.id }}
+                            </a>
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.surname }}</td>
+                        <td>
+                            @if (user.admin) {
+                                <span class="badge bg-danger" i18n>Admin</span>
+                            } @else {
+                                <span class="badge bg-secondary" i18n>User</span>
+                            }
+                        </td>
+                        <td>
+                            @if (user.creationDate) {
+                                {{ user.creationDate | date }}
+                            } @else {
+                                <span class="text-muted" i18n>-</span>
+                            }
+                        </td>
+                        <td>
+                            <button 
+                                class="btn btn-sm btn-outline-primary"
+                                (click)="openEditUserModal(user)"
+                                ngbTooltip="Edit user"
+                                i18n-ngbTooltip>
+                                <i class="bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4" i18n>
+                            No users found
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+

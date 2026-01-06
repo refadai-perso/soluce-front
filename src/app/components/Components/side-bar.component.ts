@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LocaleService } from '../../services/locale.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -19,6 +20,7 @@ import { LocaleService } from '../../services/locale.service';
 })
 export class SideBarComponent {
   private readonly localeService: LocaleService = inject(LocaleService);
+  private readonly authService: AuthService = inject(AuthService);
 
   constructor() {}
 
@@ -27,5 +29,14 @@ export class SideBarComponent {
    */
   public currentLocale(): string {
     return this.localeService.currentLocale();
+  }
+
+  /**
+   * Check if the current user is an administrator.
+   * 
+   * @returns True if the current user is an administrator, false otherwise.
+   */
+  public isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 }

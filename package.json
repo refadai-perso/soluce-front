@@ -4,6 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev:en": "cross-env ENV=development ng serve --configuration=en-EN",
+    "start:dev:fr": "cross-env ENV=development ng serve --configuration=fr",
+    "start:dev": "cross-env ENV=development ng serve",
+    "start:prod": "cross-env ENV=prod ng serve --configuration=production",
+    "start:test": "cross-env ENV=test ng serve",
     "start:en": "ng serve --configuration=en-EN",
     "start:fr": "ng serve --configuration=fr",
     "build": "ng build",
@@ -34,9 +39,14 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^19.0.1",
     "@angular-devkit/build-angular": "~19.0.6",
     "@angular/cli": "~19.0.6",
     "@angular/compiler-cli": "~19.0.0",
+    "@types/node": "^25.0.3",
+    "cross-env": "^10.1.0",
+    "dotenv-webpack": "^8.1.1",
+    "imports-loader": "^5.0.0",
     "typescript": "~5.6.2"
   }
 }

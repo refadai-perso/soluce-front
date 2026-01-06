@@ -5,7 +5,7 @@
  * Check out this JitBlox project, Soluce, at https://www.jitblox.com/project/5JHnGKTPaU/soluce
  */
 
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { NgbAlertModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -18,16 +18,25 @@ import { ProblemService } from './services/problem.service';
 import { DBProblemService } from './services/backend.problem.service';
 import { GroupService } from './services/group.service';
 import { DBGroupService } from './services/backend.group.service';
+import { UserService } from './services/user.service';
+import { DBUserService } from './services/backend.user.service';
 import { LocaleService } from './services/locale.service';
 import { LocaleGuard } from './guards/locale.guard';
+import { authInitializer } from './initializers/auth.initializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     { provide: ProblemService, useClass: DBProblemService },
     { provide: GroupService, useClass: DBGroupService },
+    { provide: UserService, useClass: DBUserService },
     LocaleService,
     LocaleGuard,
     provideHttpClient(),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: authInitializer,
+      multi: true
+    },
     importProvidersFrom(
       NgbAlertModule,
       NgbDropdownModule,

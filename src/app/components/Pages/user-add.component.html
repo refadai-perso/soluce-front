@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h4 class="modal-title" i18n>{{ getModalTitle() }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()" i18n-aria-label></button>
+</div>
+<div class="modal-body">
+  <app-user-form
+    [initialValue]="initialValue"
+    [isEditMode]="isEditMode"
+    [wizardMode]="true"
+    [showActions]="false"
+    (submitUser)="onUserSubmit($event)"
+    (cancel)="onCancel()">
+  </app-user-form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="onCancel()" i18n>Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="triggerFormSubmit()" i18n>{{ getSubmitButtonLabel() }}</button>
+</div>
+

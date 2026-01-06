@@ -1,4 +1,4 @@
-Bug: les GroupAUthorization ne sont pas créés dans la base
+API: publier le swagger du backend dans Shared
 
 Bannière de login comme tout premier écran. Empêcher l'accès aux utilisateurs non loggés.
 

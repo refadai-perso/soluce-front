@@ -1,0 +1,125 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container py-3" role="form" novalidate>
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <label for="uf-email" class="form-label" i18n>Email</label>
+      <input 
+        id="uf-email" 
+        type="email" 
+        class="form-control" 
+        formControlName="emailCtrl" 
+        placeholder="user@example.com" 
+        i18n-placeholder
+        [class.is-invalid]="form.controls.emailCtrl.touched && form.controls.emailCtrl.invalid" 
+        aria-required="true" 
+        [attr.aria-invalid]="form.controls.emailCtrl.invalid ? 'true' : 'false'" 
+        [attr.aria-describedby]="form.controls.emailCtrl.invalid ? 'emailError' : null" />
+      @if (form.controls.emailCtrl.touched && form.controls.emailCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>
+          @if (form.controls.emailCtrl.errors?.['required']) {
+            Email is required.
+          } @else if (form.controls.emailCtrl.errors?.['email']) {
+            Please enter a valid email address.
+          }
+        </div>
+      }
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label for="uf-admin" class="form-label" i18n>Administrator</label>
+      <div class="form-check form-switch mt-2">
+        <input 
+          class="form-check-input" 
+          type="checkbox" 
+          id="uf-admin" 
+          formControlName="adminCtrl"
+          [attr.aria-describedby]="'adminHelp'">
+        <label class="form-check-label" for="uf-admin" i18n>
+          Grant administrator privileges
+        </label>
+        <div id="adminHelp" class="form-text" i18n>
+          Administrators can manage users and have full system access.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label for="uf-firstName" class="form-label" i18n>First Name</label>
+      <input 
+        id="uf-firstName" 
+        type="text" 
+        class="form-control" 
+        formControlName="firstNameCtrl" 
+        placeholder="John" 
+        i18n-placeholder
+        [class.is-invalid]="form.controls.firstNameCtrl.touched && form.controls.firstNameCtrl.invalid" 
+        aria-required="true" 
+        [attr.aria-invalid]="form.controls.firstNameCtrl.invalid ? 'true' : 'false'" 
+        [attr.aria-describedby]="form.controls.firstNameCtrl.invalid ? 'firstNameError' : null" />
+      @if (form.controls.firstNameCtrl.touched && form.controls.firstNameCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>First name is required (min 2 characters).</div>
+      }
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label for="uf-surname" class="form-label" i18n>Surname</label>
+      <input 
+        id="uf-surname" 
+        type="text" 
+        class="form-control" 
+        formControlName="surnameCtrl" 
+        placeholder="Doe" 
+        i18n-placeholder
+        [class.is-invalid]="form.controls.surnameCtrl.touched && form.controls.surnameCtrl.invalid" 
+        aria-required="true" 
+        [attr.aria-invalid]="form.controls.surnameCtrl.invalid ? 'true' : 'false'" 
+        [attr.aria-describedby]="form.controls.surnameCtrl.invalid ? 'surnameError' : null" />
+      @if (form.controls.surnameCtrl.touched && form.controls.surnameCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>Surname is required (min 2 characters).</div>
+      }
+    </div>
+
+    <div class="col-12">
+      <label for="uf-password" class="form-label" i18n>
+        @if (isEditMode) {
+          Password (leave blank to keep current password)
+        } @else {
+          Password
+        }
+      </label>
+      <input 
+        id="uf-password" 
+        type="password" 
+        class="form-control" 
+        formControlName="passwordCtrl" 
+        placeholder="Enter password" 
+        i18n-placeholder
+        [class.is-invalid]="form.controls.passwordCtrl.touched && form.controls.passwordCtrl.invalid" 
+        [attr.aria-required]="!isEditMode ? 'true' : 'false'"
+        [attr.aria-invalid]="form.controls.passwordCtrl.invalid ? 'true' : 'false'" 
+        [attr.aria-describedby]="form.controls.passwordCtrl.invalid ? 'passwordError' : null" />
+      @if (form.controls.passwordCtrl.touched && form.controls.passwordCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>
+          @if (form.controls.passwordCtrl.errors?.['required']) {
+            Password is required.
+          } @else if (form.controls.passwordCtrl.errors?.['minlength']) {
+            Password must be at least 6 characters.
+          }
+        </div>
+      }
+      @if (isEditMode) {
+        <div class="form-text" i18n>Leave blank to keep the current password unchanged.</div>
+      }
+    </div>
+  </div>
+
+  @if (!wizardMode && showActions) {
+    <div class="row mt-4">
+      <div class="col-12 d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" (click)="onReset()" i18n>Reset</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="onCancel()" i18n>Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid" i18n>{{ submitLabel }}</button>
+      </div>
+    </div>
+  }
+</form>
+
