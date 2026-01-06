@@ -20,7 +20,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, EventEmitter, Input, isDevMode, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
-import { debounceTime, Subscription } from 'rxjs';
+import { catchError, debounceTime, Observable, of, Subscription, switchMap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { CreateProblemDto, UpdateProblemDto } from '@shared/dto';
@@ -96,6 +96,11 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * List of group authorizations for this problem.
    */
   public groupAuthorizations: GroupAuthorization[] = [];
+
+  /**
+   * Initial group authorizations from when the form was loaded (for comparison during updates).
+   */
+  private initialGroupAuthorizations: GroupAuthorization[] = [];
 
   /**
    * Whether the group authorizations accordion is expanded.
@@ -229,15 +234,25 @@ export class ProblemFormComponent implements OnInit, OnChanges {
 
       const sub: Subscription = this.problemService.updateProblem(rawId, updateBody).subscribe({
         next: (updated: Problem): void => {
-          // For updates, we should handle group authorizations separately
-          // This could involve deleting old ones and creating new ones, or updating them
-          // For now, we'll just emit the updated problem
-          // TODO: Implement group authorization updates for edit mode
-          this.submitProblem.emit(updated);
-          // Only navigate if we're showing actions (standalone mode, not in a modal)
-          if (this.showActions) {
-            void this.localeService.navigateWithLocale(['dashboard']);
-          }
+          // Sync group authorizations: compare initial vs current and update accordingly
+          this.syncGroupAuthorizations(rawId).subscribe({
+            next: (): void => {
+              console.log('Group authorizations synced successfully');
+              this.submitProblem.emit(updated);
+              // Only navigate if we're showing actions (standalone mode, not in a modal)
+              if (this.showActions) {
+                void this.localeService.navigateWithLocale(['dashboard']);
+              }
+            },
+            error: (err: unknown): void => {
+              console.error('Error syncing group authorizations:', err);
+              // Still emit the problem even if authorization sync fails
+              this.submitProblem.emit(updated);
+              if (this.showActions) {
+                void this.localeService.navigateWithLocale(['dashboard']);
+              }
+            }
+          });
         },
         error: (_err: unknown): void => {
           // Keep simple UX for now; could surface an alert/Toast
@@ -333,11 +348,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     this.form.controls.creatorCtrl.disable({ emitEvent: false });
     this.form.controls.creationDateCtrl.setValue(today, { emitEvent: false });
     this.form.controls.creationDateCtrl.disable({ emitEvent: false });
-    if (this.initialValue?.groupAuthorizations) {
-      this.groupAuthorizations = [...this.initialValue.groupAuthorizations];
-    } else {
-      this.groupAuthorizations = [];
-    }
+    // patchFromInitial already handles groupAuthorizations and initialGroupAuthorizations
   }
 
   /**
@@ -372,6 +383,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
     }
     if (value === null) {
       this.groupAuthorizations = [];
+      this.initialGroupAuthorizations = [];
       return;
     }
     const dateString: string | null = value.creationDate instanceof Date
@@ -389,9 +401,22 @@ export class ProblemFormComponent implements OnInit, OnChanges {
         : null,
     }, { emitEvent: false });
     if (value.groupAuthorizations && value.groupAuthorizations.length > 0) {
-      this.groupAuthorizations = [...value.groupAuthorizations];
+      // Deep copy to track initial state
+      this.groupAuthorizations = value.groupAuthorizations.map((auth: GroupAuthorization) => ({
+        id: auth.id,
+        group: auth.group ? { ...auth.group } : undefined,
+        authorizationLevel: auth.authorizationLevel,
+        grantedDate: auth.grantedDate
+      }));
+      this.initialGroupAuthorizations = value.groupAuthorizations.map((auth: GroupAuthorization) => ({
+        id: auth.id,
+        group: auth.group ? { ...auth.group } : undefined,
+        authorizationLevel: auth.authorizationLevel,
+        grantedDate: auth.grantedDate
+      }));
     } else {
       this.groupAuthorizations = [];
+      this.initialGroupAuthorizations = [];
     }
   }
 
@@ -602,5 +627,69 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       }
     });
     this.destroyRef.onDestroy((): void => sub.unsubscribe());
+  }
+
+  /**
+   * Syncs group authorizations by comparing initial state with current state.
+   * Deletes removed authorizations and creates new/changed ones.
+   * 
+   * @param problemId The ID of the problem being updated
+   * @returns Observable that completes when all sync operations are done
+   */
+  private syncGroupAuthorizations(problemId: number): Observable<void> {
+    // Type assertion to access DBProblemService methods
+    const dbProblemService = this.problemService as any;
+    if (!dbProblemService.deleteGroupAuthorizations || !dbProblemService.createGroupAuthorizations) {
+      console.warn('Backend service does not support group authorization sync');
+      return of(void 0);
+    }
+
+    // Find authorizations to delete (in initial but not in current, or changed)
+    const toDelete: number[] = [];
+    for (const initialAuth of this.initialGroupAuthorizations) {
+      if (initialAuth.id === undefined || initialAuth.id === null) {
+        continue;
+      }
+      const currentAuth = this.groupAuthorizations.find(
+        (auth: GroupAuthorization) => auth.group?.id === initialAuth.group?.id
+      );
+      // Delete if not found in current, or if authorization level changed
+      if (currentAuth === undefined || currentAuth.authorizationLevel !== initialAuth.authorizationLevel) {
+        toDelete.push(initialAuth.id);
+      }
+    }
+
+    // Find authorizations to create (in current but not in initial, or changed)
+    const toCreate: GroupAuthorization[] = [];
+    for (const currentAuth of this.groupAuthorizations) {
+      if (currentAuth.group?.id === undefined || currentAuth.authorizationLevel === undefined) {
+        continue;
+      }
+      const initialAuth = this.initialGroupAuthorizations.find(
+        (auth: GroupAuthorization) => auth.group?.id === currentAuth.group?.id
+      );
+      // Create if not found in initial, or if authorization level changed
+      if (initialAuth === undefined || initialAuth.authorizationLevel !== currentAuth.authorizationLevel) {
+        toCreate.push(currentAuth);
+      }
+    }
+
+    // Execute delete and create operations
+    const deleteObs: Observable<void> = toDelete.length > 0
+      ? dbProblemService.deleteGroupAuthorizations(toDelete)
+      : of(void 0);
+    
+    const createObs: Observable<void> = toCreate.length > 0
+      ? dbProblemService.createGroupAuthorizations(problemId, toCreate)
+      : of(void 0);
+
+    // Execute delete first, then create
+    return deleteObs.pipe(
+      switchMap((): Observable<void> => createObs),
+      catchError((error: unknown): Observable<never> => {
+        console.error('Error during group authorization sync:', error);
+        return throwError((): Error => new Error('Failed to sync group authorizations'));
+      })
+    );
   }
 }

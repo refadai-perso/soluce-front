@@ -174,6 +174,58 @@ export class DBProblemService extends ProblemService {
     );
   }
 
+  /**
+   * Deletes a group authorization by its ID.
+   * 
+   * @param authorizationId The ID of the group authorization to delete
+   * @returns Observable that completes when the authorization is deleted
+   */
+  public deleteGroupAuthorization(authorizationId: number): Observable<void> {
+    const url: string = `http://localhost:3000/group-authorization/${authorizationId}`;
+    console.log('Deleting group authorization:', authorizationId);
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.delete<void>(url, { headers }).pipe(
+      catchError((error: unknown) => {
+        console.log('Error deleting group authorization:', error);
+        return throwError(() => new Error('Failed to delete group authorization'));
+      })
+    );
+  }
+
+  /**
+   * Deletes multiple group authorizations.
+   * 
+   * @param authorizationIds Array of group authorization IDs to delete
+   * @returns Observable that completes when all authorizations are deleted
+   */
+  public deleteGroupAuthorizations(authorizationIds: number[]): Observable<void> {
+    // Early return if no IDs provided
+    if (authorizationIds.length === 0) {
+      return of(void 0);
+    }
+    
+    // Filter out invalid IDs and map each valid ID to a delete operation
+    const deleteObservables: Observable<void>[] = authorizationIds
+      .filter((id: number) => id !== undefined && id !== null)
+      .map((id: number) => this.deleteGroupAuthorization(id));
+    
+    // Early return if no valid IDs after filtering
+    if (deleteObservables.length === 0) {
+      return of(void 0);
+    }
+    
+    // Execute all delete operations in parallel using forkJoin
+    return forkJoin(deleteObservables).pipe(
+      map(() => void 0),
+      catchError((error: unknown) => {
+        console.log('Error deleting group authorizations:', error);
+        return throwError(() => new Error('Failed to delete some group authorizations'));
+      })
+    );
+  }
+
   private fetchProblemsGood(url: string, errorMessage: string) {
     return this.httpClient.get<{ problems: Problem[] }>(url).pipe(
       tap((res) => console.log('HTTP response:', res)),
