@@ -10,7 +10,8 @@ import { NgbModalModule, NgbModal, NgbTooltipModule, NgbDropdownModule, NgbDatep
 import { User } from '../../../model/model';
 import { UserService } from '../../../services/user.service';
 import { UserAddComponent } from '../../Pages/user-add.component';
-import { Observable } from 'rxjs';
+import { UserDeleteConfirmComponent } from './user-delete-confirm.component';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { format, isAfter, isBefore, isEqual } from 'date-fns';
 import {
@@ -425,6 +426,56 @@ export class UserCardComponent implements OnInit {
         console.log('Modal dismissed', reason);
       }
     );
+  }
+
+  /**
+   * Opens a confirmation dialog to delete a user.
+   * @param user The user to delete
+   */
+  public openDeleteUserConfirmation(user: User): void {
+    // Blur any focused element to prevent aria-hidden accessibility warning
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    const modalRef = this.modalService.open(UserDeleteConfirmComponent, {
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    modalRef.componentInstance.user = user;
+
+    modalRef.result.then(
+      (result: string) => {
+        if (result === 'delete' && user.id !== undefined) {
+          this.deleteUser(user.id);
+        }
+      },
+      (reason: unknown) => {
+        // Handle dismissal - do nothing
+        console.log('Delete confirmation dismissed', reason);
+      }
+    );
+  }
+
+  /**
+   * Deletes a user by ID.
+   * @param userId The ID of the user to delete
+   */
+  private deleteUser(userId: number): void {
+    const sub: Subscription = this.userService.deleteUser(userId).subscribe({
+      next: (): void => {
+        console.log('User deleted successfully:', userId);
+        this.refreshData();
+      },
+      error: (error: unknown): void => {
+        console.error('Error deleting user:', error);
+        // Could show an error toast/alert here
+      }
+    });
+    // Note: In a real app, you'd want to manage this subscription properly
+    // For now, we'll let it complete naturally
   }
 
   /**

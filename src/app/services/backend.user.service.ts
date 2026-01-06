@@ -119,5 +119,26 @@ export class DBUserService extends UserService {
       })
     );
   }
+
+  /**
+   * Deletes a user by ID using DELETE request to the API.
+   * Uses DELETE http://localhost:3000/auth/{id}
+   *
+   * @param id The ID of the user to delete.
+   * @returns Observable emitting void when the deletion is complete.
+   */
+  public override deleteUser(id: number): Observable<void> {
+    const url: string = `${this.API_BASE_URL}/auth/${id}`;
+    console.log('Backend service - deleting user:', id);
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.delete<void>(url, { headers }).pipe(
+      catchError((error: unknown) => {
+        console.log('Error deleting user:', error);
+        return throwError(() => new Error('Failed to delete user'));
+      })
+    );
+  }
 }
 

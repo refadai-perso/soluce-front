@@ -245,11 +245,11 @@
                         </td>
                         <td>
                             <button 
-                                class="btn btn-sm btn-outline-primary"
-                                (click)="openEditUserModal(user)"
-                                ngbTooltip="Edit user"
+                                class="btn btn-sm btn-outline-danger"
+                                (click)="openDeleteUserConfirmation(user)"
+                                ngbTooltip="Delete user"
                                 i18n-ngbTooltip>
-                                <i class="bi-pencil"></i>
+                                <i class="bi-trash"></i>
                             </button>
                         </td>
                     </tr>

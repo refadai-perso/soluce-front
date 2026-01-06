@@ -79,5 +79,17 @@ export class UserService {
     };
     return of(updatedUser);
   }
+
+  /**
+   * Deletes a user by ID.
+   * Base mock implementation used in development without a backend.
+   *
+   * @param id The ID of the user to delete.
+   * @returns An observable emitting void when the deletion is complete.
+   */
+  public deleteUser(id: number): Observable<void> {
+    // Mock implementation - will be overridden by backend service
+    return of(void 0);
+  }
 }
 
