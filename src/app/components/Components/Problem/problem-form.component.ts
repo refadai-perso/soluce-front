@@ -229,6 +229,10 @@ export class ProblemFormComponent implements OnInit, OnChanges {
 
       const sub: Subscription = this.problemService.updateProblem(rawId, updateBody).subscribe({
         next: (updated: Problem): void => {
+          // For updates, we should handle group authorizations separately
+          // This could involve deleting old ones and creating new ones, or updating them
+          // For now, we'll just emit the updated problem
+          // TODO: Implement group authorization updates for edit mode
           this.submitProblem.emit(updated);
           // Only navigate if we're showing actions (standalone mode, not in a modal)
           if (this.showActions) {
@@ -266,10 +270,46 @@ export class ProblemFormComponent implements OnInit, OnChanges {
 
       const sub: Subscription = this.problemService.createProblem(createBody).subscribe({
         next: (created: Problem): void => {
-          this.submitProblem.emit(created);
-          // Only navigate if we're showing actions (standalone mode, not in a modal)
-          if (this.showActions) {
-            void this.localeService.navigateWithLocale(['dashboard']);
+          // Create group authorizations if any are defined
+          if (created.id !== undefined && this.groupAuthorizations.length > 0) {
+            // Type assertion to access DBProblemService methods
+            const dbProblemService = this.problemService as any;
+            if (dbProblemService.createGroupAuthorizations) {
+              const authSub: Subscription = dbProblemService.createGroupAuthorizations(
+                created.id,
+                this.groupAuthorizations
+              ).subscribe({
+                next: (): void => {
+                  console.log('Group authorizations created successfully');
+                  this.submitProblem.emit(created);
+                  // Only navigate if we're showing actions (standalone mode, not in a modal)
+                  if (this.showActions) {
+                    void this.localeService.navigateWithLocale(['dashboard']);
+                  }
+                },
+                error: (err: unknown): void => {
+                  console.error('Error creating group authorizations:', err);
+                  // Still emit the problem even if authorizations fail
+                  this.submitProblem.emit(created);
+                  if (this.showActions) {
+                    void this.localeService.navigateWithLocale(['dashboard']);
+                  }
+                }
+              });
+              this.destroyRef.onDestroy((): void => authSub.unsubscribe());
+            } else {
+              // Fallback if service doesn't have the method
+              this.submitProblem.emit(created);
+              if (this.showActions) {
+                void this.localeService.navigateWithLocale(['dashboard']);
+              }
+            }
+          } else {
+            this.submitProblem.emit(created);
+            // Only navigate if we're showing actions (standalone mode, not in a modal)
+            if (this.showActions) {
+              void this.localeService.navigateWithLocale(['dashboard']);
+            }
           }
         },
         error: (_err: unknown): void => {

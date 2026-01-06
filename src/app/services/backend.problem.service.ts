@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Authorization } from '@shared/dto/group/authorization.enum';
-import { UpdateProblemDto } from '@shared/dto';
+import { CreateGroupAuthorizationDto, UpdateProblemDto } from '@shared/dto';
 
 import { Problem, GroupAuthorization } from '../model';
 import { ProblemService } from './problem.service';
@@ -112,6 +112,66 @@ export class DBProblemService extends ProblemService {
       };
       return mapped;
     });
+  }
+
+  /**
+   * Creates a group authorization for a problem.
+   * 
+   * @param groupId The ID of the group
+   * @param problemId The ID of the problem
+   * @param authorization The authorization level
+   * @returns Observable that completes when the authorization is created
+   */
+  public createGroupAuthorization(groupId: number, problemId: number, authorization: Authorization): Observable<void> {
+    const url: string = 'http://localhost:3000/group-authorization';
+    const body: CreateGroupAuthorizationDto = {
+      groupId: groupId,
+      problemId: problemId,
+      authorization: authorization
+    };
+    console.log('Creating group authorization:', body);
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.httpClient.post<void>(url, body, { headers }).pipe(
+      catchError((error: unknown) => {
+        console.log('Error creating group authorization:', error);
+        return throwError(() => new Error('Failed to create group authorization'));
+      })
+    );
+  }
+
+  /**
+   * Creates multiple group authorizations for a problem.
+   * 
+   * @param problemId The ID of the problem
+   * @param authorizations Array of group authorizations to create
+   * @returns Observable that completes when all authorizations are created
+   */
+  public createGroupAuthorizations(problemId: number, authorizations: GroupAuthorization[]): Observable<void> {
+    if (authorizations.length === 0) {
+      return of(void 0);
+    }
+    
+    const createObservables: Observable<void>[] = authorizations
+      .filter((auth: GroupAuthorization) => auth.group?.id !== undefined && auth.authorizationLevel !== undefined)
+      .map((auth: GroupAuthorization) => {
+        const groupId: number = auth.group!.id!;
+        const authorization: Authorization = auth.authorizationLevel!;
+        return this.createGroupAuthorization(groupId, problemId, authorization);
+      });
+    
+    if (createObservables.length === 0) {
+      return of(void 0);
+    }
+    
+    return forkJoin(createObservables).pipe(
+      map(() => void 0),
+      catchError((error: unknown) => {
+        console.log('Error creating group authorizations:', error);
+        return throwError(() => new Error('Failed to create some group authorizations'));
+      })
+    );
   }
 
   private fetchProblemsGood(url: string, errorMessage: string) {
