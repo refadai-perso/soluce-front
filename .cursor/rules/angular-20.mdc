@@ -125,3 +125,4 @@ This project adheres to modern Angular best practices, emphasizing maintainabili
           // ...
         }
         ```
+* **API Documentation:** The backend API documentation is available in `@shared/API/swagger.json`. Reference this file when implementing HTTP services or making API calls to ensure correct endpoints, request/response types, and data structures.

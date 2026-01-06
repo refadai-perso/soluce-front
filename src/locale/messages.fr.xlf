@@ -550,6 +550,114 @@
         <source>Leave blank to keep the current password unchanged.</source>
         <target>Laisser vide pour conserver le mot de passe actuel inchangé.</target>
       </trans-unit>
+
+      <!-- User Card Component Strings -->
+      <trans-unit id="1006422775167058560" datatype="html">
+        <source>Users List</source>
+        <target>Liste des utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="460768807323872129" datatype="html">
+        <source>Create new user</source>
+        <target>Créer un nouvel utilisateur</target>
+      </trans-unit>
+      <trans-unit id="4367697765136268408" datatype="html">
+        <source> ID <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;id&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></source>
+        <target> ID <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;id&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></target>
+      </trans-unit>
+      <trans-unit id="8228656810044605539" datatype="html">
+        <source> Email <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;email&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></source>
+        <target> E-mail <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;email&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></target>
+      </trans-unit>
+      <trans-unit id="6567062658899168413" datatype="html">
+        <source> First Name <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;firstName&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></source>
+        <target> Prénom <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;firstName&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></target>
+      </trans-unit>
+      <trans-unit id="567061434541379254" datatype="html">
+        <source> Surname <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;surname&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></source>
+        <target> Nom <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;surname&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></target>
+      </trans-unit>
+      <trans-unit id="7606794374263146182" datatype="html">
+        <source> Admin <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;admin&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></source>
+        <target> Administrateur <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;admin&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></target>
+      </trans-unit>
+      <trans-unit id="1541977978274120363" datatype="html">
+        <source> Creation Date <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;creationDate&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></source>
+        <target> Date de création <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;creationDate&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></target>
+      </trans-unit>
+      <trans-unit id="4360239040231802726" datatype="html">
+        <source> Actions </source>
+        <target> Actions </target>
+      </trans-unit>
+      <trans-unit id="1265564898614057885" datatype="html">
+        <source>Filter email...</source>
+        <target>Filtrer par e-mail...</target>
+      </trans-unit>
+      <trans-unit id="3364073049245817232" datatype="html">
+        <source>Filter first name...</source>
+        <target>Filtrer par prénom...</target>
+      </trans-unit>
+      <trans-unit id="7386842421765463923" datatype="html">
+        <source>Filter surname...</source>
+        <target>Filtrer par nom...</target>
+      </trans-unit>
+      <trans-unit id="1402377427841080760" datatype="html">
+        <source>Filter by admin status</source>
+        <target>Filtrer par statut administrateur</target>
+      </trans-unit>
+      <trans-unit id="5041354590769758251" datatype="html">
+        <source>Admin</source>
+        <target>Administrateur</target>
+      </trans-unit>
+      <trans-unit id="2392488717875840729" datatype="html">
+        <source>User</source>
+        <target>Utilisateur</target>
+      </trans-unit>
+      <trans-unit id="8590109102084543521" datatype="html">
+        <source>-</source>
+        <target>-</target>
+      </trans-unit>
+      <trans-unit id="7187838764371214919" datatype="html">
+        <source>Edit user</source>
+        <target>Modifier l'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="7687747331538884147" datatype="html">
+        <source> No users found </source>
+        <target> Aucun utilisateur trouvé </target>
+      </trans-unit>
+      <trans-unit id="1616102757855967475" datatype="html">
+        <source>All</source>
+        <target>Tous</target>
+      </trans-unit>
+      <trans-unit id="466217285601692470" datatype="html">
+        <source>Admin only</source>
+        <target>Administrateurs uniquement</target>
+      </trans-unit>
+      <trans-unit id="1939075201848864251" datatype="html">
+        <source>Non-admin only</source>
+        <target>Non-administrateurs uniquement</target>
+      </trans-unit>
+
+      <!-- User Management and User Add Component Strings -->
+      <trans-unit id="2550377588620126747" datatype="html">
+        <source>User Management</source>
+        <target>Gestion des utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="1211169124143348857" datatype="html">
+        <source>Edit User</source>
+        <target>Modifier l'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="4662615971469653143" datatype="html">
+        <source>Create New User</source>
+        <target>Créer un nouvel utilisateur</target>
+      </trans-unit>
+      <trans-unit id="6020357970867883938" datatype="html">
+        <source>Update User</source>
+        <target>Mettre à jour l'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="5891941941917080206" datatype="html">
+        <source>Create User</source>
+        <target>Créer l'utilisateur</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

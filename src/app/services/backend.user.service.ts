@@ -18,11 +18,12 @@ export class DBUserService extends UserService {
 
   /**
    * Fetches all available users from the backend API.
+   * Uses GET http://localhost:3000/auth
    *
    * @returns Observable emitting an array of {@link User} objects.
    */
   public override fetchUsers(): Observable<User[]> {
-    const url: string = `${this.API_BASE_URL}/user`;
+    const url: string = `${this.API_BASE_URL}/auth`;
     return this.httpClient.get<UserDto[]>(url).pipe(
       map((backendUsers: UserDto[]): User[] => {
         console.log('Backend users response:', backendUsers);
@@ -49,12 +50,13 @@ export class DBUserService extends UserService {
 
   /**
    * Creates a new user by POSTing to the API.
+   * Uses POST http://localhost:3000/auth/signup
    *
    * @param userData The {@link CreateUserDto} payload for creating a user.
    * @returns Observable emitting the created {@link User} object.
    */
   public override createUser(userData: CreateUserDto): Observable<User> {
-    const url: string = `${this.API_BASE_URL}/user`;
+    const url: string = `${this.API_BASE_URL}/auth/signup`;
     console.log('Backend service - creating user:', userData);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -87,13 +89,14 @@ export class DBUserService extends UserService {
 
   /**
    * Updates an existing user by PATCHing to the API.
+   * Uses PATCH http://localhost:3000/auth/{id}
    *
    * @param id The ID of the user to update.
    * @param userData The {@link UpdateUserDto} payload with optional fields for partial updates.
    * @returns Observable emitting the updated {@link User} object.
    */
   public override updateUser(id: number, userData: UpdateUserDto): Observable<User> {
-    const url: string = `${this.API_BASE_URL}/user/${id}`;
+    const url: string = `${this.API_BASE_URL}/auth/${id}`;
     console.log('Backend service - updating user:', id, 'with data:', userData);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'

@@ -3,12 +3,12 @@ const webpack = require('webpack');
 const fs = require('fs');
 const path = require('path');
 
-// Configure webpack externals to handle @shared/dto CommonJS modules
-// This treats them as external dependencies, eliminating optimization warnings
-
 /**
  * Custom webpack configuration to load environment variables from .env files.
  * The appropriate .env file is selected based on the ENV environment variable.
+ * 
+ * Note: @shared/dto CommonJS modules are handled via allowedCommonJsDependencies
+ * in angular.json to eliminate optimization warnings while still bundling them.
  */
 module.exports = (config, options) => {
   // Determine which .env file to load based on environment
@@ -105,20 +105,8 @@ module.exports = (config, options) => {
     console.warn(`[Webpack Config] No environment variables to define`);
   }
 
-  // Configure externals to handle @shared/dto CommonJS modules
-  // This tells webpack to treat @shared/dto as external dependencies
-  if (!config.externals) {
-    config.externals = [];
-  }
-
-  // Add @shared/dto as an external CommonJS dependency
-  // This prevents webpack from trying to bundle it and eliminates the optimization warnings
-  config.externals.push({
-    '@shared/dto': 'commonjs @shared/dto',
-    '@shared/dto/group/authorization.enum': 'commonjs @shared/dto/group/authorization.enum',
-    '@shared/dto/problem/problem-status.enum': 'commonjs @shared/dto/problem/problem-status.enum',
-    '@shared/dto/user/user.dto': 'commonjs @shared/dto/user/user.dto'
-  });
+  // Note: @shared/dto CommonJS modules are handled via allowedCommonJsDependencies in angular.json
+  // This allows webpack to bundle them without optimization warnings
 
   return config;
 };

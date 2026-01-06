@@ -38,7 +38,7 @@
       "sourceRoot": "src",
       "prefix": "app",
       "i18n": {
-        "sourceLocale": "en-EN",
+        "sourceLocale": "en",
         "locales": {
           "fr": "src/locale/messages.fr.xlf"
         }
@@ -59,6 +59,12 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "@shared/dto",
+              "@shared/dto/group/authorization.enum",
+              "@shared/dto/problem/problem-status.enum",
+              "@shared/dto/user/user.dto"
+            ],
             "assets": [
               {
                 "glob": "**/*",
@@ -105,7 +111,7 @@
             },
             "en-EN": {
               "localize": [
-                "en-EN"
+                "en"
               ]
             }
           },
