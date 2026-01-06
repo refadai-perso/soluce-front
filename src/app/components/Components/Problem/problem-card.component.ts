@@ -8,35 +8,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbDateStruct, NgbDropdown, NgbDatepicker, NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Authorization } from '@shared/dto/group/authorization.enum';
 import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
 import { Problem, User, GroupAuthorization } from '../../../model';
 import { ProblemService } from '../../../services/problem.service';
 import { ProblemAddComponent } from '../../Pages/problem-add.component';
+import { DateRangeFilterComponent, DateRangeChange } from '../Common/date-range-filter.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { format, isAfter, isBefore, isEqual } from 'date-fns';
-import {
-  ngbDateToDate,
-  dateToNgbDate
-} from '../../../utils/date-sort-utils';
 
 type SortColumn = 'name' | 'description' | 'status' | 'creationDate' | 'author' | '';
 type SortDirection = 'asc' | 'desc' | '';
-
-interface DateRangePreset {
-  label: string;
-  icon: string;
-  getValue: () => { from: Date; to: Date };
-}
 
 @Component({
   selector: 'app-problem-card',
   standalone: true,
   templateUrl: './problem-card.component.html',
   styleUrls: ['./problem-card.component.scss'],
-  imports: [CommonModule, NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbDatepickerModule, NgbModalModule, FormsModule]
+  imports: [CommonModule, NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbModalModule, FormsModule, DateRangeFilterComponent]
 })
 export class ProblemCardComponent implements OnInit {
   public currentUserProblems$!: Observable<Problem[] | undefined>;
@@ -53,11 +43,6 @@ export class ProblemCardComponent implements OnInit {
   // Row highlighting for updates
   public lastUpdatedProblemId: number | null = null;
   
-  // Date picker properties
-  public hoveredDate: NgbDateStruct | null = null;
-  public fromDate: NgbDateStruct | null = null;
-  public toDate: NgbDateStruct | null = null;
-  
   /**
    * Available status options from ProblemStatus enum.
    * Using $localize for runtime translation.
@@ -68,83 +53,6 @@ export class ProblemCardComponent implements OnInit {
     $localize`Blocked`,
     $localize`Resolved`,
     $localize`Closed`
-  ];
-  
-  /**
-   * Date range preset buttons.
-   * Using $localize for runtime translation of labels.
-   */
-  public readonly dateRangePresets: ReadonlyArray<DateRangePreset> = [
-    {
-      label: $localize`Today`,
-      icon: 'bi-calendar-day',
-      getValue: (): { from: Date; to: Date } => {
-        const now: Date = new Date();
-        const today: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const end: Date = new Date(today);
-        end.setHours(23, 59, 59, 999);
-        return { from: today, to: end };
-      }
-    },
-    {
-      label: $localize`Last 7 days`,
-      icon: 'bi-calendar-week',
-      getValue: (): { from: Date; to: Date } => {
-        const now: Date = new Date();
-        const today: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const from: Date = new Date(today);
-        from.setDate(today.getDate() - 6);
-        const to: Date = new Date(today);
-        to.setHours(23, 59, 59, 999);
-        return { from, to };
-      }
-    },
-    {
-      label: $localize`Last 30 days`,
-      icon: 'bi-calendar-range',
-      getValue: (): { from: Date; to: Date } => {
-        const now: Date = new Date();
-        const today: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const from: Date = new Date(today);
-        from.setDate(today.getDate() - 29);
-        const to: Date = new Date(today);
-        to.setHours(23, 59, 59, 999);
-        return { from, to };
-      }
-    },
-    {
-      label: $localize`This month`,
-      icon: 'bi-calendar-month',
-      getValue: (): { from: Date; to: Date } => {
-        const now: Date = new Date();
-        const from: Date = new Date(now.getFullYear(), now.getMonth(), 1);
-        const to: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        to.setHours(23, 59, 59, 999);
-        return { from, to };
-      }
-    },
-    {
-      label: $localize`Last month`,
-      icon: 'bi-calendar3',
-      getValue: (): { from: Date; to: Date } => {
-        const now: Date = new Date();
-        const from: Date = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-        const to: Date = new Date(now.getFullYear(), now.getMonth(), 0);
-        to.setHours(23, 59, 59, 999);
-        return { from, to };
-      }
-    },
-    {
-      label: $localize`This year`,
-      icon: 'bi-calendar4',
-      getValue: (): { from: Date; to: Date } => {
-        const now: Date = new Date();
-        const from: Date = new Date(now.getFullYear(), 0, 1);
-        const to: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        to.setHours(23, 59, 59, 999);
-        return { from, to };
-      }
-    }
   ];
 
   constructor(
@@ -188,136 +96,19 @@ export class ProblemCardComponent implements OnInit {
     this.filterStatusSet.clear();
     this.filterAuthor = '';
     this.filterGroups = '';
-    this.fromDate = null;
-    this.toDate = null;
     this.filterCreationDateFrom = '';
     this.filterCreationDateTo = '';
     this.refreshData();
   }
 
   /**
-   * Handles date selection in the datepicker.
-   * @param date The selected date
-   * @param dropdown The dropdown instance to close when range is complete
+   * Handles date range changes from the date range filter component.
+   * @param change The date range change event
    */
-  public onDateSelection(date: NgbDateStruct, dropdown?: NgbDropdown): void {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && isAfter(ngbDateToDate(date), ngbDateToDate(this.fromDate))) {
-      this.toDate = date;
-      this.applyDateRange();
-      // Close dropdown after selecting complete range
-      if (dropdown) {
-        setTimeout(() => dropdown.close(), 300);
-      }
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
-  }
-
-  /**
-   * Checks if a date is hovered in the range.
-   * @param date The date to check
-   * @returns True if the date is in the hovered range
-   */
-  public isHovered(date: NgbDateStruct): boolean {
-    if (!this.fromDate || this.toDate || !this.hoveredDate) {
-      return false;
-    }
-    return isAfter(ngbDateToDate(date), ngbDateToDate(this.fromDate)) &&
-           isBefore(ngbDateToDate(date), ngbDateToDate(this.hoveredDate));
-  }
-
-  /**
-   * Checks if a date is inside the selected range.
-   * @param date The date to check
-   * @returns True if the date is in the range
-   */
-  public isInside(date: NgbDateStruct): boolean {
-    if (!this.toDate || !this.fromDate) {
-      return false;
-    }
-    return isAfter(ngbDateToDate(date), ngbDateToDate(this.fromDate)) &&
-           isBefore(ngbDateToDate(date), ngbDateToDate(this.toDate));
-  }
-
-  /**
-   * Checks if a date is the start or end of the range.
-   * @param date The date to check
-   * @returns True if the date is a range boundary
-   */
-  public isRange(date: NgbDateStruct): boolean {
-    return (
-      (this.fromDate && isEqual(ngbDateToDate(date), ngbDateToDate(this.fromDate))) ||
-      (this.toDate && isEqual(ngbDateToDate(date), ngbDateToDate(this.toDate))) ||
-      this.isInside(date) ||
-      this.isHovered(date)
-    );
-  }
-
-  /**
-   * Applies a preset date range.
-   * @param preset The preset to apply
-   */
-  public applyPreset(preset: DateRangePreset): void {
-    const range: { from: Date; to: Date } = preset.getValue();
-    this.fromDate = dateToNgbDate(range.from);
-    this.toDate = dateToNgbDate(range.to);
-    this.applyDateRange();
-  }
-
-  /**
-   * Applies the selected date range to the filter.
-   */
-  private applyDateRange(): void {
-    if (this.fromDate) {
-      const fromDate: Date = ngbDateToDate(this.fromDate);
-      this.filterCreationDateFrom = format(fromDate, 'yyyy-MM-dd');
-    }
-    if (this.toDate) {
-      const toDate: Date = ngbDateToDate(this.toDate);
-      this.filterCreationDateTo = format(toDate, 'yyyy-MM-dd');
-    }
+  public onDateRangeChange(change: DateRangeChange): void {
+    this.filterCreationDateFrom = change.from;
+    this.filterCreationDateTo = change.to;
     this.onFilterChange();
-  }
-
-  /**
-   * Clears the date range filter.
-   */
-  public clearDateRange(): void {
-    this.fromDate = null;
-    this.toDate = null;
-    this.filterCreationDateFrom = '';
-    this.filterCreationDateTo = '';
-    this.onFilterChange();
-  }
-
-  /**
-   * Navigates the datepicker to today's date.
-   * @param datepicker The datepicker instance
-   */
-  public goToToday(datepicker: NgbDatepicker): void {
-    const today: Date = new Date();
-    const todayStruct: NgbDateStruct = dateToNgbDate(today);
-    datepicker.navigateTo(todayStruct);
-  }
-
-  /**
-   * Returns the display text for the date filter button.
-   * @returns The display text
-   */
-  public getDateRangeText(): string {
-    if (!this.fromDate && !this.toDate) {
-      return $localize`Select date range...`;
-    }
-    if (this.fromDate && this.toDate) {
-      return `${this.formatNgbDate(this.fromDate)} - ${this.formatNgbDate(this.toDate)}`;
-    }
-    if (this.fromDate) {
-      return $localize`From` + ` ${this.formatNgbDate(this.fromDate)}`;
-    }
-    return $localize`Select date range...`;
   }
 
 
@@ -490,15 +281,6 @@ export class ProblemCardComponent implements OnInit {
       return 'bi-arrow-down-up';
     }
     return this.sortDirection === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down';
-  }
-
-  /**
-   * Formats NgbDateStruct for display using date-fns.
-   * @param date The date to format
-   * @returns The formatted date string
-   */
-  public formatNgbDate(date: NgbDateStruct): string {
-    return format(ngbDateToDate(date), 'yyyy-MM-dd');
   }
 
   /**

@@ -118,91 +118,11 @@
                         </div>
                     </th>
                     <th>
-                        <div ngbDropdown #dateDropdown="ngbDropdown" class="d-inline-block w-100">
-                            <button 
-                                type="button" 
-                                class="btn btn-sm btn-outline-secondary w-100 d-flex justify-content-between align-items-center text-truncate" 
-                                ngbDropdownToggle
-                                i18n-title
-                                title="Filter by creation date">
-                                <span class="text-truncate" i18n>{{ getDateRangeText() }}</span>
-                                <i class="bi bi-calendar3 ms-1"></i>
-                            </button>
-                            <div ngbDropdownMenu class="p-0 calendar-dropdown" (click)="$event.stopPropagation()">
-                                <div class="d-flex">
-                                    <!-- Preset buttons sidebar -->
-                                    <div class="preset-sidebar p-2">
-                                        <div class="small text-muted mb-2" i18n>Quick select:</div>
-                                        @for (preset of dateRangePresets; track preset.label) {
-                                            <button 
-                                                type="button"
-                                                class="btn btn-sm btn-outline-primary w-100 mb-2 text-start"
-                                                (click)="applyPreset(preset); dateDropdown.close()">
-                                                <i [ngClass]="['bi', preset.icon, 'me-2']"></i>
-                                                {{ preset.label }}
-                                            </button>
-                                        }
-                                        @if (fromDate || toDate) {
-                                            <hr class="my-2">
-                                            <button 
-                                                type="button"
-                                                class="btn btn-sm btn-outline-secondary w-100"
-                                                (click)="clearDateRange(); dateDropdown.close()">
-                                                <i class="bi bi-x-circle me-2"></i>
-                                                <span i18n>Clear</span>
-                                            </button>
-                                        }
-                                    </div>
-                                    
-                                    <!-- Calendar widget -->
-                                    <div class="calendar-widget p-2">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="small text-muted" i18n>Select date range:</span>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-sm btn-outline-primary"
-                                                (click)="goToToday(dp)"
-                                                title="Go to today"
-                                                i18n-title>
-                                                <i class="bi bi-calendar-check me-1"></i>
-                                                <span i18n>Today</span>
-                                            </button>
-                                        </div>
-                                        
-                                        <ngb-datepicker
-                                            #dp
-                                            (dateSelect)="onDateSelection($event, dateDropdown)"
-                                            [displayMonths]="1"
-                                            [dayTemplate]="dayTemplate"
-                                            outsideDays="hidden">
-                                        </ngb-datepicker>
-                                        
-                                        <ng-template #dayTemplate let-date let-focused="focused">
-                                            <span
-                                                class="custom-day"
-                                                [class.focused]="focused"
-                                                [class.range]="isRange(date)"
-                                                [class.faded]="isHovered(date) || isInside(date)"
-                                                (mouseenter)="hoveredDate = date"
-                                                (mouseleave)="hoveredDate = null">
-                                                {{ date.day }}
-                                            </span>
-                                        </ng-template>
-                                        
-                                        @if (fromDate && toDate) {
-                                            <div class="text-center mt-2 p-2 bg-light rounded small">
-                                                <strong i18n>Selected range:</strong><br>
-                                                {{ formatNgbDate(fromDate) }} <i class="bi bi-arrow-right mx-1"></i> {{ formatNgbDate(toDate) }}
-                                            </div>
-                                        } @else if (fromDate) {
-                                            <div class="text-center mt-2 p-2 bg-light rounded small">
-                                                <span i18n>Select end date...</span>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <app-date-range-filter
+                            [initialFromDate]="filterCreationDateFrom"
+                            [initialToDate]="filterCreationDateTo"
+                            (dateRangeChange)="onDateRangeChange($event)">
+                        </app-date-range-filter>
                     </th>
                     <th>
                         <input 

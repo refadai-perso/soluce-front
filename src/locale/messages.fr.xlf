@@ -658,6 +658,36 @@
         <source>Create User</source>
         <target>Créer l'utilisateur</target>
       </trans-unit>
+
+      <!-- User Delete Confirm Component Strings -->
+      <trans-unit id="3679209737348021236" datatype="html">
+        <source> Are you sure you want to delete user <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ getUserDisplayName() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>? This action cannot be undone. </source>
+        <target> Êtes-vous sûr de vouloir supprimer l'utilisateur <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ getUserDisplayName() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> ? Cette action ne peut pas être annulée. </target>
+      </trans-unit>
+      <trans-unit id="6339608405977013964" datatype="html">
+        <source>Confirm Deletion</source>
+        <target>Confirmer la suppression</target>
+      </trans-unit>
+      <trans-unit id="7022070615528435141" datatype="html">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="2179675132693271881" datatype="html">
+        <source> User </source>
+        <target> Utilisateur </target>
+      </trans-unit>
+      <trans-unit id="4329235876894468241" datatype="html">
+        <source> Admin </source>
+        <target> Administrateur </target>
+      </trans-unit>
+      <trans-unit id="7913022656086109932" datatype="html">
+        <source>Delete user</source>
+        <target>Supprimer l'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="8386976308507652568" datatype="html">
+        <source> All </source>
+        <target> Tous </target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
