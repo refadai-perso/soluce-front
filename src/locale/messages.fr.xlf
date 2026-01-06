@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en-US" target-language="fr-FR" datatype="plaintext" original="ng2.template">
+  <file source-language="en-EN" target-language="fr" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="ngb.alert.close" datatype="html">
         <source>Close</source>
@@ -483,6 +483,72 @@
       <trans-unit id="2010689005013910824" datatype="html">
         <source>All available groups have been added</source>
         <target>Tous les groupes disponibles ont été ajoutés</target>
+      </trans-unit>
+
+      <!-- User Form Strings -->
+      <trans-unit id="4768749765465246664" datatype="html">
+        <source>Email</source>
+        <target>E-mail</target>
+      </trans-unit>
+      <trans-unit id="2926694923786236079" datatype="html">
+        <source>user@example.com</source>
+        <target>utilisateur@exemple.com</target>
+      </trans-unit>
+      <trans-unit id="1726575134564399798" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (form.controls.emailCtrl.errors?.[&apos;required&apos;]) {"/> Email is required. <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF" equiv-text="@else if (form.controls.emailCtrl.errors?.[&apos;email&apos;]) {"/> Please enter a valid email address. <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/></source>
+        <target><x id="START_BLOCK_IF" equiv-text="@if (form.controls.emailCtrl.errors?.[&apos;required&apos;]) {"/> L'e-mail est requis. <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF" equiv-text="@else if (form.controls.emailCtrl.errors?.[&apos;email&apos;]) {"/> Veuillez entrer une adresse e-mail valide. <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="2149300564474427551" datatype="html">
+        <source>Administrator</source>
+        <target>Administrateur</target>
+      </trans-unit>
+      <trans-unit id="2940950926665413028" datatype="html">
+        <source> Grant administrator privileges </source>
+        <target> Accorder les privilèges d'administrateur </target>
+      </trans-unit>
+      <trans-unit id="7082172476770913645" datatype="html">
+        <source> Administrators can manage users and have full system access. </source>
+        <target> Les administrateurs peuvent gérer les utilisateurs et ont un accès complet au système. </target>
+      </trans-unit>
+      <trans-unit id="6028371114637047813" datatype="html">
+        <source>First Name</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit id="6987388674475678589" datatype="html">
+        <source>John</source>
+        <target>Jean</target>
+      </trans-unit>
+      <trans-unit id="7633577225796211462" datatype="html">
+        <source>First name is required (min 2 characters).</source>
+        <target>Le prénom est requis (minimum 2 caractères).</target>
+      </trans-unit>
+      <trans-unit id="2045112409653231798" datatype="html">
+        <source>Surname</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="2400341507087071103" datatype="html">
+        <source>Doe</source>
+        <target>Dupont</target>
+      </trans-unit>
+      <trans-unit id="7996667220382367174" datatype="html">
+        <source>Surname is required (min 2 characters).</source>
+        <target>Le nom est requis (minimum 2 caractères).</target>
+      </trans-unit>
+      <trans-unit id="5687892708934598619" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (isEditMode) {"/> Password (leave blank to keep current password) <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> Password <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></source>
+        <target><x id="START_BLOCK_IF" equiv-text="@if (isEditMode) {"/> Mot de passe (laisser vide pour conserver le mot de passe actuel) <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> Mot de passe <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="343410938576058057" datatype="html">
+        <source>Enter password</source>
+        <target>Saisir le mot de passe</target>
+      </trans-unit>
+      <trans-unit id="4795207254303696307" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (form.controls.passwordCtrl.errors?.[&apos;required&apos;]) {"/> Password is required. <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF" equiv-text="@else if (form.controls.passwordCtrl.errors?.[&apos;minlength&apos;]) {"/> Password must be at least 6 characters. <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/></source>
+        <target><x id="START_BLOCK_IF" equiv-text="@if (form.controls.passwordCtrl.errors?.[&apos;required&apos;]) {"/> Le mot de passe est requis. <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF" equiv-text="@else if (form.controls.passwordCtrl.errors?.[&apos;minlength&apos;]) {"/> Le mot de passe doit contenir au moins 6 caractères. <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="5665800095596798666" datatype="html">
+        <source>Leave blank to keep the current password unchanged.</source>
+        <target>Laisser vide pour conserver le mot de passe actuel inchangé.</target>
       </trans-unit>
     </body>
   </file>
