@@ -51,6 +51,12 @@ export interface Group {
   id?: number;
   name?: string;
   description?: string;
+  members?: User[];
+  memberIds?: number[];
+  creationDate?: Date;
+  creator?: User;
+  creatorId?: number;
+  creatorName?: string;
 }
 
 /**

@@ -3,20 +3,19 @@
   <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()" i18n-aria-label></button>
 </div>
 <div class="modal-body">
-  <app-user-form
+  <app-group-form
     [initialValue]="initialValue"
     [isEditMode]="isEditMode"
     [wizardMode]="true"
     [showActions]="false"
-    (submitUser)="onUserSubmit($event)"
+    (submitGroup)="onGroupSubmit($event)"
     (cancel)="onCancel()">
-  </app-user-form>
+  </app-group-form>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="onCancel()" i18n>Cancel</button>
   <button type="button" class="btn btn-primary" (click)="triggerFormSubmit()" i18n>{{ getSubmitButtonLabel() }}</button>
 </div>
-
 
 
 

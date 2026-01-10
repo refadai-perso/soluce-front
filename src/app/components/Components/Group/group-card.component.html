@@ -1,0 +1,149 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <span class="me-3" i18n>Groups List</span>
+        <button
+            class="btn btn-sm btn-success me-2"
+            (click)="openCreateGroupModal()"
+            ngbTooltip="Create new group"
+            i18n-ngbTooltip
+            placement="bottom">
+            <i class="bi-people-fill me-1"></i><span i18n>Add</span>
+        </button>
+        <button class="btn btn-sm btn-outline-secondary ms-auto" (click)="clearFilters()">
+            <i class="bi-x-circle me-1"></i><span i18n>Clear Filters</span>
+        </button>
+        <i class="text-info ms-2 bi-people-fill"></i>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-container">
+            <table class="table table-borderless table-sm mb-0">
+            <thead>
+                <tr>
+                    <th class="sortable" (click)="onSort('id')" i18n>
+                        ID
+                        <i [ngClass]="['bi', getSortIcon('id'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('name')" i18n>
+                        Name
+                        <i [ngClass]="['bi', getSortIcon('name'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('description')" i18n>
+                        Description
+                        <i [ngClass]="['bi', getSortIcon('description'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('creationDate')" i18n>
+                        Creation Date
+                        <i [ngClass]="['bi', getSortIcon('creationDate'), 'ms-1']"></i>
+                    </th>
+                    <th class="sortable" (click)="onSort('creator')" i18n>
+                        Creator
+                        <i [ngClass]="['bi', getSortIcon('creator'), 'ms-1']"></i>
+                    </th>
+                    <th i18n>
+                        Members
+                    </th>
+                    <th i18n>
+                        Actions
+                    </th>
+                </tr>
+                <tr class="filter-row">
+                    <th></th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterName"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter name..."
+                            i18n-placeholder>
+                    </th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterDescription"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter description..."
+                            i18n-placeholder>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (group of (groups$ | async); track group.id) {
+                    <tr [class.table-success]="isRowHighlighted(group.id)"
+                        [class.highlight-fade]="isRowHighlighted(group.id)">
+                        <td>
+                            <a href="javascript:void(0)" (click)="openEditGroupModal(group)" class="text-primary" style="cursor: pointer;">
+                                {{ group.id }}
+                            </a>
+                        </td>
+                        <td>{{ group.name }}</td>
+                        <td>{{ group.description }}</td>
+                        <td>
+                            @if (group.creationDate) {
+                                {{ group.creationDate | date }}
+                            } @else {
+                                <span class="text-muted" i18n>-</span>
+                            }
+                        </td>
+                        <td>
+                            {{ getCreatorName(group) }}
+                        </td>
+                        <td>
+                            <span class="badge bg-info" i18n>
+                                {{ getMemberCount(group) }} member{{ getMemberCount(group) !== 1 ? 's' : '' }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button 
+                                    class="btn btn-sm btn-outline-info"
+                                    (click)="openMembershipPanel(group)"
+                                    ngbTooltip="Manage members"
+                                    i18n-ngbTooltip>
+                                    <i class="bi-people"></i>
+                                </button>
+                                <button 
+                                    class="btn btn-sm btn-outline-primary"
+                                    (click)="openEditGroupModal(group)"
+                                    ngbTooltip="Edit group"
+                                    i18n-ngbTooltip>
+                                    <i class="bi-pencil"></i>
+                                </button>
+                                <button 
+                                    class="btn btn-sm btn-outline-danger"
+                                    (click)="openDeleteGroupConfirmation(group)"
+                                    ngbTooltip="Delete group"
+                                    i18n-ngbTooltip>
+                                    <i class="bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4" i18n>
+                            No groups found
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+<!-- User Membership Panel Component -->
+<app-user-membership-panel
+  [availableUsers]="availableUsers"
+  [currentMemberIds]="getCurrentMemberIds()"
+  [isOpen]="membershipPanelOpen"
+  (close)="onCloseMembershipPanel()"
+  (userAdded)="onUserAdded($event)"
+  (userRemoved)="onUserRemoved($event)">
+</app-user-membership-panel>
+
