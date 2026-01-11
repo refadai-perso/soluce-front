@@ -6,7 +6,7 @@
 */
 
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, Optional } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProblemFormComponent } from '../Components/Problem/problem-form.component';
 import { Problem } from '../../model';
@@ -18,21 +18,17 @@ import { Problem } from '../../model';
   imports: [ProblemFormComponent, CommonModule]
 })
 export class ProblemAddComponent {
-  private activeModal: NgbActiveModal | null = inject(NgbActiveModal, { optional: true });
+  private activeModal = inject(NgbActiveModal);
 
   @Input() initialValue: Problem | null = null;
   @Input() isEditMode: boolean = false;
 
   public onProblemSubmit(problem: Problem): void {
-    if (this.activeModal) {
-      this.activeModal.close(problem);
-    }
+    this.activeModal.close(problem);
   }
 
   public onCancel(): void {
-    if (this.activeModal) {
-      this.activeModal.dismiss('cancel');
-    }
+    this.activeModal.dismiss('cancel');
   }
 
   public triggerFormSubmit(): void {

@@ -70,18 +70,6 @@
                     <span i18n>User Management</span>
                 </a>
             </li>
-            <li>
-                <a 
-                    class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex"
-                    [class.text-muted]="!isAdmin()"
-                    [class.pe-none]="!isAdmin()"
-                    [routerLink]="isAdmin() ? [currentLocale(), 'group-management'] : null"
-                    [routerLinkActive]="isAdmin() ? ['link-sidebar-active'] : []"
-                    [attr.aria-disabled]="!isAdmin()">
-                    <i class="bi-people-fill me-2 fs-5"></i>
-                    <span i18n>Group Management</span>
-                </a>
-            </li>
         </ul>
     </div>
     <hr class="mb-0">

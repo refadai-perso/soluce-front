@@ -13,7 +13,6 @@ import { DashboardComponent } from './components/Pages/dashboard.component';
 import { FindProblemOutletComponent } from './components/Pages/find-problem-outlet.component';
 import { ProblemAddComponent } from './components/Pages/problem-add.component';
 import { UserManagementComponent } from './components/Pages/user-management.component';
-import { GroupManagementComponent } from './components/Pages/group-management.component';
 import { LocaleGuard } from './guards/locale.guard';
 
 export const routes: Routes = [
@@ -51,10 +50,6 @@ export const routes: Routes = [
       {
         path: 'user-management',
         component: UserManagementComponent
-      },
-      {
-        path: 'group-management',
-        component: GroupManagementComponent
       },
       {
         path: 'app',
