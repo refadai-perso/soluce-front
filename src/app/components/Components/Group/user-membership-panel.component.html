@@ -1,0 +1,134 @@
+@if (isOpen) {
+  <!-- Backdrop -->
+  <div 
+    class="position-fixed top-0 start-0 w-100 h-100" 
+    style="z-index: 1040; animation: fadeIn 0.2s ease-out; background-color: rgba(0, 0, 0, 0.5);"
+    (click)="onClose()">
+  </div>
+  
+  <!-- Side Panel -->
+  <div 
+    class="position-fixed top-0 end-0 h-100 shadow-lg"
+    style="width: 400px; max-width: 90vw; z-index: 1050; overflow-y: auto; animation: slideInRight 0.3s ease-out; background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);"
+    (click)="$event.stopPropagation()">
+    <div class="d-flex flex-column h-100">
+      <!-- Panel Header -->
+      <div class="border-bottom p-3" style="background-color: var(--bs-secondary-bg, #f8f9fa);">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0" i18n>
+            <i class="bi-person-plus me-2"></i>
+            Manage Members
+          </h5>
+          <button 
+            type="button" 
+            class="btn-close" 
+            (click)="onClose()"
+            aria-label="Close"
+            i18n-aria-label>
+          </button>
+        </div>
+        
+        <!-- Search Input -->
+        <div class="input-group">
+          <span class="input-group-text" style="background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);">
+            <i class="bi-search"></i>
+          </span>
+          <input 
+            type="text" 
+            class="form-control"
+            [(ngModel)]="searchFilter"
+            placeholder="Search users..."
+            i18n-placeholder
+            autofocus
+            style="background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);">
+        </div>
+      </div>
+
+      <!-- Panel Body -->
+      <div class="flex-grow-1 p-3" style="overflow-y: auto;">
+        <!-- Current Members Section -->
+        <div class="mb-4">
+          <h6 class="small fw-semibold mb-2" i18n>
+            <i class="bi-people-fill me-1"></i>
+            Current Members ({{ getCurrentMembers().length }})
+          </h6>
+          @if (getCurrentMembers().length === 0) {
+            <div class="text-center text-muted py-3 small" i18n>
+              No members yet
+            </div>
+          } @else {
+            <div class="list-group">
+              @for (member of getCurrentMembers(); track member.id || $index) {
+                <div 
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                  style="background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);">
+                  <div class="flex-grow-1">
+                    <div class="fw-medium">{{ getUserFullName(member) }}</div>
+                    <div class="small text-muted">{{ member.email }}</div>
+                  </div>
+                  <button 
+                    type="button"
+                    class="btn btn-sm btn-outline-danger ms-2"
+                    (click)="onRemoveUser(member)"
+                    [attr.aria-label]="'Remove ' + getUserFullName(member)"
+                    i18n-aria-label>
+                    <i class="bi-x-lg"></i>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Available Users Section -->
+        <div>
+          <h6 class="small fw-semibold mb-2" i18n>
+            <i class="bi-person-plus me-1"></i>
+            Available Users
+          </h6>
+          @if (getAvailableUsersForSelection().length === 0) {
+            <div class="text-center text-muted py-5">
+              <i class="bi-inbox fs-1 d-block mb-3"></i>
+              @if (searchFilter.trim() !== '') {
+                <p i18n>No users found matching your search</p>
+              } @else {
+                <p i18n>All users are already members</p>
+              }
+            </div>
+          } @else {
+            <div class="list-group">
+              @for (user of getAvailableUsersForSelection(); track user.id || $index) {
+                <div 
+                  class="list-group-item list-group-item-action cursor-pointer"
+                  (click)="onAddUser(user)"
+                  style="cursor: pointer; background-color: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);">
+                  <div class="d-flex w-100 justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                      <div class="fw-medium">{{ getUserFullName(user) }}</div>
+                      <div class="small text-muted">{{ user.email }}</div>
+                    </div>
+                    <i class="bi-plus-circle text-primary ms-2"></i>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Panel Footer -->
+      <div class="border-top p-3" style="background-color: var(--bs-secondary-bg, #f8f9fa);">
+        <button 
+          type="button" 
+          class="btn btn-secondary w-100" 
+          (click)="onClose()"
+          i18n>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+
+

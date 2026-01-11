@@ -1,0 +1,54 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="container py-3" role="form" novalidate>
+  <div class="row g-3">
+    <div class="col-12">
+      <label for="gf-name" class="form-label" i18n>Name</label>
+      <input 
+        id="gf-name" 
+        type="text" 
+        class="form-control" 
+        formControlName="nameCtrl" 
+        placeholder="Group name" 
+        i18n-placeholder
+        [class.is-invalid]="form.controls.nameCtrl.touched && form.controls.nameCtrl.invalid" 
+        aria-required="true" 
+        [attr.aria-invalid]="form.controls.nameCtrl.invalid ? 'true' : 'false'" 
+        [attr.aria-describedby]="form.controls.nameCtrl.invalid ? 'nameError' : null" />
+      @if (form.controls.nameCtrl.touched && form.controls.nameCtrl.invalid) {
+        <div class="text-danger small mt-1" i18n>
+          @if (form.controls.nameCtrl.errors?.['required']) {
+            Name is required.
+          } @else if (form.controls.nameCtrl.errors?.['minlength']) {
+            Name must be at least 2 characters.
+          }
+        </div>
+      }
+    </div>
+
+    <div class="col-12">
+      <label for="gf-description" class="form-label" i18n>Description</label>
+      <textarea 
+        id="gf-description" 
+        class="form-control" 
+        formControlName="descriptionCtrl" 
+        placeholder="Group description (optional)" 
+        i18n-placeholder
+        rows="3"
+        [class.is-invalid]="form.controls.descriptionCtrl.touched && form.controls.descriptionCtrl.invalid" 
+        [attr.aria-invalid]="form.controls.descriptionCtrl.invalid ? 'true' : 'false'" 
+        [attr.aria-describedby]="form.controls.descriptionCtrl.invalid ? 'descriptionError' : null"></textarea>
+    </div>
+  </div>
+
+  @if (!wizardMode && showActions) {
+    <div class="row mt-4">
+      <div class="col-12 d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" (click)="onReset()" i18n>Reset</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="onCancel()" i18n>Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid" i18n>{{ submitLabel }}</button>
+      </div>
+    </div>
+  }
+</form>
+
+
+
