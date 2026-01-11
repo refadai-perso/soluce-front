@@ -29,7 +29,7 @@ export interface SignInRequest {
 })
 export class AuthService {
   private readonly httpClient: HttpClient = inject(HttpClient);
-  private readonly API_BASE_URL: string = 'http://localhost:3000';
+  private readonly API_BASE_URL: string = ''; // Use relative URLs to go through proxy
   private readonly AUTH_SIGNIN_URL: string = `${this.API_BASE_URL}/auth/signin`;
   private readonly AUTH_SIGNOUT_URL: string = `${this.API_BASE_URL}/auth/signout`;
   private readonly AUTH_WHOAMI_URL: string = `${this.API_BASE_URL}/auth/whoami`;

@@ -16,7 +16,7 @@ export class DBProblemService extends ProblemService {
 
   public override fetchProblemsOfUserGroups(): Observable<Problem[]> {
     return this.fetchProblems(
-      'http://localhost:3000/problem?includeCreator=true&includeAuthorizations=true',
+      '/problem?includeCreator=true&includeAuthorizations=true',
       'error favorite places'
     );
   }
@@ -31,7 +31,7 @@ export class DBProblemService extends ProblemService {
    * @returns Observable emitting the created {@link Problem} as returned by the API.
    */
   public override createProblem(body: { name: string; description?: string; open: boolean }): Observable<Problem> {
-    const url: string = 'http://localhost:3000/problem';
+    const url: string = '/problem';
     console.log('Backend service - sending body:', body);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ export class DBProblemService extends ProblemService {
    * @returns Observable emitting the updated {@link Problem} as returned by the API.
    */
   public override updateProblem(id: number, body: UpdateProblemDto): Observable<Problem> {
-    const url: string = `http://localhost:3000/problem/${id}`;
+    const url: string = `/problem/${id}`;
     console.log('Backend service - updating problem:', id, 'with body:', body);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ export class DBProblemService extends ProblemService {
    * @returns Observable that completes when the authorization is created
    */
   public createGroupAuthorization(groupId: number, problemId: number, authorization: Authorization): Observable<void> {
-    const url: string = 'http://localhost:3000/group-authorization';
+    const url: string = '/group-authorization';
     const body: CreateGroupAuthorizationDto = {
       groupId: groupId,
       problemId: problemId,
@@ -181,7 +181,7 @@ export class DBProblemService extends ProblemService {
    * @returns Observable that completes when the authorization is deleted
    */
   public deleteGroupAuthorization(authorizationId: number): Observable<void> {
-    const url: string = `http://localhost:3000/group-authorization/${authorizationId}`;
+    const url: string = `/group-authorization/${authorizationId}`;
     console.log('Deleting group authorization:', authorizationId);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'

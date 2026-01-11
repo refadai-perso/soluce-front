@@ -10,7 +10,7 @@ import { GroupService } from './group.service';
 @Injectable({ providedIn: 'root' })
 export class DBGroupService extends GroupService {
   private readonly httpClient: HttpClient = inject(HttpClient);
-  private readonly API_BASE_URL: string = 'http://localhost:3000';
+  private readonly API_BASE_URL: string = ''; // Use relative URLs to go through proxy
 
   constructor() {
     super();
