@@ -9,3 +9,4 @@ Menu pour changer de thème Bootstrap
 ## filtres flottants
 ## Colonne member doit s'inspirer de Project management ('no member' label)
 ## locale
+## quand on ajoute des membres à un groupe, le groupe mis à jour n'est as surligné

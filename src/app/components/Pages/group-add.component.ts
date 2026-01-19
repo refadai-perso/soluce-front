@@ -50,13 +50,6 @@ export class GroupAddComponent {
     }
   }
 
-  public getModalTitle(): string {
-    return this.isEditMode ? $localize`Edit Group` : $localize`Create New Group`;
-  }
-
-  public getSubmitButtonLabel(): string {
-    return this.isEditMode ? $localize`Update Group` : $localize`Create Group`;
-  }
 }
 
 

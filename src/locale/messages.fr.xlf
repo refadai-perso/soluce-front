@@ -688,6 +688,82 @@
         <source> All </source>
         <target> Tous </target>
       </trans-unit>
+      <trans-unit id="1093234698766909525" datatype="html">
+        <source>Groups List</source>
+        <target>Liste des groupes</target>
+      </trans-unit>
+      <trans-unit id="989480357041643523" datatype="html">
+        <source>Delete group</source>
+        <target>Supprimer le groupe</target>
+      </trans-unit>
+      <trans-unit id="1953050319321457958" datatype="html">
+        <source><x id="INTERPOLATION"/> member</source>
+        <target><x id="INTERPOLATION"/> membre</target>
+      </trans-unit>
+      <trans-unit id="2415344939350446162" datatype="html">
+        <source> Members </source>
+        <target> Membres </target>
+      </trans-unit>
+      <trans-unit id="3002934077016871984" datatype="html">
+        <source> Creator <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;creator&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></source>
+        <target> Créateur <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i [ngClass]=&quot;[&apos;bi&apos;, getSortIcon(&apos;creator&apos;), &apos;ms-1&apos;]&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/></target>
+      </trans-unit>
+      <trans-unit id="5382303915792219683" datatype="html">
+        <source>0 members</source>
+        <target>0 membres</target>
+      </trans-unit>
+      <trans-unit id="6315574150451442189" datatype="html">
+        <source>Are you sure you want to delete this group? This action cannot be undone.</source>
+        <target>Êtes-vous sûr de vouloir supprimer ce groupe ? Cette action ne peut pas être annulée.</target>
+      </trans-unit>
+      <trans-unit id="7112936539568518023" datatype="html">
+        <source>Manage members</source>
+        <target>Gérer les membres</target>
+      </trans-unit>
+      <trans-unit id="7690497216586643907" datatype="html">
+        <source>Create new group</source>
+        <target>Créer un nouveau groupe</target>
+      </trans-unit>
+      <trans-unit id="7942702585627050574" datatype="html">
+        <source> No groups found </source>
+        <target> Aucun groupe trouvé </target>
+      </trans-unit>
+      <trans-unit id="7952608232250215393" datatype="html">
+        <source><x id="INTERPOLATION"/> members</source>
+        <target><x id="INTERPOLATION"/> membres</target>
+      </trans-unit>
+      <trans-unit id="9210705833797356375" datatype="html">
+        <source>Edit group</source>
+        <target>Modifier le groupe</target>
+      </trans-unit>
+      <trans-unit id="805947418074319666" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;bi-person-plus me-2&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/> Manage Members </source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;bi-person-plus me-2&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/> Gérer les membres </target>
+      </trans-unit>
+      <trans-unit id="4411383331278814058" datatype="html">
+        <source>Current Members</source>
+        <target>Membres actuels</target>
+      </trans-unit>
+      <trans-unit id="5649701641482919549" datatype="html">
+        <source>Search users...</source>
+        <target>Rechercher des utilisateurs...</target>
+      </trans-unit>
+      <trans-unit id="6450569151715591668" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;bi-person-plus me-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/> Available Users </source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;bi-person-plus me-1&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/> Utilisateurs disponibles </target>
+      </trans-unit>
+      <trans-unit id="7133901156696304023" datatype="html">
+        <source> No members yet </source>
+        <target> Aucun membre pour le moment </target>
+      </trans-unit>
+      <trans-unit id="7436622105982384885" datatype="html">
+        <source>No users found matching your search</source>
+        <target>Aucun utilisateur trouvé correspondant à votre recherche</target>
+      </trans-unit>
+      <trans-unit id="8549661293028429241" datatype="html">
+        <source>All users are already members</source>
+        <target>Tous les utilisateurs sont déjà membres</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

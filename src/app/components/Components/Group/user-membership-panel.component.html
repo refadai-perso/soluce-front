@@ -48,9 +48,9 @@
       <div class="flex-grow-1 p-3" style="overflow-y: auto;">
         <!-- Current Members Section -->
         <div class="mb-4">
-          <h6 class="small fw-semibold mb-2" i18n>
+          <h6 class="small fw-semibold mb-2">
             <i class="bi-people-fill me-1"></i>
-            Current Members ({{ getCurrentMembers().length }})
+            <span i18n>Current Members</span> ({{ getCurrentMembers().length }})
           </h6>
           @if (getCurrentMembers().length === 0) {
             <div class="text-center text-muted py-3 small" i18n>

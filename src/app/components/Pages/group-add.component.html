@@ -1,5 +1,11 @@
 <div class="modal-header">
-  <h4 class="modal-title" i18n>{{ getModalTitle() }}</h4>
+  <h4 class="modal-title">
+    @if (isEditMode) {
+      <span i18n>Edit Group</span>
+    } @else {
+      <span i18n>Create New Group</span>
+    }
+  </h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()" i18n-aria-label></button>
 </div>
 <div class="modal-body">
@@ -14,7 +20,13 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="onCancel()" i18n>Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="triggerFormSubmit()" i18n>{{ getSubmitButtonLabel() }}</button>
+  <button type="button" class="btn btn-primary" (click)="triggerFormSubmit()">
+    @if (isEditMode) {
+      <span i18n>Update Group</span>
+    } @else {
+      <span i18n>Create Group</span>
+    }
+  </button>
 </div>
 
 

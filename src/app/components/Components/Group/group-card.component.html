@@ -94,8 +94,14 @@
                             {{ getCreatorName(group) }}
                         </td>
                         <td>
-                            <span class="badge bg-info" i18n>
-                                {{ getMemberCount(group) }} member{{ getMemberCount(group) !== 1 ? 's' : '' }}
+                            <span class="badge bg-info">
+                                @if (getMemberCount(group) === 0) {
+                                    <span i18n>0 members</span>
+                                } @else if (getMemberCount(group) === 1) {
+                                    <span i18n>{{ getMemberCount(group) }} member</span>
+                                } @else {
+                                    <span i18n>{{ getMemberCount(group) }} members</span>
+                                }
                             </span>
                         </td>
                         <td>
