@@ -4,7 +4,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GroupFormComponent } from '../Components/Group/group-form.component';
 import { Group } from '../../model';
@@ -21,6 +21,12 @@ export class GroupAddComponent {
   @Input() initialValue: Group | null = null;
   @Input() isEditMode: boolean = false;
 
+  /**
+   * Reference to the GroupFormComponent child component.
+   * Used to programmatically trigger form submission.
+   */
+  @ViewChild(GroupFormComponent) groupFormComponent!: GroupFormComponent;
+
   public onGroupSubmit(group: Group): void {
     this.activeModal.close(group);
   }
@@ -29,11 +35,18 @@ export class GroupAddComponent {
     this.activeModal.dismiss('cancel');
   }
 
+  /**
+   * Programmatically triggers form submission.
+   * Calls the onSubmit() method directly on the GroupFormComponent instance.
+   * This is the proper Angular way to interact with child components, using ViewChild
+   * instead of DOM queries. This ensures type safety and respects component encapsulation.
+   * This is typically called from a button outside the form (e.g., modal footer button)
+   * to submit the form when the user clicks the submit button in the modal header.
+   * @returns void
+   */
   public triggerFormSubmit(): void {
-    // Find the form element and trigger submit
-    const formElement = document.querySelector('app-group-form form') as HTMLFormElement;
-    if (formElement) {
-      formElement.requestSubmit();
+    if (this.groupFormComponent) {
+      this.groupFormComponent.onSubmit();
     }
   }
 

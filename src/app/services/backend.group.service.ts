@@ -25,7 +25,6 @@ export class DBGroupService extends GroupService {
     const url: string = `${this.API_BASE_URL}/group`;
     return this.httpClient.get<GroupDto[]>(url).pipe(
       map((backendGroups: GroupDto[]): Group[] => {
-        console.log('Raw backend groups response:', backendGroups);
         const mappedGroups: Group[] = backendGroups.map((backendGroup: GroupDto): Group => {
           // The DTO should have creatorId directly, but if transformation didn't work, extract from creator
           const creatorId: number | undefined = backendGroup.creatorId || (backendGroup as any).creator?.id;
@@ -76,7 +75,6 @@ export class DBGroupService extends GroupService {
    */
   public override createGroup(groupData: CreateGroupDto): Observable<Group> {
     const url: string = `${this.API_BASE_URL}/group`;
-    console.log('Backend service - creating group:', groupData);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -138,7 +136,6 @@ export class DBGroupService extends GroupService {
    */
   public override updateGroup(id: number, groupData: UpdateGroupDto): Observable<Group> {
     const url: string = `${this.API_BASE_URL}/group/${id}`;
-    console.log('Backend service - updating group:', id, 'with data:', groupData);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -177,7 +174,6 @@ export class DBGroupService extends GroupService {
    */
   public override deleteGroup(id: number): Observable<void> {
     const url: string = `${this.API_BASE_URL}/group/${id}`;
-    console.log('Backend service - deleting group:', id);
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json'
     });

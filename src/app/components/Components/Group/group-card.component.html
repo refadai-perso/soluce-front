@@ -139,11 +139,9 @@
 
 <!-- User Membership Panel Component -->
 <app-user-membership-panel
-  [availableUsers]="availableUsers"
-  [currentMemberIds]="getCurrentMemberIds()"
+  [currentGroup]="selectedGroupForMembership"
   [isOpen]="membershipPanelOpen"
   (close)="onCloseMembershipPanel()"
-  (userAdded)="onUserAdded($event)"
-  (userRemoved)="onUserRemoved($event)">
+  (membersUpdated)="onMembersUpdated()">
 </app-user-membership-panel>
 

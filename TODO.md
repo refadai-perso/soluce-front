@@ -1,7 +1,11 @@
-API: publier le swagger du backend dans Shared
-
 Bannière de login comme tout premier écran. Empêcher l'accès aux utilisateurs non loggés.
 
 Gestion des Exception. Arbre des Exceptions. Traitement des erreurs 400 du backend.
 
 Menu pour changer de thème Bootstrap
+
+# Group Management
+## filtres manquants
+## filtres flottants
+## Colonne member doit s'inspirer de Project management ('no member' label)
+## locale

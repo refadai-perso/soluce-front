@@ -10,12 +10,10 @@ import { NgbModalModule, NgbModal, NgbTooltipModule, NgbDropdownModule } from '@
 import { Group } from '../../../model/model';
 import { GroupService } from '../../../services/group.service';
 import { GroupAddComponent } from '../../Pages/group-add.component';
-import { GroupDeleteConfirmComponent } from './group-delete-confirm.component';
+import { ConfirmationDialogComponent } from '../Common/confirmation-dialog.component';
 import { UserMembershipPanelComponent } from './user-membership-panel.component';
-import { UserService } from '../../../services/user.service';
-import { User } from '../../../model/model';
-import { Observable, Subscription, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, Subscription, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 type SortColumn = 'id' | 'name' | 'description' | 'creationDate' | 'creator' | '';
 type SortDirection = 'asc' | 'desc' | '';
@@ -28,40 +26,86 @@ type SortDirection = 'asc' | 'desc' | '';
   imports: [CommonModule, NgbModalModule, NgbTooltipModule, NgbDropdownModule, FormsModule, UserMembershipPanelComponent]
 })
 export class GroupCardComponent implements OnInit {
+  /**
+   * Observable emitting the list of groups, filtered and sorted according to current settings.
+   */
   public groups$!: Observable<Group[] | undefined>;
+
+  /**
+   * The column currently used for sorting the groups table.
+   */
   public sortColumn: SortColumn = '';
+
+  /**
+   * The direction of the current sort (ascending or descending).
+   */
   public sortDirection: SortDirection = '';
+
+  /**
+   * Filter text for filtering groups by name.
+   * Contains the search string entered by the user to filter groups.
+   * When empty string (''), no name filtering is applied and all groups are shown.
+   * When populated, only groups whose name contains this text (case-insensitive) are displayed.
+   * The filtering uses substring matching, so partial matches are included.
+   */
   public filterName: string = '';
+
+  /**
+   * Filter text for filtering groups by description.
+   * Contains the search string entered by the user to filter groups by their description.
+   * When empty string (''), no description filtering is applied and all groups are shown.
+   * When populated, only groups whose description contains this text (case-insensitive) are displayed.
+   * The filtering uses substring matching, so partial matches are included.
+   */
   public filterDescription: string = '';
   
-  // Row highlighting for updates
-  public lastUpdatedGroupId: number | null = null;
+  /**
+   * ID of the group that was last created or updated, used to highlight the row temporarily.
+   */
+  public lastModifiedGroupId: number | null = null;
 
-  // User membership panel state
+  /**
+   * Whether the user membership panel is currently open.
+   */
   public membershipPanelOpen: boolean = false;
+
+  /**
+   * The group currently selected for membership management in the panel.
+   */
   public selectedGroupForMembership: Group | null = null;
-  public availableUsers: User[] = [];
+
+
+  /**
+   * Raw groups data fetched from the server, before filtering and sorting.
+   * Used to avoid unnecessary server refetches when only filters or sorting change.
+   */
+  private rawGroups: Group[] | undefined;
+
+  /**
+   * Service for managing group operations.
+   */
+  private groupService: GroupService;
+
+  /**
+   * Service for opening modal dialogs.
+   */
+  private modalService: NgbModal;
 
   constructor(
-    private groupService: GroupService,
-    private userService: UserService,
-    private modalService: NgbModal
-  ) {}
+    groupService: GroupService,
+    modalService: NgbModal
+  ) {
+    this.groupService = groupService;
+    this.modalService = modalService;
+  }
 
   public ngOnInit(): void {
-    // Fetch users first, then groups
-    const users$: Observable<User[]> = this.userService.fetchUsers();
-    
-    // Combine users and groups observables
-    this.groups$ = users$.pipe(
-      switchMap((users: User[]) => {
-        // Store users for membership panel
-        this.availableUsers = users;
-        
-        // Now fetch groups
-        return this.groupService.fetchGroups().pipe(
-          map((groups: Group[] | undefined) => this.filterAndSortGroups(groups))
-        );
+    // Fetch groups - creatorName comes from backend via GroupDto
+    this.groups$ = this.groupService.fetchGroups().pipe(
+      map((groups: Group[] | undefined) => {
+        // Store raw groups for filtering/sorting without refetch
+        this.rawGroups = groups;
+        return this.filterAndSortGroups(groups);
       })
     );
   }
@@ -77,14 +121,14 @@ export class GroupCardComponent implements OnInit {
       this.sortColumn = column;
       this.sortDirection = 'asc';
     }
-    this.refreshData();
+    this.refreshData(false); // No server refetch needed for sorting
   }
 
   /**
    * Handles filter changes.
    */
   public onFilterChange(): void {
-    this.refreshData();
+    this.refreshData(false); // No server refetch needed for filtering
   }
 
   /**
@@ -93,27 +137,30 @@ export class GroupCardComponent implements OnInit {
   public clearFilters(): void {
     this.filterName = '';
     this.filterDescription = '';
-    this.refreshData();
+    this.refreshData(false); // No server refetch needed for clearing filters
   }
 
   /**
    * Refreshes the data by reapplying filters and sorting.
+   * Only refetches groups from server if forceRefresh is true (for CRUD operations).
+   * Otherwise, just reapplies filters/sorting to existing data.
+   * @param forceRefresh If true, refetches from server. If false, only reapplies filters/sorting.
    */
-  private refreshData(): void {
-    // Ensure users are loaded, then refresh groups
-    const users$: Observable<User[]> = this.userService.fetchUsers();
-    
-    this.groups$ = users$.pipe(
-      switchMap((users: User[]) => {
-        // Update available users
-        this.availableUsers = users;
-        
-        // Fetch groups
-        return this.groupService.fetchGroups().pipe(
-          map((groups: Group[] | undefined) => this.filterAndSortGroups(groups))
-        );
-      })
-    );
+  private refreshData(forceRefresh: boolean = false): void {
+    if (forceRefresh || !this.rawGroups) {
+      // Refetch from server (CRUD operations or initial load)
+      this.groups$ = this.groupService.fetchGroups().pipe(
+        map((groups: Group[] | undefined) => {
+          this.rawGroups = groups;
+          return this.filterAndSortGroups(groups);
+        })
+      );
+    } else {
+      // Just reapply filters/sorting to existing data (filter/sort changes)
+      this.groups$ = of(this.rawGroups).pipe(
+        map((groups: Group[] | undefined) => this.filterAndSortGroups(groups))
+      );
+    }
   }
 
   /**
@@ -225,8 +272,13 @@ export class GroupCardComponent implements OnInit {
    * @param groupId The ID of the group to check
    * @returns True if the group was recently updated and should be highlighted
    */
+  /**
+   * Checks if a group row should be highlighted as recently created or updated.
+   * @param groupId The ID of the group to check
+   * @returns True if the group was recently created or updated and should be highlighted
+   */
   public isRowHighlighted(groupId: number | undefined): boolean {
-    return groupId !== undefined && groupId === this.lastUpdatedGroupId;
+    return groupId !== undefined && groupId === this.lastModifiedGroupId;
   }
 
   /**
@@ -251,7 +303,16 @@ export class GroupCardComponent implements OnInit {
       (result) => {
         // Handle successful creation
         console.log('Group created successfully', result);
-        this.refreshData();
+        
+        // Highlight the newly created row
+        this.lastModifiedGroupId = result.id || null;
+        
+        this.refreshData(true); // Refetch from server after creation
+        
+        // Remove highlight after 3 seconds
+        setTimeout(() => {
+          this.lastModifiedGroupId = null;
+        }, 3000);
       },
       (reason) => {
         // Handle dismissal
@@ -285,13 +346,13 @@ export class GroupCardComponent implements OnInit {
         console.log('Group updated successfully', result);
         
         // Highlight the updated row
-        this.lastUpdatedGroupId = result.id || null;
+        this.lastModifiedGroupId = result.id || null;
         
-        this.refreshData();
+        this.refreshData(true); // Refetch from server after update
         
         // Remove highlight after 3 seconds
         setTimeout(() => {
-          this.lastUpdatedGroupId = null;
+          this.lastModifiedGroupId = null;
         }, 3000);
       },
       (reason) => {
@@ -311,13 +372,25 @@ export class GroupCardComponent implements OnInit {
       document.activeElement.blur();
     }
 
-    const modalRef = this.modalService.open(GroupDeleteConfirmComponent, {
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, {
       size: 'md',
       backdrop: 'static',
       keyboard: false
     });
 
-    modalRef.componentInstance.group = group;
+    // Configure the confirmation dialog using the initialize method
+    const groupName: string = group.name || $localize`:@@unknown:Unknown`;
+    const baseMessage: string = $localize`Are you sure you want to delete this group? This action cannot be undone.`;
+    const message: string = baseMessage.replace('this group', `<strong>${groupName}</strong>`);
+
+    modalRef.componentInstance.initialize(
+      $localize`Confirm Deletion`,
+      message,
+      $localize`Delete`,
+      $localize`Cancel`,
+      'btn-danger',
+      'delete'
+    );
 
     modalRef.result.then(
       (result: string) => {
@@ -340,7 +413,7 @@ export class GroupCardComponent implements OnInit {
     const sub: Subscription = this.groupService.deleteGroup(groupId).subscribe({
       next: (): void => {
         console.log('Group deleted successfully:', groupId);
-        this.refreshData();
+        this.refreshData(true); // Refetch from server after deletion
       },
       error: (error: unknown): void => {
         console.error('Error deleting group:', error);
@@ -360,6 +433,7 @@ export class GroupCardComponent implements OnInit {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
+    
     this.selectedGroupForMembership = group;
     this.membershipPanelOpen = true;
   }
@@ -373,66 +447,11 @@ export class GroupCardComponent implements OnInit {
   }
 
   /**
-   * Handles adding a user to the group.
-   * @param userId The ID of the user to add
+   * Handles when group members have been updated by the membership panel.
+   * Refreshes the groups list to show the updated data.
    */
-  public onUserAdded(userId: number): void {
-    if (!this.selectedGroupForMembership || !this.selectedGroupForMembership.id) {
-      return;
-    }
-
-    const currentMemberIds: number[] = this.selectedGroupForMembership.memberIds || [];
-    if (currentMemberIds.includes(userId)) {
-      return; // Already a member
-    }
-
-    const updatedMemberIds: number[] = [...currentMemberIds, userId];
-    this.updateGroupMembers(this.selectedGroupForMembership.id, updatedMemberIds);
-  }
-
-  /**
-   * Handles removing a user from the group.
-   * @param userId The ID of the user to remove
-   */
-  public onUserRemoved(userId: number): void {
-    if (!this.selectedGroupForMembership || !this.selectedGroupForMembership.id) {
-      return;
-    }
-
-    const currentMemberIds: number[] = this.selectedGroupForMembership.memberIds || [];
-    const updatedMemberIds: number[] = currentMemberIds.filter((id: number) => id !== userId);
-    this.updateGroupMembers(this.selectedGroupForMembership.id, updatedMemberIds);
-  }
-
-  /**
-   * Updates the group members by calling the update service.
-   * @param groupId The ID of the group to update
-   * @param memberIds The new list of member IDs
-   */
-  private updateGroupMembers(groupId: number, memberIds: number[]): void {
-    const updateData: { memberIds: number[] } = { memberIds };
-    const sub: Subscription = this.groupService.updateGroup(groupId, updateData).subscribe({
-      next: (updated: Group): void => {
-        console.log('Group members updated successfully:', updated);
-        // Update the selected group reference
-        if (this.selectedGroupForMembership) {
-          this.selectedGroupForMembership.memberIds = updated.memberIds;
-        }
-        this.refreshData();
-      },
-      error: (error: unknown): void => {
-        console.error('Error updating group members:', error);
-        // Could show an error toast/alert here
-      }
-    });
-  }
-
-  /**
-   * Gets the current member IDs for the selected group.
-   * @returns Array of member IDs
-   */
-  public getCurrentMemberIds(): number[] {
-    return this.selectedGroupForMembership?.memberIds || [];
+  public onMembersUpdated(): void {
+    this.refreshData(true); // Refetch from server after member update
   }
 }
 
