@@ -326,6 +326,16 @@ export class GroupCardComponent implements OnInit {
   }
 
   /**
+   * Checks if a group has members.
+   * @param group The Group object
+   * @returns True if the group has at least one member
+   */
+  public hasMembers(group: Group): boolean {
+    const memberCount: number = this.getMemberCount(group);
+    return memberCount > 0;
+  }
+
+  /**
    * Returns the creator name from the group.
    * Uses creatorName from the backend response only.
    * @param group The Group object
@@ -516,10 +526,19 @@ export class GroupCardComponent implements OnInit {
 
   /**
    * Handles when group members have been updated by the membership panel.
-   * Refreshes the groups list to show the updated data.
+   * Refreshes the groups list to show the updated data and highlights the updated group row.
+   * @param groupId The ID of the group that was updated
    */
-  public onMembersUpdated(): void {
+  public onMembersUpdated(groupId: number): void {
+    // Highlight the updated row
+    this.lastModifiedGroupId = groupId;
+    
     this.refreshData(true); // Refetch from server after member update
+    
+    // Remove highlight after 3 seconds
+    setTimeout(() => {
+      this.lastModifiedGroupId = null;
+    }, 3000);
   }
 }
 

@@ -108,15 +108,17 @@
                             {{ getCreatorName(group) }}
                         </td>
                         <td>
-                            <span class="badge bg-info">
-                                @if (getMemberCount(group) === 0) {
-                                    <span i18n>0 members</span>
-                                } @else if (getMemberCount(group) === 1) {
-                                    <span i18n>{{ getMemberCount(group) }} member</span>
-                                } @else {
-                                    <span i18n>{{ getMemberCount(group) }} members</span>
-                                }
-                            </span>
+                            @if (hasMembers(group)) {
+                                <span class="badge bg-info">
+                                    @if (getMemberCount(group) === 1) {
+                                        <span i18n>{{ getMemberCount(group) }} member</span>
+                                    } @else {
+                                        <span i18n>{{ getMemberCount(group) }} members</span>
+                                    }
+                                </span>
+                            } @else {
+                                <span class="text-muted fst-italic" i18n>No members</span>
+                            }
                         </td>
                         <td>
                             <div class="btn-group" role="group">
@@ -162,6 +164,6 @@
   [currentGroup]="selectedGroupForMembership"
   [isOpen]="membershipPanelOpen"
   (close)="onCloseMembershipPanel()"
-  (membersUpdated)="onMembersUpdated()">
+  (membersUpdated)="onMembersUpdated($event)">
 </app-user-membership-panel>
 

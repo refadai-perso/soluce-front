@@ -39,9 +39,10 @@ export class UserMembershipPanelComponent implements OnChanges {
 
   /**
    * Emits when group members have been updated.
-   * Parent component should refresh the groups list.
+   * Emits the ID of the group that was updated.
+   * Parent component should refresh the groups list and highlight the updated group.
    */
-  @Output() membersUpdated: EventEmitter<void> = new EventEmitter<void>();
+  @Output() membersUpdated: EventEmitter<number> = new EventEmitter<number>();
 
   /**
    * Service for managing user operations.
@@ -193,8 +194,8 @@ export class UserMembershipPanelComponent implements OnChanges {
         this.pendingMemberIds = [...(updated.memberIds || [])];
         // Reset search filter
         this.searchFilter = '';
-        // Notify parent to refresh
-        this.membersUpdated.emit();
+        // Notify parent to refresh and highlight the updated group
+        this.membersUpdated.emit(groupId);
         // Close the panel after successful update
         this.close.emit();
       },
