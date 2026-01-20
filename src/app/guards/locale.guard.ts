@@ -44,11 +44,11 @@ export class LocaleGuard implements CanActivate {
   }
 
   /**
-   * Redirect to default locale dashboard.
+   * Redirect to default locale welcome page.
    */
   private redirectToDefaultLocale(): void {
     const defaultLocale: string = this.mapLocaleIdToCode(this.localeId);
-    void this.router.navigate([`/${defaultLocale}/dashboard`], { replaceUrl: true });
+    void this.router.navigate([`/${defaultLocale}`], { replaceUrl: true });
   }
 
   /**

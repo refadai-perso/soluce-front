@@ -6,9 +6,10 @@
 */
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-header',
@@ -18,10 +19,15 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [RouterLink, NgbDropdownModule, CommonModule]
 })
 export class HeaderComponent {
+  private readonly localeService: LocaleService = inject(LocaleService);
 
   constructor() {}
 
   public onHyperlink4Click($event: MouseEvent): void {
     $event.preventDefault();
+  }
+
+  public navigateToHome(): void {
+    void this.localeService.navigateWithLocale([]);
   }
 }

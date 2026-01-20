@@ -1,0 +1,67 @@
+.welcome-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--bs-dark) 0%, var(--bs-secondary) 100%);
+  padding: 2rem 0;
+}
+
+.welcome-content {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.logo-container {
+  position: relative;
+  
+  .logo-decoration {
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bs-primary), var(--bs-info));
+    margin: 0 auto;
+    border-radius: 2px;
+    animation: expandWidth 1s ease-out 0.5s both;
+  }
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, background 0.3s ease;
+  height: 100%;
+  
+  &:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-container {
+    padding: 1rem 0;
+  }
+  
+  .logo-container h1 {
+    font-size: 3rem !important;
+  }
+}

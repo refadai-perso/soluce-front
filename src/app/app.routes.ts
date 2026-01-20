@@ -14,6 +14,7 @@ import { FindProblemOutletComponent } from './components/Pages/find-problem-outl
 import { ProblemAddComponent } from './components/Pages/problem-add.component';
 import { UserManagementComponent } from './components/Pages/user-management.component';
 import { GroupManagementComponent } from './components/Pages/group-management.component';
+import { WelcomeComponent } from './components/Pages/welcome.component';
 import { LocaleGuard } from './guards/locale.guard';
 
 export const routes: Routes = [
@@ -28,6 +29,11 @@ export const routes: Routes = [
     path: ':locale',
     canActivate: [LocaleGuard],
     children: [
+      {
+        path: '',
+        component: WelcomeComponent,
+        pathMatch: 'full'
+      },
       {
         path: 'dashboard',
         component: DashboardComponent
@@ -59,11 +65,6 @@ export const routes: Routes = [
       {
         path: 'app',
         component: AppComponent
-      },
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
       }
     ]
   },
