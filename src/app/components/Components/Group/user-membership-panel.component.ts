@@ -70,6 +70,12 @@ export class UserMembershipPanelComponent implements OnChanges {
   public isLoadingUsers: boolean = false;
 
   /**
+   * Pending member IDs that will be applied when "Add selection" is clicked.
+   * This allows users to make multiple changes before committing them.
+   */
+  private pendingMemberIds: number[] = [];
+
+  /**
    * Gets the current member IDs from the group.
    * @returns Array of member IDs
    */
@@ -78,14 +84,22 @@ export class UserMembershipPanelComponent implements OnChanges {
   }
 
   /**
-   * Gets the list of users that are currently members.
-   * @returns Array of User objects that are members
+   * Gets the pending member IDs (for display purposes).
+   * @returns Array of pending member IDs
+   */
+  private getPendingMemberIds(): number[] {
+    return this.pendingMemberIds;
+  }
+
+  /**
+   * Gets the list of users that are currently selected as members (pending selection).
+   * @returns Array of User objects that are in the pending selection
    */
   public getCurrentMembers(): User[] {
-    if (!this.availableUsers || !this.currentGroup) {
+    if (!this.availableUsers) {
       return [];
     }
-    const memberIds: number[] = this.getCurrentMemberIds();
+    const memberIds: number[] = this.getPendingMemberIds();
     if (memberIds.length === 0) {
       return [];
     }
@@ -95,16 +109,16 @@ export class UserMembershipPanelComponent implements OnChanges {
   }
 
   /**
-   * Gets the list of users available to add (not currently members).
+   * Gets the list of users available to add (not in pending selection).
    * @returns Array of User objects that can be added
    */
   public getAvailableUsersForSelection(): User[] {
     if (!this.availableUsers) {
       return [];
     }
-    const memberIds: number[] = this.getCurrentMemberIds();
+    const memberIds: number[] = this.getPendingMemberIds();
     const filtered: User[] = this.availableUsers.filter((user: User) => {
-      // Exclude users that are already members
+      // Exclude users that are already in the pending selection
       if (user.id !== undefined && memberIds.includes(user.id)) {
         return false;
       }
@@ -133,35 +147,32 @@ export class UserMembershipPanelComponent implements OnChanges {
   }
 
   /**
-   * Handles clicking on a user to add them to the group.
+   * Handles clicking on a user to add them to the pending selection.
    * @param user The user to add
    */
   public onAddUser(user: User): void {
-    if (!this.currentGroup || !this.currentGroup.id || user.id === undefined) {
+    if (user.id === undefined) {
       return;
     }
 
-    const currentMemberIds: number[] = this.getCurrentMemberIds();
-    if (currentMemberIds.includes(user.id)) {
-      return; // Already a member
+    const pendingMemberIds: number[] = this.getPendingMemberIds();
+    if (pendingMemberIds.includes(user.id)) {
+      return; // Already in selection
     }
 
-    const updatedMemberIds: number[] = [...currentMemberIds, user.id];
-    this.updateGroupMembers(this.currentGroup.id, updatedMemberIds);
+    this.pendingMemberIds = [...pendingMemberIds, user.id];
   }
 
   /**
-   * Handles clicking on a member to remove them from the group.
+   * Handles clicking on a member to remove them from the pending selection.
    * @param user The user to remove
    */
   public onRemoveUser(user: User): void {
-    if (!this.currentGroup || !this.currentGroup.id || user.id === undefined) {
+    if (user.id === undefined) {
       return;
     }
 
-    const currentMemberIds: number[] = this.getCurrentMemberIds();
-    const updatedMemberIds: number[] = currentMemberIds.filter((id: number) => id !== user.id);
-    this.updateGroupMembers(this.currentGroup.id, updatedMemberIds);
+    this.pendingMemberIds = this.pendingMemberIds.filter((id: number) => id !== user.id);
   }
 
   /**
@@ -178,8 +189,14 @@ export class UserMembershipPanelComponent implements OnChanges {
         if (this.currentGroup) {
           this.currentGroup.memberIds = updated.memberIds;
         }
+        // Update pending selection to match the saved state
+        this.pendingMemberIds = [...(updated.memberIds || [])];
+        // Reset search filter
+        this.searchFilter = '';
         // Notify parent to refresh
         this.membersUpdated.emit();
+        // Close the panel after successful update
+        this.close.emit();
       },
       error: (error: unknown): void => {
         console.error('Error updating group members:', error);
@@ -191,25 +208,63 @@ export class UserMembershipPanelComponent implements OnChanges {
   }
 
   /**
-   * Handles closing the panel.
+   * Handles closing the panel and cancels any pending changes.
    */
   public onClose(): void {
     this.searchFilter = '';
+    this.pendingMemberIds = [];
     this.close.emit();
+  }
+
+  /**
+   * Applies the pending selection to the group.
+   * Updates the group members with the pending member IDs and closes the panel.
+   */
+  public onApplySelection(): void {
+    if (!this.currentGroup || !this.currentGroup.id) {
+      return;
+    }
+
+    this.updateGroupMembers(this.currentGroup.id, this.pendingMemberIds);
+    // Panel will be closed after successful update in updateGroupMembers
+  }
+
+  /**
+   * Checks if there are pending changes that differ from the current group members.
+   * @returns True if there are pending changes, false otherwise
+   */
+  public hasPendingChanges(): boolean {
+    const currentMemberIds: number[] = this.getCurrentMemberIds();
+    const pendingMemberIds: number[] = this.getPendingMemberIds();
+    
+    if (currentMemberIds.length !== pendingMemberIds.length) {
+      return true;
+    }
+    
+    return !currentMemberIds.every((id: number) => pendingMemberIds.includes(id));
   }
 
   /**
    * Handles changes to inputs.
    */
   public ngOnChanges(changes: SimpleChanges): void {
-    // Fetch users when panel opens
-    if (changes['isOpen'] && this.isOpen && this.availableUsers.length === 0) {
-      this.fetchUsers();
+    // Initialize pending selection when panel opens or group changes
+    if (changes['isOpen'] && this.isOpen) {
+      this.pendingMemberIds = [...this.getCurrentMemberIds()];
+      if (this.availableUsers.length === 0) {
+        this.fetchUsers();
+      }
+    }
+
+    // Reset when group changes
+    if (changes['currentGroup'] && this.currentGroup) {
+      this.pendingMemberIds = [...this.getCurrentMemberIds()];
     }
 
     // Reset search filter when panel closes
     if (changes['isOpen'] && !this.isOpen) {
       this.searchFilter = '';
+      this.pendingMemberIds = [];
     }
   }
 

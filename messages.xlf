@@ -831,11 +831,18 @@
         <source> Close </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/Components/Group/user-membership-panel.component.html</context>
-          <context context-type="linenumber">125,127</context>
+          <context context-type="linenumber">126,128</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/Components/Problem/group-selection-panel.component.html</context>
           <context context-type="linenumber">117,119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3023888690280753157" datatype="html">
+        <source>Update selection</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Group/user-membership-panel.component.html</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6548789726417800164" datatype="html">

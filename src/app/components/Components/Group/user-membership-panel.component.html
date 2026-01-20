@@ -118,13 +118,22 @@
 
       <!-- Panel Footer -->
       <div class="border-top p-3" style="background-color: var(--bs-secondary-bg, #f8f9fa);">
-        <button 
-          type="button" 
-          class="btn btn-secondary w-100" 
-          (click)="onClose()"
-          i18n>
-          Close
-        </button>
+        <div class="d-flex gap-2">
+          <button 
+            type="button" 
+            class="btn btn-secondary flex-grow-1" 
+            (click)="onClose()"
+            i18n>
+            Close
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-primary flex-grow-1" 
+            (click)="onApplySelection()"
+            [disabled]="!hasPendingChanges()">
+            <span i18n>Update selection</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

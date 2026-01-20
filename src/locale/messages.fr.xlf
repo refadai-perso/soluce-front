@@ -764,6 +764,54 @@
         <source>All users are already members</source>
         <target>Tous les utilisateurs sont déjà membres</target>
       </trans-unit>
+      <trans-unit id="updateSelection" datatype="html">
+        <source>Update selection</source>
+        <target>Mettre à jour la sélection</target>
+      </trans-unit>
+      <trans-unit id="9178182467454450952" datatype="html">
+        <source>Confirm</source>
+        <target>Confirmer</target>
+      </trans-unit>
+      <trans-unit id="2849726810423455917" datatype="html">
+        <source><x id="START_TAG_STRONG" equiv-text="&lt;strong&gt;"/>Selected range:<x id="CLOSE_TAG_STRONG" equiv-text="&lt;/strong&gt;"/><x id="LINE_BREAK" equiv-text="&lt;br/&gt;"/> <x id="INTERPOLATION"/> <x id="START_ITALIC_TEXT" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" equiv-text="&lt;/i&gt;"/> <x id="INTERPOLATION_1"/> </source>
+        <target><x id="START_TAG_STRONG" equiv-text="&lt;strong&gt;"/>Plage sélectionnée :<x id="CLOSE_TAG_STRONG" equiv-text="&lt;/strong&gt;"/><x id="LINE_BREAK" equiv-text="&lt;br/&gt;"/> <x id="INTERPOLATION"/> <x id="START_ITALIC_TEXT" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" equiv-text="&lt;/i&gt;"/> <x id="INTERPOLATION_1"/> </target>
+      </trans-unit>
+      <trans-unit id="2041629809382689328" datatype="html">
+        <source>Group name</source>
+        <target>Nom du groupe</target>
+      </trans-unit>
+      <trans-unit id="2853596104146556936" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (form.controls.nameCtrl.errors?.['required']) {"/> Name is required. <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF" equiv-text="@else if (form.controls.nameCtrl.errors?.['minlength']) {"/> Name must be at least 2 characters. <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/></source>
+        <target><x id="START_BLOCK_IF" equiv-text="@if (form.controls.nameCtrl.errors?.['required']) {"/> Le nom est requis. <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE_IF" equiv-text="@else if (form.controls.nameCtrl.errors?.['minlength']) {"/> Le nom doit contenir au moins 2 caractères. <x id="CLOSE_BLOCK_ELSE_IF" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="6851053255669475179" datatype="html">
+        <source>Group description (optional)</source>
+        <target>Description du groupe (optionnel)</target>
+      </trans-unit>
+      <trans-unit id="3023888690280753157" datatype="html">
+        <source>Update selection</source>
+        <target>Mettre à jour la sélection</target>
+      </trans-unit>
+      <trans-unit id="8214511981867441305" datatype="html">
+        <source>Group Management</source>
+        <target>Gestion des groupes</target>
+      </trans-unit>
+      <trans-unit id="3160125963371137346" datatype="html">
+        <source>Update Group</source>
+        <target>Mettre à jour le groupe</target>
+      </trans-unit>
+      <trans-unit id="4643671691415114219" datatype="html">
+        <source>Create Group</source>
+        <target>Créer le groupe</target>
+      </trans-unit>
+      <trans-unit id="5257905438412485971" datatype="html">
+        <source>Create New Group</source>
+        <target>Créer un nouveau groupe</target>
+      </trans-unit>
+      <trans-unit id="5908762969513689727" datatype="html">
+        <source>Edit Group</source>
+        <target>Modifier le groupe</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
