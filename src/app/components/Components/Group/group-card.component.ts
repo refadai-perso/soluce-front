@@ -12,6 +12,7 @@ import { GroupService } from '../../../services/group.service';
 import { GroupAddComponent } from '../../Pages/group-add.component';
 import { ConfirmationDialogComponent } from '../Common/confirmation-dialog.component';
 import { UserMembershipPanelComponent } from './user-membership-panel.component';
+import { DateRangeFilterComponent, DateRangeChange } from '../Common/date-range-filter.component';
 import { Observable, Subscription, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -23,7 +24,7 @@ type SortDirection = 'asc' | 'desc' | '';
   standalone: true,
   templateUrl: './group-card.component.html',
   styleUrls: ['./group-card.component.scss'],
-  imports: [CommonModule, NgbModalModule, NgbTooltipModule, NgbDropdownModule, FormsModule, UserMembershipPanelComponent]
+  imports: [CommonModule, NgbModalModule, NgbTooltipModule, NgbDropdownModule, FormsModule, UserMembershipPanelComponent, DateRangeFilterComponent]
 })
 export class GroupCardComponent implements OnInit {
   /**
@@ -58,6 +59,29 @@ export class GroupCardComponent implements OnInit {
    * The filtering uses substring matching, so partial matches are included.
    */
   public filterDescription: string = '';
+
+  /**
+   * Filter text for filtering groups by creator name.
+   * Contains the search string entered by the user to filter groups by creator.
+   * When empty string (''), no creator filtering is applied and all groups are shown.
+   * When populated, only groups whose creator name contains this text (case-insensitive) are displayed.
+   * The filtering uses substring matching, so partial matches are included.
+   */
+  public filterCreator: string = '';
+
+  /**
+   * Filter for creation date range - start date (from).
+   * Contains the start date in YYYY-MM-DD format for filtering groups by creation date.
+   * When empty string (''), no start date filtering is applied.
+   */
+  public filterCreationDateFrom: string = '';
+
+  /**
+   * Filter for creation date range - end date (to).
+   * Contains the end date in YYYY-MM-DD format for filtering groups by creation date.
+   * When empty string (''), no end date filtering is applied.
+   */
+  public filterCreationDateTo: string = '';
   
   /**
    * ID of the group that was last created or updated, used to highlight the row temporarily.
@@ -137,7 +161,20 @@ export class GroupCardComponent implements OnInit {
   public clearFilters(): void {
     this.filterName = '';
     this.filterDescription = '';
+    this.filterCreator = '';
+    this.filterCreationDateFrom = '';
+    this.filterCreationDateTo = '';
     this.refreshData(false); // No server refetch needed for clearing filters
+  }
+
+  /**
+   * Handles date range changes from the date range filter component.
+   * @param change The date range change event
+   */
+  public onDateRangeChange(change: DateRangeChange): void {
+    this.filterCreationDateFrom = change.from;
+    this.filterCreationDateTo = change.to;
+    this.onFilterChange();
   }
 
   /**
@@ -188,6 +225,37 @@ export class GroupCardComponent implements OnInit {
       filteredGroups = filteredGroups.filter((group: Group) => 
         group.description?.toLowerCase().includes(lowerFilterDescription)
       );
+    }
+
+    if (this.filterCreator) {
+      const lowerFilterCreator: string = this.filterCreator.toLowerCase();
+      filteredGroups = filteredGroups.filter((group: Group) => {
+        const creatorName: string = (group.creatorName || '').toLowerCase();
+        return creatorName.includes(lowerFilterCreator);
+      });
+    }
+
+    if (this.filterCreationDateFrom) {
+      const fromDate: Date = new Date(this.filterCreationDateFrom);
+      filteredGroups = filteredGroups.filter((group: Group) => {
+        if (!group.creationDate) {
+          return false;
+        }
+        const groupDate: Date = new Date(group.creationDate);
+        return groupDate >= fromDate;
+      });
+    }
+
+    if (this.filterCreationDateTo) {
+      const toDate: Date = new Date(this.filterCreationDateTo);
+      toDate.setHours(23, 59, 59, 999);
+      filteredGroups = filteredGroups.filter((group: Group) => {
+        if (!group.creationDate) {
+          return false;
+        }
+        const groupDate: Date = new Date(group.creationDate);
+        return groupDate <= toDate;
+      });
     }
 
     // Apply sorting using native JavaScript

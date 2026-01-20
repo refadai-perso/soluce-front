@@ -971,6 +971,13 @@
           <context context-type="linenumber">142</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7854910597892320824" datatype="html">
+        <source>Filter creator...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/Components/Group/group-card.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="8607410591411308200" datatype="html">
         <source>Authorization:</source>
         <context-group purpose="location">

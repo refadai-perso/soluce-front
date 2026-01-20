@@ -66,8 +66,22 @@
                             placeholder="Filter description..."
                             i18n-placeholder>
                     </th>
-                    <th></th>
-                    <th></th>
+                    <th>
+                        <app-date-range-filter
+                            [initialFromDate]="filterCreationDateFrom"
+                            [initialToDate]="filterCreationDateTo"
+                            (dateRangeChange)="onDateRangeChange($event)">
+                        </app-date-range-filter>
+                    </th>
+                    <th>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-sm" 
+                            [(ngModel)]="filterCreator"
+                            (ngModelChange)="onFilterChange()"
+                            placeholder="Filter creator..."
+                            i18n-placeholder>
+                    </th>
                     <th></th>
                     <th></th>
                 </tr>

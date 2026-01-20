@@ -330,6 +330,10 @@
         <source>Filter groups...</source>
         <target>Filtrer par groupes...</target>
       </trans-unit>
+      <trans-unit id="7854910597892320824" datatype="html">
+        <source>Filter creator...</source>
+        <target>Filtrer par créateur...</target>
+      </trans-unit>
       <trans-unit id="8607410591411308200" datatype="html">
         <source>Authorization:</source>
         <target>Autorisation :</target>
