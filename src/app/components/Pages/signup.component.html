@@ -1,0 +1,112 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+          <h2 class="mb-0" i18n>Create Account</h2>
+        </div>
+        <div class="card-body p-4">
+          @if (errorMessage) {
+            <div class="alert alert-danger" role="alert" i18n>
+              {{ errorMessage }}
+            </div>
+          }
+
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+            <div class="mb-3">
+              <label for="signup-email" class="form-label" i18n>Email</label>
+              <input 
+                id="signup-email" 
+                type="email" 
+                class="form-control" 
+                formControlName="emailCtrl" 
+                placeholder="user@example.com" 
+                i18n-placeholder
+                [class.is-invalid]="form.controls.emailCtrl.touched && form.controls.emailCtrl.invalid" />
+              @if (form.controls.emailCtrl.touched && form.controls.emailCtrl.invalid) {
+                <div class="invalid-feedback" i18n>
+                  @if (form.controls.emailCtrl.errors?.['required']) {
+                    Email is required.
+                  } @else if (form.controls.emailCtrl.errors?.['email']) {
+                    Please enter a valid email address.
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="signup-firstName" class="form-label" i18n>First Name</label>
+                <input 
+                  id="signup-firstName" 
+                  type="text" 
+                  class="form-control" 
+                  formControlName="firstNameCtrl" 
+                  placeholder="John" 
+                  i18n-placeholder
+                  [class.is-invalid]="form.controls.firstNameCtrl.touched && form.controls.firstNameCtrl.invalid" />
+                @if (form.controls.firstNameCtrl.touched && form.controls.firstNameCtrl.invalid) {
+                  <div class="invalid-feedback" i18n>
+                    First name is required (min 2 characters).
+                  </div>
+                }
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="signup-surname" class="form-label" i18n>Surname</label>
+                <input 
+                  id="signup-surname" 
+                  type="text" 
+                  class="form-control" 
+                  formControlName="surnameCtrl" 
+                  placeholder="Doe" 
+                  i18n-placeholder
+                  [class.is-invalid]="form.controls.surnameCtrl.touched && form.controls.surnameCtrl.invalid" />
+                @if (form.controls.surnameCtrl.touched && form.controls.surnameCtrl.invalid) {
+                  <div class="invalid-feedback" i18n>
+                    Surname is required (min 2 characters).
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="signup-password" class="form-label" i18n>Password</label>
+              <input 
+                id="signup-password" 
+                type="password" 
+                class="form-control" 
+                formControlName="passwordCtrl" 
+                placeholder="Enter password" 
+                i18n-placeholder
+                [class.is-invalid]="form.controls.passwordCtrl.touched && form.controls.passwordCtrl.invalid" />
+              @if (form.controls.passwordCtrl.touched && form.controls.passwordCtrl.invalid) {
+                <div class="invalid-feedback" i18n>
+                  @if (form.controls.passwordCtrl.errors?.['required']) {
+                    Password is required.
+                  } @else if (form.controls.passwordCtrl.errors?.['minlength']) {
+                    Password must be at least 6 characters.
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="d-grid gap-2">
+              <button 
+                type="submit" 
+                class="btn btn-primary" 
+                [disabled]="isSubmitting || form.invalid" 
+                i18n>
+                @if (isSubmitting) {
+                  Creating...
+                } @else {
+                  Create Account
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

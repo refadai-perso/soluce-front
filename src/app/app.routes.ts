@@ -15,6 +15,8 @@ import { ProblemAddComponent } from './components/Pages/problem-add.component';
 import { UserManagementComponent } from './components/Pages/user-management.component';
 import { GroupManagementComponent } from './components/Pages/group-management.component';
 import { WelcomeComponent } from './components/Pages/welcome.component';
+import { SignupComponent } from './components/Pages/signup.component';
+import { LoginComponent } from './components/Pages/login.component';
 import { LocaleGuard } from './guards/locale.guard';
 
 export const routes: Routes = [
@@ -61,6 +63,14 @@ export const routes: Routes = [
       {
         path: 'group-management',
         component: GroupManagementComponent
+      },
+      {
+        path: 'signup',
+        component: SignupComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
       },
       {
         path: 'app',

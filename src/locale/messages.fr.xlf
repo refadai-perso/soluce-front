@@ -816,6 +816,106 @@
         <source>Edit Group</source>
         <target>Modifier le groupe</target>
       </trans-unit>
+      <trans-unit id="3348547714642337740" datatype="html">
+        <source>No members</source>
+        <target>Aucun membre</target>
+      </trans-unit>
+      <trans-unit id="2821179408673282599" datatype="html">
+        <source>Home</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="5079839901935452389" datatype="html">
+        <source>Soluce</source>
+        <target>Soluce</target>
+      </trans-unit>
+      <trans-unit id="4381788959075318552" datatype="html">
+        <source> Welcome to Soluce </source>
+        <target> Bienvenue sur Soluce </target>
+      </trans-unit>
+      <trans-unit id="6131875239676529135" datatype="html">
+        <source> Your solution management platform </source>
+        <target> Votre plateforme de gestion de solutions </target>
+      </trans-unit>
+      <trans-unit id="7805373887603660199" datatype="html">
+        <source>Smart Solutions</source>
+        <target>Solutions intelligentes</target>
+      </trans-unit>
+      <trans-unit id="3626294365874046923" datatype="html">
+        <source>Efficient problem solving</source>
+        <target>Résolution efficace des problèmes</target>
+      </trans-unit>
+      <trans-unit id="5797640283449345755" datatype="html">
+        <source>Team Collaboration</source>
+        <target>Collaboration d'équipe</target>
+      </trans-unit>
+      <trans-unit id="3167140684087779516" datatype="html">
+        <source>Work together seamlessly</source>
+        <target>Travailler ensemble en toute fluidité</target>
+      </trans-unit>
+      <trans-unit id="5446734879479624247" datatype="html">
+        <source>Track Progress</source>
+        <target>Suivre les progrès</target>
+      </trans-unit>
+      <trans-unit id="2687185316295646302" datatype="html">
+        <source>Monitor your solutions</source>
+        <target>Surveillez vos solutions</target>
+      </trans-unit>
+      <trans-unit id="813263746069473514" datatype="html">
+        <source>Connect</source>
+        <target>Se connecter</target>
+      </trans-unit>
+      <trans-unit id="1431416938026210429" datatype="html">
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit id="2161528641772974097" datatype="html">
+        <source> Password is required. </source>
+        <target> Le mot de passe est requis. </target>
+      </trans-unit>
+      <trans-unit id="695282450940423179" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (isSubmitting) {"/> Connecting... <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> Connect <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></source>
+        <target><x id="START_BLOCK_IF" equiv-text="@if (isSubmitting) {"/> Connexion... <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> Se connecter <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="3575846435841834134" datatype="html">
+        <source>Email and password are required</source>
+        <target>L'e-mail et le mot de passe sont requis</target>
+      </trans-unit>
+      <trans-unit id="6341607375442837635" datatype="html">
+        <source>Failed to sign in</source>
+        <target>Échec de la connexion</target>
+      </trans-unit>
+      <trans-unit id="7028204981963450021" datatype="html">
+        <source>Sign up</source>
+        <target>S'inscrire</target>
+      </trans-unit>
+      <trans-unit id="7507948636555938109" datatype="html">
+        <source>Log out</source>
+        <target>Se déconnecter</target>
+      </trans-unit>
+      <trans-unit id="1267967133679326155" datatype="html">
+        <source>Create Account</source>
+        <target>Créer un compte</target>
+      </trans-unit>
+      <trans-unit id="4819181709442093644" datatype="html">
+        <source><x id="START_BLOCK_IF" equiv-text="@if (isSubmitting) {"/> Creating... <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> Create Account <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></source>
+        <target><x id="START_BLOCK_IF" equiv-text="@if (isSubmitting) {"/> Création... <x id="CLOSE_BLOCK_IF" equiv-text="}"/><x id="START_BLOCK_ELSE" equiv-text="@else {"/> Créer un compte <x id="CLOSE_BLOCK_ELSE" equiv-text="}"/></target>
+      </trans-unit>
+      <trans-unit id="5794441076623711677" datatype="html">
+        <source> First name is required (min 2 characters). </source>
+        <target> Le prénom est requis (minimum 2 caractères). </target>
+      </trans-unit>
+      <trans-unit id="5901044257726113648" datatype="html">
+        <source> Surname is required (min 2 characters). </source>
+        <target> Le nom est requis (minimum 2 caractères). </target>
+      </trans-unit>
+      <trans-unit id="1757327389395211870" datatype="html">
+        <source>All fields are required</source>
+        <target>Tous les champs sont requis</target>
+      </trans-unit>
+      <trans-unit id="4761234520219298052" datatype="html">
+        <source>Failed to create account</source>
+        <target>Échec de la création du compte</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

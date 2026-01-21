@@ -42,6 +42,12 @@
                     </button>
                 </div>
             </div>
+            <div class="d-flex align-items-center gap-2 ms-3">
+                @if (!isAuthenticated()) {
+                    <button type="button" class="btn btn-outline-primary text-nowrap" (click)="navigateToSignup()" i18n>Sign up</button>
+                }
+                <button type="button" class="btn btn-primary text-nowrap" (click)="handleConnectOrLogout()" i18n>{{ connectButtonLabel() }}</button>
+            </div>
         </div>
     </div>
 </header>

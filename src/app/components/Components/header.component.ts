@@ -6,28 +6,137 @@
 */
 
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import { LocaleService } from '../../services/locale.service';
+import { AuthService } from '../../services/auth.service';
 
+/**
+ * Header component that provides navigation and authentication controls.
+ * 
+ * @remarks
+ * - Displays application branding and navigation elements.
+ * - Shows authentication buttons (Sign up/Connect) based on user authentication state.
+ * - Provides navigation to home, signup, and login pages.
+ * - Handles user logout functionality.
+ * - Tracks authentication state and updates UI accordingly.
+ */
 @Component({
   selector: 'app-header',
   standalone: true,
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [RouterLink, NgbDropdownModule, CommonModule]
+  imports: [NgbDropdownModule, CommonModule]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   private readonly localeService: LocaleService = inject(LocaleService);
+  private readonly authService: AuthService = inject(AuthService);
+  private readonly navigationRouter: Router = inject(Router);
+  private routerSubscription: Subscription | null = null;
+
+  /**
+   * Signal indicating whether the current user is authenticated.
+   */
+  public readonly isAuthenticated = signal<boolean>(false);
+
+  /**
+   * Computed label for the connect/logout button based on authentication state.
+   */
+  public readonly connectButtonLabel = computed<string>(() => {
+    return this.isAuthenticated() ? $localize`Log out` : $localize`Connect`;
+  });
 
   constructor() {}
 
+  /**
+   * Initializes the component and sets up authentication state tracking.
+   */
+  public ngOnInit(): void {
+    // Check authentication state on component initialization
+    this.checkAuthentication();
+    // Subscribe to router navigation events to update authentication state on navigation
+    // Get the router events observable
+    this.routerSubscription = this.navigationRouter.events
+      // Filter to only NavigationEnd events (when navigation completes)
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      // Subscribe to filtered events and check authentication state on each navigation
+      .subscribe(() => {
+        // Update authentication state when navigation occurs
+        this.checkAuthentication();
+      });
+  }
+
+  /**
+   * Cleans up subscriptions when the component is destroyed.
+   */
+  public ngOnDestroy(): void {
+    if (this.routerSubscription !== null) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Checks and updates the authentication state.
+   */
+  private checkAuthentication(): void {
+    this.isAuthenticated.set(this.authService.isAuthenticated());
+  }
+
+  /**
+   * Handles click event on hyperlink elements.
+   * @param $event The mouse event.
+   */
   public onHyperlink4Click($event: MouseEvent): void {
     $event.preventDefault();
   }
 
+  /**
+   * Navigates to the welcome/home page.
+   */
   public navigateToHome(): void {
     void this.localeService.navigateWithLocale([]);
+  }
+
+  /**
+   * Navigates to the signup page.
+   */
+  public navigateToSignup(): void {
+    void this.localeService.navigateWithLocale(['signup']);
+  }
+
+  /**
+   * Handles connect button click - either navigates to login or logs out based on authentication state.
+   */
+  public handleConnectOrLogout(): void {
+    if (this.isAuthenticated()) {
+      this.logout();
+    } else {
+      this.navigateToLogin();
+    }
+  }
+
+  /**
+   * Navigates to the login page.
+   */
+  public navigateToLogin(): void {
+    void this.localeService.navigateWithLocale(['login']);
+  }
+
+  /**
+   * Logs out the current user and navigates to the welcome page.
+   */
+  public logout(): void {
+    this.authService.signOut().subscribe({
+      next: () => {
+        this.isAuthenticated.set(false);
+        void this.localeService.navigateWithLocale([]);
+      },
+      error: () => {
+        this.isAuthenticated.set(false);
+        void this.localeService.navigateWithLocale([]);
+      }
+    });
   }
 }
