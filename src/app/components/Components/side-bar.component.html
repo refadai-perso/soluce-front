@@ -6,89 +6,91 @@
 -->
 
 <div class="div-1 flex-column d-flex h-100 bg-body-tertiary text-body-secondary small">
-    <ul class="list-unstyled mb-0 fw-semibold text-uppercase">
-        <li>
-            <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'dashboard']" [routerLinkActive]="['link-sidebar-active']">
-                <i class="bi-speedometer2 me-2 fs-5"></i>
-                Dashboard
+    @if (isAuthenticated()) {
+        <ul class="list-unstyled mb-0 fw-semibold text-uppercase">
+            <li>
+                <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'dashboard']" [routerLinkActive]="['link-sidebar-active']">
+                    <i class="bi-speedometer2 me-2 fs-5"></i>
+                    Dashboard
+                </a>
+            </li>
+        </ul>
+        <hr class="m-0">
+        <div class="my-3">
+            <h6 class="small px-3">
+                Overview
+            </h6>
+            <ul class="list-unstyled text-uppercase fw-semibold">
+                <li>
+                    <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'orders']" [routerLinkActive]="['link-sidebar-active']">
+                        <i class="bi-search me-2 fs-5"></i>
+                        FIND PROBLEM
+                    </a>
+                </li>
+                <li>
+                    <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'problem-add']" [routerLinkActive]="['link-sidebar-active']">
+                        <i class="bi-puzzle me-2 fs-5"></i>
+                        NEW PROBLEM
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="mb-auto">
+            <h6 class="small px-3">
+                Customers
+            </h6>
+            <ul class="list-unstyled text-uppercase fw-semibold">
+                <li>
+                    <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'customer-search']" [routerLinkActive]="['link-sidebar-active']">
+                        <i class="bi-search me-2 fs-5"></i>
+                        Find customers
+                    </a>
+                </li>
+                <li>
+                    <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'problem-add']" [routerLinkActive]="['link-sidebar-active']">
+                        <i class="bi-person-plus me-2 fs-5"></i>
+                        New customer
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="mb-auto">
+            <h6 class="small px-3">
+                Administration
+            </h6>
+            <ul class="list-unstyled text-uppercase fw-semibold">
+                <li>
+                    <a 
+                        class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex"
+                        [class.text-muted]="!isAdmin()"
+                        [class.pe-none]="!isAdmin()"
+                        [routerLink]="isAdmin() ? [currentLocale(), 'user-management'] : null"
+                        [routerLinkActive]="isAdmin() ? ['link-sidebar-active'] : []"
+                        [attr.aria-disabled]="!isAdmin()">
+                        <i class="bi-people me-2 fs-5"></i>
+                        <span i18n>User Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a 
+                        class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex"
+                        [class.text-muted]="!isAdmin()"
+                        [class.pe-none]="!isAdmin()"
+                        [routerLink]="isAdmin() ? [currentLocale(), 'group-management'] : null"
+                        [routerLinkActive]="isAdmin() ? ['link-sidebar-active'] : []"
+                        [attr.aria-disabled]="!isAdmin()">
+                        <i class="bi-people-fill me-2 fs-5"></i>
+                        <span i18n>Group Management</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <hr class="mb-0">
+        <div class="fw-semibold text-uppercase">
+            <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'admin']" [routerLinkActive]="['link-sidebar-active']">
+                <i class="bi-gear me-2 fs-5"></i>
+                Admin
             </a>
-        </li>
-    </ul>
-    <hr class="m-0">
-    <div class="my-3">
-        <h6 class="small px-3">
-            Overview
-        </h6>
-        <ul class="list-unstyled text-uppercase fw-semibold">
-            <li>
-                <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'orders']" [routerLinkActive]="['link-sidebar-active']">
-                    <i class="bi-search me-2 fs-5"></i>
-                    FIND PROBLEM
-                </a>
-            </li>
-            <li>
-                <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'problem-add']" [routerLinkActive]="['link-sidebar-active']">
-                    <i class="bi-puzzle me-2 fs-5"></i>
-                    NEW PROBLEM
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="mb-auto">
-        <h6 class="small px-3">
-            Customers
-        </h6>
-        <ul class="list-unstyled text-uppercase fw-semibold">
-            <li>
-                <a class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex" [routerLink]="[currentLocale(), 'customer-search']" [routerLinkActive]="['link-sidebar-active']">
-                    <i class="bi-search me-2 fs-5"></i>
-                    Find customers
-                </a>
-            </li>
-            <li>
-                <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'problem-add']" [routerLinkActive]="['link-sidebar-active']">
-                    <i class="bi-person-plus me-2 fs-5"></i>
-                    New customer
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="mb-auto">
-        <h6 class="small px-3">
-            Administration
-        </h6>
-        <ul class="list-unstyled text-uppercase fw-semibold">
-            <li>
-                <a 
-                    class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex"
-                    [class.text-muted]="!isAdmin()"
-                    [class.pe-none]="!isAdmin()"
-                    [routerLink]="isAdmin() ? [currentLocale(), 'user-management'] : null"
-                    [routerLinkActive]="isAdmin() ? ['link-sidebar-active'] : []"
-                    [attr.aria-disabled]="!isAdmin()">
-                    <i class="bi-people me-2 fs-5"></i>
-                    <span i18n>User Management</span>
-                </a>
-            </li>
-            <li>
-                <a 
-                    class="link-sidebar text-decoration-none px-3 py-1 icon-link d-flex"
-                    [class.text-muted]="!isAdmin()"
-                    [class.pe-none]="!isAdmin()"
-                    [routerLink]="isAdmin() ? [currentLocale(), 'group-management'] : null"
-                    [routerLinkActive]="isAdmin() ? ['link-sidebar-active'] : []"
-                    [attr.aria-disabled]="!isAdmin()">
-                    <i class="bi-people-fill me-2 fs-5"></i>
-                    <span i18n>Group Management</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <hr class="mb-0">
-    <div class="fw-semibold text-uppercase">
-        <a class="link-sidebar px-3 py-1 icon-link text-decoration-none d-flex" [routerLink]="[currentLocale(), 'admin']" [routerLinkActive]="['link-sidebar-active']">
-            <i class="bi-gear me-2 fs-5"></i>
-            Admin
-        </a>
-    </div>
+        </div>
+    }
 </div>

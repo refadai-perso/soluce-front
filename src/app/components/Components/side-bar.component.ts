@@ -32,6 +32,15 @@ export class SideBarComponent {
   }
 
   /**
+   * Check if the current user is authenticated.
+   * 
+   * @returns True if the current user is authenticated, false otherwise.
+   */
+  public isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  /**
    * Check if the current user is an administrator.
    * 
    * @returns True if the current user is an administrator, false otherwise.
