@@ -916,6 +916,26 @@
         <source>Failed to create account</source>
         <target>Échec de la création du compte</target>
       </trans-unit>
+      <trans-unit id="7103588127254721505" datatype="html">
+        <source>Theme</source>
+        <target>Thème</target>
+      </trans-unit>
+      <trans-unit id="1648472582356305138" datatype="html">
+        <source>Light Theme</source>
+        <target>Thème clair</target>
+      </trans-unit>
+      <trans-unit id="5824507108095419704" datatype="html">
+        <source>Dark Theme</source>
+        <target>Thème sombre</target>
+      </trans-unit>
+      <trans-unit id="7265672402475519420" datatype="html">
+        <source>Switch to Dark Theme</source>
+        <target>Passer au thème sombre</target>
+      </trans-unit>
+      <trans-unit id="4795995068982648432" datatype="html">
+        <source>Switch to Light Theme</source>
+        <target>Passer au thème clair</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

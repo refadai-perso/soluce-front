@@ -37,6 +37,21 @@
                     <button ngbDropdownItem type="button" class="btn">
                         Profile
                     </button>
+                    <div class="dropdown-divider"></div>
+                    <h6 class="dropdown-header" i18n>Theme</h6>
+                    <button ngbDropdownItem type="button" class="btn d-flex align-items-center justify-content-between" (click)="setLightTheme()">
+                        <span i18n>Light Theme</span>
+                        @if (currentTheme() === 'light') {
+                            <i class="bi-check"></i>
+                        }
+                    </button>
+                    <button ngbDropdownItem type="button" class="btn d-flex align-items-center justify-content-between" (click)="setDarkTheme()">
+                        <span i18n>Dark Theme</span>
+                        @if (currentTheme() === 'dark') {
+                            <i class="bi-check"></i>
+                        }
+                    </button>
+                    <div class="dropdown-divider"></div>
                     <button ngbDropdownItem type="button" class="btn">
                         Sign out
                     </button>

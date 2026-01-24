@@ -12,6 +12,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { LocaleService } from '../../services/locale.service';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 /**
  * Header component that provides navigation and authentication controls.
@@ -34,6 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private readonly localeService: LocaleService = inject(LocaleService);
   private readonly authService: AuthService = inject(AuthService);
   private readonly navigationRouter: Router = inject(Router);
+  private readonly themeService: ThemeService = inject(ThemeService);
   private routerSubscription: Subscription | null = null;
 
   /**
@@ -42,10 +44,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public readonly isAuthenticated = signal<boolean>(false);
 
   /**
+   * Signal indicating the current theme.
+   */
+  public readonly currentTheme = signal<'light' | 'dark'>(this.themeService.getCurrentTheme());
+
+  /**
    * Computed label for the connect/logout button based on authentication state.
    */
   public readonly connectButtonLabel = computed<string>(() => {
     return this.isAuthenticated() ? $localize`Log out` : $localize`Connect`;
+  });
+
+  /**
+   * Computed label for the theme toggle button.
+   */
+  public readonly themeToggleLabel = computed<string>(() => {
+    return this.currentTheme() === 'light' ? $localize`Switch to Dark Theme` : $localize`Switch to Light Theme`;
   });
 
   constructor() {}
@@ -56,6 +70,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     // Check authentication state on component initialization
     this.checkAuthentication();
+    // Initialize current theme
+    this.currentTheme.set(this.themeService.getCurrentTheme());
     // Subscribe to router navigation events to update authentication state on navigation
     // Get the router events observable
     this.routerSubscription = this.navigationRouter.events
@@ -138,5 +154,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
         void this.localeService.navigateWithLocale([]);
       }
     });
+  }
+
+  /**
+   * Toggles between light and dark themes.
+   */
+  public toggleTheme(): void {
+    const newTheme: 'light' | 'dark' = this.themeService.toggleTheme();
+    this.currentTheme.set(newTheme);
+  }
+
+  /**
+   * Sets the theme to light.
+   */
+  public setLightTheme(): void {
+    this.themeService.setTheme('light');
+    this.currentTheme.set('light');
+  }
+
+  /**
+   * Sets the theme to dark.
+   */
+  public setDarkTheme(): void {
+    this.themeService.setTheme('dark');
+    this.currentTheme.set('dark');
   }
 }

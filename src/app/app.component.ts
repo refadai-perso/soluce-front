@@ -6,10 +6,11 @@
 */
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/Components/header.component';
 import { SideBarComponent } from './components/Components/side-bar.component';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,15 @@ import { SideBarComponent } from './components/Components/side-bar.component';
   styleUrls: ['./app.component.scss'],
   imports: [HeaderComponent, SideBarComponent, RouterOutlet, CommonModule]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  private readonly themeService: ThemeService = inject(ThemeService);
 
   constructor() {}
+
+  /**
+   * Initializes the theme on application startup.
+   */
+  public ngOnInit(): void {
+    this.themeService.initializeTheme();
+  }
 }
