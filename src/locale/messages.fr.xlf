@@ -936,6 +936,42 @@
         <source>Switch to Light Theme</source>
         <target>Passer au thème clair</target>
       </trans-unit>
+      <trans-unit id="7049354560975391860" datatype="html">
+        <source>Unable to reach the server. Please check your internet connection.</source>
+        <target>Impossible de joindre le serveur. Veuillez vérifier votre connexion Internet.</target>
+      </trans-unit>
+      <trans-unit id="3239589020047044075" datatype="html">
+        <source>Your session has expired. Please sign in again.</source>
+        <target>Votre session a expiré. Veuillez vous reconnecter.</target>
+      </trans-unit>
+      <trans-unit id="7189048380135498679" datatype="html">
+        <source>You do not have permission to perform this action.</source>
+        <target>Vous n'avez pas l'autorisation d'effectuer cette action.</target>
+      </trans-unit>
+      <trans-unit id="1178484467601613788" datatype="html">
+        <source>The requested resource was not found.</source>
+        <target>La ressource demandée est introuvable.</target>
+      </trans-unit>
+      <trans-unit id="5989045175199527924" datatype="html">
+        <source>A conflict occurred. Please refresh and try again.</source>
+        <target>Un conflit s'est produit. Veuillez actualiser et réessayer.</target>
+      </trans-unit>
+      <trans-unit id="3622943183133476924" datatype="html">
+        <source>A server error occurred. Please try again later.</source>
+        <target>Une erreur serveur s'est produite. Veuillez réessayer plus tard.</target>
+      </trans-unit>
+      <trans-unit id="3972810558976446780" datatype="html">
+        <source>Please check your input and try again.</source>
+        <target>Veuillez vérifier votre saisie et réessayer.</target>
+      </trans-unit>
+      <trans-unit id="9049080576416183830" datatype="html">
+        <source>Request failed. Please try again.</source>
+        <target>La requête a échoué. Veuillez réessayer.</target>
+      </trans-unit>
+      <trans-unit id="976639269183661492" datatype="html">
+        <source>An unexpected error occurred. Please try again.</source>
+        <target>Une erreur inattendue s'est produite. Veuillez réessayer.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

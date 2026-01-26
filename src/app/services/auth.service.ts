@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { UserDto } from '@shared/dto/user/user.dto';
+import { SKIP_GLOBAL_ERROR_HANDLING } from '../interceptors/skip-global-error-handling.token';
 
 /**
  * Dummy user ID constant used when authentication is not available.
@@ -97,7 +98,8 @@ export class AuthService {
    */
   public getCurrentUser(): Observable<UserDto | null> {
     return this.httpClient.get<UserDto>(this.AUTH_WHOAMI_URL, {
-      withCredentials: true // Required for session cookies
+      withCredentials: true, // Required for session cookies
+      context: new HttpContext().set(SKIP_GLOBAL_ERROR_HANDLING, true)
     }).pipe(
       map((user: UserDto): UserDto => {
         // Cache user information

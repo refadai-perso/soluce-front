@@ -1,0 +1,12 @@
+<div class="toast-container position-fixed top-0 end-0 p-3 toast-z-index">
+  @for (toast of notificationService.toasts(); track toast.id) {
+    <ngb-toast
+      [autohide]="toast.autohide"
+      [delay]="toast.delayMs"
+      [class]="getToastClass(toast)"
+      (hidden)="notificationService.dismissToast(toast.id)">
+      <div class="toast-body" i18n>{{ toast.message }}</div>
+    </ngb-toast>
+  }
+</div>
+

@@ -10,6 +10,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/Components/header.component';
 import { SideBarComponent } from './components/Components/side-bar.component';
+import { ToastContainerComponent } from './components/Components/Common/toast-container.component';
 import { ThemeService } from './services/theme.service';
 
 @Component({
@@ -17,7 +18,7 @@ import { ThemeService } from './services/theme.service';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [HeaderComponent, SideBarComponent, RouterOutlet, CommonModule]
+  imports: [HeaderComponent, SideBarComponent, ToastContainerComponent, RouterOutlet, CommonModule]
 })
 export class AppComponent implements OnInit {
   private readonly themeService: ThemeService = inject(ThemeService);

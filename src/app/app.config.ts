@@ -8,11 +8,11 @@
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { NgbAlertModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDropdownModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { routes } from './app.routes';
 import {
-  HttpClient,
   provideHttpClient,
+  withInterceptors,
 } from '@angular/common/http';
 import { ProblemService } from './services/problem.service';
 import { DBProblemService } from './services/backend.problem.service';
@@ -23,6 +23,7 @@ import { DBUserService } from './services/backend.user.service';
 import { LocaleService } from './services/locale.service';
 import { LocaleGuard } from './guards/locale.guard';
 import { authInitializer } from './initializers/auth.initializer';
+import { httpErrorInterceptor } from './interceptors/http-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     { provide: UserService, useClass: DBUserService },
     LocaleService,
     LocaleGuard,
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([httpErrorInterceptor])),
     {
       provide: APP_INITIALIZER,
       useFactory: authInitializer,
@@ -40,6 +41,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       NgbAlertModule,
       NgbDropdownModule,
+      NgbToastModule,
       BrowserModule
     ),
     provideRouter(routes),
