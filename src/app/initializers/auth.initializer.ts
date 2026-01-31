@@ -79,6 +79,8 @@ export function authInitializer(): () => Promise<void> {
     } else {
       console.log('Automatic authentication disabled. User must authenticate manually.');
       console.log('To enable automatic authentication, set AUTOMATIC_AUTHENTICATION=true in .env.development');
+      // Clear any cached user so the app is not shown as already connected
+      authService.clearCachedUser();
     }
   };
 }

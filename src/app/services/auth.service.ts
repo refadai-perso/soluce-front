@@ -185,8 +185,9 @@ export class AuthService {
 
   /**
    * Clear the cached user from localStorage.
+   * Public so app initializer can reset stored auth when AUTOMATIC_AUTHENTICATION is false.
    */
-  private clearCachedUser(): void {
+  public clearCachedUser(): void {
     try {
       window.localStorage.removeItem(this.USER_STORAGE_KEY);
     } catch (error: unknown) {
