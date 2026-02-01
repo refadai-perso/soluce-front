@@ -25,12 +25,12 @@ export class DBProblemService extends ProblemService {
    * Create a new {@link Problem} by POSTing to the API.
    *
    * Expects the minimal backend contract:
-   * { name: string; description?: string; open: boolean }
+   * { name: string; description?: string; isPublic: boolean }
    *
    * @param body The creation payload sent to the backend.
    * @returns Observable emitting the created {@link Problem} as returned by the API.
    */
-  public override createProblem(body: { name: string; description?: string; open: boolean }): Observable<Problem> {
+  public override createProblem(body: { name: string; description?: string; isPublic: boolean }): Observable<Problem> {
     const url: string = '/problem';
     console.log('Backend service - sending body:', body);
     const headers: HttpHeaders = new HttpHeaders({
@@ -80,7 +80,7 @@ export class DBProblemService extends ProblemService {
             name: backendProblem.name,
             description: backendProblem.description,
             status: backendProblem.status,
-            open: backendProblem.open,
+            open: backendProblem.isPublic === true ? 'Public' : 'Private',
             creationDate: backendProblem.creationDate,
             creator: backendProblem.creator,
             groupAuthorizations: this.mapGroupAuthorizations(backendProblem.groupAuthorizations || [])

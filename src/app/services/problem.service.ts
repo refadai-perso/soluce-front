@@ -34,16 +34,16 @@ export class ProblemService {
    *
    * @param body The payload expected by the backend service containing the
    * name, an optional description, and a boolean flag for visibility.
-   * - When `open` is `true`, visibility is interpreted as 'Public'.
-   * - When `open` is `false`, visibility is interpreted as 'Private'.
+   * - When `isPublic` is `true`, visibility is interpreted as 'Public'.
+   * - When `isPublic` is `false`, visibility is interpreted as 'Private'.
    * @returns An observable emitting the created {@link Problem}.
    */
-  public createProblem(body: { name: string; description?: string; open: boolean }): Observable<Problem> {
+  public createProblem(body: { name: string; description?: string; isPublic: boolean }): Observable<Problem> {
     const mockCreated: Problem = {
       id: Math.floor(Math.random() * 100000),
       name: body.name,
       description: body.description,
-      open: body.open === true ? 'Public' : 'Private',
+      open: body.isPublic === true ? 'Public' : 'Private',
     };
     return of(mockCreated);
   }
@@ -56,8 +56,8 @@ export class ProblemService {
    *
    * @param id The ID of the problem to update
    * @param body The {@link UpdateProblemDto} payload with optional fields for partial updates.
-   * - When `open` is `true`, visibility is interpreted as 'Public'.
-   * - When `open` is `false`, visibility is interpreted as 'Private'.
+   * - When `isPublic` is `true`, visibility is interpreted as 'Public'.
+   * - When `isPublic` is `false`, visibility is interpreted as 'Private'.
    * - All fields are optional, allowing partial updates.
    * @returns An observable emitting the updated {@link Problem}.
    */
@@ -66,7 +66,7 @@ export class ProblemService {
       id: id,
       name: body.name,
       description: body.description,
-      open: body.open !== undefined ? (body.open === true ? 'Public' : 'Private') : undefined,
+      open: body.isPublic !== undefined ? (body.isPublic === true ? 'Public' : 'Private') : undefined,
       status: body.status,
     };
     return of(mockUpdated);

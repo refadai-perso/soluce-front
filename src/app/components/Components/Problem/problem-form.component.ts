@@ -88,7 +88,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
   readonly statusOptions: ReadonlyArray<string> = ['New', 'In Progress', 'Blocked', 'Resolved', 'Closed'];
 
   /**
-   * Allowed values for the `open` string field.
+   * Allowed values for the visibility field (maps to isPublic on the API).
    */
   readonly visibilityOptions: ReadonlyArray<string> = ['Public', 'Private'];
 
@@ -227,7 +227,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       const updateBody: UpdateProblemDto = {
         name: rawName ?? undefined,
         description: rawDescription ?? undefined,
-        open: rawVisibility ? (rawVisibility === 'Public') : undefined,
+        isPublic: rawVisibility ? (rawVisibility === 'Public') : undefined,
         status: rawStatus ? (rawStatus as ProblemStatus) : undefined,
       };
       console.log('Form update body:', updateBody);
@@ -276,7 +276,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
       const createBody: CreateProblemDto = {
         name: rawName === null ? '' : rawName,
         description: rawDescription === null ? '' : rawDescription,
-        open: (rawVisibility ?? 'Private') === 'Public',
+        isPublic: (rawVisibility ?? 'Private') === 'Public',
         status: (rawStatus as ProblemStatus) || ProblemStatus.NEW,
         creatorId: creatorId,
         creationDate: rawCreationDate === null ? new Date().toISOString() : new Date(rawCreationDate).toISOString(),
