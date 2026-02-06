@@ -35,9 +35,9 @@
                         Surname
                         <i [ngClass]="['bi', getSortIcon('surname'), 'ms-1']"></i>
                     </th>
-                    <th class="sortable" (click)="onSort('admin')" i18n>
+                    <th class="sortable" (click)="onSort('isAdmin')" i18n>
                         Admin
-                        <i [ngClass]="['bi', getSortIcon('admin'), 'ms-1']"></i>
+                        <i [ngClass]="['bi', getSortIcon('isAdmin'), 'ms-1']"></i>
                     </th>
                     <th class="sortable" (click)="onSort('creationDate')" i18n>
                         Creation Date
@@ -150,7 +150,7 @@
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.surname }}</td>
                         <td>
-                            @if (user.admin) {
+                            @if (user.isAdmin) {
                                 <span class="badge bg-danger" i18n>Admin</span>
                             } @else {
                                 <span class="badge bg-secondary" i18n>User</span>

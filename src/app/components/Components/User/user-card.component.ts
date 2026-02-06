@@ -15,7 +15,7 @@ import { DateRangeFilterComponent, DateRangeChange } from '../Common/date-range-
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-type SortColumn = 'id' | 'email' | 'firstName' | 'surname' | 'admin' | 'creationDate' | '';
+type SortColumn = 'id' | 'email' | 'firstName' | 'surname' | 'isAdmin' | 'creationDate' | '';
 type SortDirection = 'asc' | 'desc' | '';
 
 @Component({
@@ -162,7 +162,7 @@ export class UserCardComponent implements OnInit {
 
     if (this.filterAdmin !== null) {
       filteredUsers = filteredUsers.filter((user: User) => 
-        user.admin === this.filterAdmin
+        user.isAdmin === this.filterAdmin
       );
     }
 
@@ -212,9 +212,9 @@ export class UserCardComponent implements OnInit {
             aValue = (a.surname || '').toLowerCase();
             bValue = (b.surname || '').toLowerCase();
             break;
-          case 'admin':
-            aValue = a.admin ? 1 : 0;
-            bValue = b.admin ? 1 : 0;
+          case 'isAdmin':
+            aValue = a.isAdmin ? 1 : 0;
+            bValue = b.isAdmin ? 1 : 0;
             break;
           case 'creationDate':
             aValue = a.creationDate ? new Date(a.creationDate).getTime() : 0;

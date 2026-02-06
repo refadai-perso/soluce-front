@@ -161,7 +161,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
     if (this.isEditMode && rawId !== null) {
       // Update existing user
-      const updateData: { email?: string; firstName?: string; surname?: string; password?: string; admin?: boolean } = {};
+      const updateData: { email?: string; firstName?: string; surname?: string; password?: string; isAdmin?: boolean } = {};
       if (rawEmail !== null && rawEmail !== '') {
         updateData.email = rawEmail;
       }
@@ -175,7 +175,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         updateData.password = rawPassword;
       }
       if (rawAdmin !== null) {
-        updateData.admin = rawAdmin;
+        updateData.isAdmin = rawAdmin;
       }
       console.log('Form update data:', updateData);
 
@@ -200,12 +200,12 @@ export class UserFormComponent implements OnInit, OnChanges {
         this.form.controls.passwordCtrl.markAsTouched();
         return;
       }
-      const createData: { email: string; firstName: string; surname: string; password: string; admin: boolean } = {
+      const createData: { email: string; firstName: string; surname: string; password: string; isAdmin: boolean } = {
         email: rawEmail === null ? '' : rawEmail,
         firstName: rawFirstName === null ? '' : rawFirstName,
         surname: rawSurname === null ? '' : rawSurname,
         password: rawPassword,
-        admin: rawAdmin !== null ? rawAdmin : false,
+        isAdmin: rawAdmin !== null ? rawAdmin : false,
       };
       console.log('Form submission data:', createData);
 
@@ -270,7 +270,7 @@ export class UserFormComponent implements OnInit, OnChanges {
       firstNameCtrl: typeof value.firstName === 'string' ? value.firstName : null,
       surnameCtrl: typeof value.surname === 'string' ? value.surname : null,
       passwordCtrl: null, // Never patch password for security
-      adminCtrl: typeof value.admin === 'boolean' ? value.admin : false,
+      adminCtrl: typeof value.isAdmin === 'boolean' ? value.isAdmin : false,
     }, { emitEvent: false });
     // In edit mode, password is optional
     if (this.isEditMode) {
@@ -295,7 +295,7 @@ export class UserFormComponent implements OnInit, OnChanges {
       email: rawEmail === null ? undefined : rawEmail,
       firstName: rawFirstName === null ? undefined : rawFirstName,
       surname: rawSurname === null ? undefined : rawSurname,
-      admin: rawAdmin === null ? undefined : rawAdmin,
+      isAdmin: rawAdmin === null ? undefined : rawAdmin,
     };
     return user;
   }

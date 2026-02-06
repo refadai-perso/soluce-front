@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
  * @remarks
  * - Provides a signup form with email, first name, surname, and password fields.
  * - Handles user account creation via {@link UserService}.
- * - All new users are created as regular users (admin: false).
+ * - All new users are created as regular users (isAdmin: false).
  * - Navigates to welcome page upon successful account creation.
  * - Displays error messages for failed account creation attempts.
  */
@@ -88,7 +88,7 @@ export class SignupComponent {
       firstName: firstNameValue,
       surname: surnameValue,
       password: passwordValue,
-      admin: false
+      isAdmin: false
     };
 
     this.userService.createUser(createUserDto).pipe(

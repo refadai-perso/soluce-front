@@ -145,7 +145,7 @@ export class AuthService {
    */
   public isAdmin(): boolean {
     const cachedUser: UserDto | null = this.getCachedUser();
-    if (cachedUser !== null && cachedUser.admin === true) {
+    if (cachedUser !== null && cachedUser.isAdmin === true) {
       return true;
     }
     return false;

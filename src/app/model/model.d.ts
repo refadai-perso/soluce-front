@@ -15,7 +15,7 @@ export interface User {
   surname?: string;
   password?: string;
   creationDate?: Date;
-  admin?: boolean;
+  isAdmin?: boolean;
 }
 
 export interface Order {

@@ -26,7 +26,7 @@ export class UserService {
         firstName: 'Admin', 
         surname: 'User',
         creationDate: new Date('2024-01-01'),
-        admin: true
+        isAdmin: true
       },
       { 
         id: 2, 
@@ -34,7 +34,7 @@ export class UserService {
         firstName: 'Regular', 
         surname: 'User',
         creationDate: new Date('2024-01-15'),
-        admin: false
+        isAdmin: false
       }
     ];
     return of(mockUsers);
@@ -55,7 +55,7 @@ export class UserService {
       firstName: user.firstName,
       surname: user.surname,
       creationDate: new Date(),
-      admin: user.admin || false
+      isAdmin: user.isAdmin || false
     };
     return of(createdUser);
   }
@@ -75,7 +75,7 @@ export class UserService {
       email: user.email,
       firstName: user.firstName,
       surname: user.surname,
-      admin: user.admin
+      isAdmin: user.isAdmin
     };
     return of(updatedUser);
   }

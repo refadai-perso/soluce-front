@@ -34,7 +34,7 @@ export class DBUserService extends UserService {
             firstName: backendUser.firstName,
             surname: backendUser.surname,
             creationDate: backendUser.creationDate ? new Date(backendUser.creationDate) : undefined,
-            admin: backendUser.admin
+            isAdmin: backendUser.isAdmin
           };
           return user;
         });
@@ -66,7 +66,7 @@ export class DBUserService extends UserService {
       firstName: userData.firstName,
       surname: userData.surname,
       password: userData.password,
-      admin: userData.admin || false
+      isAdmin: userData.isAdmin || false
     };
     return this.httpClient.post<UserDto>(url, body, { headers }).pipe(
       map((backendUser: UserDto): User => {
@@ -76,7 +76,7 @@ export class DBUserService extends UserService {
           firstName: backendUser.firstName,
           surname: backendUser.surname,
           creationDate: backendUser.creationDate ? new Date(backendUser.creationDate) : undefined,
-          admin: backendUser.admin
+          isAdmin: backendUser.isAdmin
         };
         return user;
       }),
@@ -109,7 +109,7 @@ export class DBUserService extends UserService {
           firstName: backendUser.firstName,
           surname: backendUser.surname,
           creationDate: backendUser.creationDate ? new Date(backendUser.creationDate) : undefined,
-          admin: backendUser.admin
+          isAdmin: backendUser.isAdmin
         };
         return user;
       }),
