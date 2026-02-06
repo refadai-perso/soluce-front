@@ -6,7 +6,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Authorization } from '@shared/dto/group/authorization.enum';
+import { EnumAuthorization } from '@shared/dto/group/authorization.enum';
 import { Group } from '../../../model/model';
 
 @Component({
@@ -39,10 +39,10 @@ export class GroupSelectionPanelComponent implements OnChanges {
 
   /**
    * Emits when a group is selected with an authorization level.
-   * Emits: { group: Group, authorizationLevel: Authorization }
+   * Emits: { group: Group, authorizationLevel: EnumAuthorization }
    */
-  @Output() groupSelected: EventEmitter<{ group: Group; authorizationLevel: Authorization }> = 
-    new EventEmitter<{ group: Group; authorizationLevel: Authorization }>();
+  @Output() groupSelected: EventEmitter<{ group: Group; authorizationLevel: EnumAuthorization }> = 
+    new EventEmitter<{ group: Group; authorizationLevel: EnumAuthorization }>();
 
   /**
    * Currently selected group in the panel.
@@ -52,7 +52,7 @@ export class GroupSelectionPanelComponent implements OnChanges {
   /**
    * Selected authorization level.
    */
-  public selectedAuthLevel: Authorization = Authorization.READER;
+  public selectedAuthLevel: EnumAuthorization = EnumAuthorization.READER;
 
   /**
    * Search filter for groups.
@@ -62,10 +62,10 @@ export class GroupSelectionPanelComponent implements OnChanges {
   /**
    * Available authorization levels.
    */
-  public readonly authorizationLevels: ReadonlyArray<Authorization> = [
-    Authorization.ADMINISTRATOR,
-    Authorization.CONTRIBUTOR,
-    Authorization.READER
+  public readonly authorizationLevels: ReadonlyArray<EnumAuthorization> = [
+    EnumAuthorization.ADMINISTRATOR,
+    EnumAuthorization.CONTRIBUTOR,
+    EnumAuthorization.READER
   ];
 
   /**
@@ -134,7 +134,7 @@ export class GroupSelectionPanelComponent implements OnChanges {
   public onClose(): void {
     this.selectedGroup = null;
     this.searchFilter = '';
-    this.selectedAuthLevel = Authorization.READER;
+    this.selectedAuthLevel = EnumAuthorization.READER;
     this.close.emit();
   }
 
@@ -157,13 +157,13 @@ export class GroupSelectionPanelComponent implements OnChanges {
    * @param authLevel The authorization level
    * @returns A Bootstrap text color class name
    */
-  public getAuthorizationBadgeClass(authLevel: Authorization | string | undefined): string {
+  public getAuthorizationBadgeClass(authLevel: EnumAuthorization | string | undefined): string {
     switch (authLevel) {
-      case Authorization.ADMINISTRATOR:
+      case EnumAuthorization.ADMINISTRATOR:
         return 'text-danger';
-      case Authorization.CONTRIBUTOR:
+      case EnumAuthorization.CONTRIBUTOR:
         return 'text-warning';
-      case Authorization.READER:
+      case EnumAuthorization.READER:
         return 'text-info';
       default:
         return 'text-secondary';
@@ -175,16 +175,16 @@ export class GroupSelectionPanelComponent implements OnChanges {
    * @param authLevel The authorization level (string or Authorization enum)
    * @returns A Bootstrap icon class name
    */
-  public getAuthorizationIcon(authLevel: Authorization | string | undefined): string {
+  public getAuthorizationIcon(authLevel: EnumAuthorization | string | undefined): string {
     const level: string = typeof authLevel === 'string' ? authLevel : authLevel ?? '';
     switch (level) {
-      case Authorization.ADMINISTRATOR:
+      case EnumAuthorization.ADMINISTRATOR:
       case 'ADMINISTRATOR':
         return 'bi-shield-fill-check';
-      case Authorization.CONTRIBUTOR:
+      case EnumAuthorization.CONTRIBUTOR:
       case 'CONTRIBUTOR':
         return 'bi-pencil-fill';
-      case Authorization.READER:
+      case EnumAuthorization.READER:
       case 'READER':
         return 'bi-eye-fill';
       default:

@@ -42,7 +42,7 @@ export interface Order {
   statusColor?: string;
 }
 
-import { Authorization } from '@shared/dto/group/authorization.enum';
+import { EnumAuthorization } from '@shared/dto/group/authorization.enum';
 
 /**
  * Represents a user group in the system
@@ -65,7 +65,7 @@ export interface Group {
 export interface GroupAuthorization {
   id?: number;
   group?: Group;
-  authorizationLevel?: Authorization;
+  authorizationLevel?: EnumAuthorization;
   grantedDate?: Date;
 }
 

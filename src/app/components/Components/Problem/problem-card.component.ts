@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbPopoverModule, NgbTooltipModule, NgbDropdownModule, NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Authorization } from '@shared/dto/group/authorization.enum';
+import { EnumAuthorization } from '@shared/dto/group/authorization.enum';
 import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
 import { Problem, User, GroupAuthorization } from '../../../model';
 import { ProblemService } from '../../../services/problem.service';
@@ -305,13 +305,13 @@ export class ProblemCardComponent implements OnInit {
    * @param authLevel The authorization level (ADMINISTRATOR, CONTRIBUTOR, READER)
    * @returns A Bootstrap text color class name
    */
-  public getAuthorizationBadgeClass(authLevel: Authorization | undefined): string {
+  public getAuthorizationBadgeClass(authLevel: EnumAuthorization | undefined): string {
     switch (authLevel) {
-      case Authorization.ADMINISTRATOR:
+      case EnumAuthorization.ADMINISTRATOR:
         return 'text-danger';
-      case Authorization.CONTRIBUTOR:
+      case EnumAuthorization.CONTRIBUTOR:
         return 'text-warning';
-      case Authorization.READER:
+      case EnumAuthorization.READER:
         return 'text-info';
       default:
         return 'text-secondary';
@@ -323,13 +323,13 @@ export class ProblemCardComponent implements OnInit {
    * @param authLevel The authorization level (ADMINISTRATOR, CONTRIBUTOR, READER)
    * @returns A Bootstrap icon class name
    */
-  public getAuthorizationIcon(authLevel: Authorization | undefined): string {
+  public getAuthorizationIcon(authLevel: EnumAuthorization | undefined): string {
     switch (authLevel) {
-      case Authorization.ADMINISTRATOR:
+      case EnumAuthorization.ADMINISTRATOR:
         return 'bi-shield-fill-check';
-      case Authorization.CONTRIBUTOR:
+      case EnumAuthorization.CONTRIBUTOR:
         return 'bi-pencil-fill';
-      case Authorization.READER:
+      case EnumAuthorization.READER:
         return 'bi-eye-fill';
       default:
         return 'bi-question-circle';
@@ -341,7 +341,7 @@ export class ProblemCardComponent implements OnInit {
    * @param authLevel The authorization level (ADMINISTRATOR, CONTRIBUTOR, READER)
    * @returns A formatted label string
    */
-  public getAuthorizationLabel(authLevel: Authorization | undefined): string {
+  public getAuthorizationLabel(authLevel: EnumAuthorization | undefined): string {
     if (!authLevel) {
       return $localize`Unknown`;
     }

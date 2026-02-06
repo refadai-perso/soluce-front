@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
 
 import { CreateProblemDto, UpdateProblemDto } from '@shared/dto';
 import { ProblemStatus } from '@shared/dto/problem/problem-status.enum';
-import { Authorization } from '@shared/dto/group/authorization.enum';
+import { EnumAuthorization } from '@shared/dto/group/authorization.enum';
 
 import type { Problem } from '../../../model/model';
 import { Group, GroupAuthorization } from '../../../model/model';
@@ -513,13 +513,13 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * @param authLevel The authorization level
    * @returns A Bootstrap text color class name
    */
-  public getAuthorizationBadgeClass(authLevel: Authorization | string | undefined): string {
+  public getAuthorizationBadgeClass(authLevel: EnumAuthorization | string | undefined): string {
     switch (authLevel) {
-      case Authorization.ADMINISTRATOR:
+      case EnumAuthorization.ADMINISTRATOR:
         return 'text-danger';
-      case Authorization.CONTRIBUTOR:
+      case EnumAuthorization.CONTRIBUTOR:
         return 'text-warning';
-      case Authorization.READER:
+      case EnumAuthorization.READER:
         return 'text-info';
       default:
         return 'text-secondary';
@@ -528,19 +528,19 @@ export class ProblemFormComponent implements OnInit, OnChanges {
 
   /**
    * Returns a Bootstrap icon class for the authorization level.
-   * @param authLevel The authorization level (string or Authorization enum)
+   * @param authLevel The authorization level (string or EnumAuthorization enum)
    * @returns A Bootstrap icon class name
    */
-  public getAuthorizationIcon(authLevel: Authorization | string | undefined): string {
+  public getAuthorizationIcon(authLevel: EnumAuthorization | string | undefined): string {
     const level: string = typeof authLevel === 'string' ? authLevel : authLevel ?? '';
     switch (level) {
-      case Authorization.ADMINISTRATOR:
+      case EnumAuthorization.ADMINISTRATOR:
       case 'ADMINISTRATOR':
         return 'bi-shield-fill-check';
-      case Authorization.CONTRIBUTOR:
+      case EnumAuthorization.CONTRIBUTOR:
       case 'CONTRIBUTOR':
         return 'bi-pencil-fill';
-      case Authorization.READER:
+      case EnumAuthorization.READER:
       case 'READER':
         return 'bi-eye-fill';
       default:
@@ -553,7 +553,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * @param authLevel The authorization level
    * @returns A formatted label string
    */
-  public getAuthorizationLabel(authLevel: Authorization | undefined): string {
+  public getAuthorizationLabel(authLevel: EnumAuthorization | undefined): string {
     return authLevel || $localize`:@@unknown:Unknown`;
   }
 
@@ -585,7 +585,7 @@ export class ProblemFormComponent implements OnInit, OnChanges {
    * Handles group selection from the panel component.
    * @param event The event containing the selected group and authorization level
    */
-  public onGroupSelected(event: { group: Group; authorizationLevel: Authorization }): void {
+  public onGroupSelected(event: { group: Group; authorizationLevel: EnumAuthorization }): void {
     const exists: boolean = this.groupAuthorizations.some(
       (auth: GroupAuthorization) => auth.group?.id === event.group.id
     );

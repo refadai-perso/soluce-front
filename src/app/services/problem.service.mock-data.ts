@@ -5,7 +5,7 @@
 * Check out this JitBlox project, Soluce, at https://www.jitblox.com/project/5JHnGKTPaU/soluce
 */
 
-import { Authorization } from '@shared/dto/group/authorization.enum';
+import { EnumAuthorization } from '@shared/dto/group/authorization.enum';
 import { Problem } from '../model';
 
 export const problem_list_mock: Problem[] = [
@@ -20,19 +20,19 @@ export const problem_list_mock: Problem[] = [
       {
         id: 1,
         group: { id: 1, name: 'Administrators', description: 'System administrators with full access' },
-        authorizationLevel: Authorization.ADMINISTRATOR,
+        authorizationLevel: EnumAuthorization.ADMINISTRATOR,
         grantedDate: new Date('2025-01-28')
       },
       {
         id: 2,
         group: { id: 2, name: 'Developers', description: 'Development team members' },
-        authorizationLevel: Authorization.CONTRIBUTOR,
+        authorizationLevel: EnumAuthorization.CONTRIBUTOR,
         grantedDate: new Date('2025-01-28')
       },
       {
         id: 3,
         group: { id: 3, name: 'Viewers', description: 'Read-only access for stakeholders' },
-        authorizationLevel: Authorization.READER,
+        authorizationLevel: EnumAuthorization.READER,
         grantedDate: new Date('2025-01-28')
       }
     ]
@@ -48,13 +48,13 @@ export const problem_list_mock: Problem[] = [
       {
         id: 4,
         group: { id: 1, name: 'Administrators', description: 'System administrators with full access' },
-        authorizationLevel: Authorization.ADMINISTRATOR,
+        authorizationLevel: EnumAuthorization.ADMINISTRATOR,
         grantedDate: new Date('2025-01-18')
       },
       {
         id: 5,
         group: { id: 4, name: 'Support Team', description: 'Customer support representatives' },
-        authorizationLevel: Authorization.CONTRIBUTOR,
+        authorizationLevel: EnumAuthorization.CONTRIBUTOR,
         grantedDate: new Date('2025-01-19')
       }
     ]

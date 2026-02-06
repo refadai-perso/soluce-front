@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, forkJoin, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
-import { Authorization } from '@shared/dto/group/authorization.enum';
+import { EnumAuthorization } from '@shared/dto/group/authorization.enum';
 import { CreateGroupAuthorizationDto, UpdateProblemDto } from '@shared/dto';
 
 import { Problem, GroupAuthorization } from '../model';
@@ -107,7 +107,7 @@ export class DBProblemService extends ProblemService {
       const mapped: GroupAuthorization = {
         id: backendAuth.id,
         group: backendAuth.group,
-        authorizationLevel: backendAuth.authorization as Authorization,
+        authorizationLevel: backendAuth.authorization as EnumAuthorization,
         grantedDate: backendAuth.createdAt ? new Date(backendAuth.createdAt) : undefined
       };
       return mapped;
@@ -122,7 +122,7 @@ export class DBProblemService extends ProblemService {
    * @param authorization The authorization level
    * @returns Observable that completes when the authorization is created
    */
-  public createGroupAuthorization(groupId: number, problemId: number, authorization: Authorization): Observable<void> {
+  public createGroupAuthorization(groupId: number, problemId: number, authorization: EnumAuthorization): Observable<void> {
     const url: string = '/group-authorization';
     const body: CreateGroupAuthorizationDto = {
       groupId: groupId,
@@ -157,7 +157,7 @@ export class DBProblemService extends ProblemService {
       .filter((auth: GroupAuthorization) => auth.group?.id !== undefined && auth.authorizationLevel !== undefined)
       .map((auth: GroupAuthorization) => {
         const groupId: number = auth.group!.id!;
-        const authorization: Authorization = auth.authorizationLevel!;
+        const authorization: EnumAuthorization = auth.authorizationLevel!;
         return this.createGroupAuthorization(groupId, problemId, authorization);
       });
     
